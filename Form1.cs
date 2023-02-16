@@ -134,9 +134,6 @@ namespace Tcp_Server
                 tcpListener.Stop();
 
                 while (threadServer.IsAlive) { Thread.Sleep(100); }
-                //if (threadServer.IsAlive)
-                //    threadServer.Abort();// threadServer 강제 종료.
-
 
                 Connection_status = false;
                 PictureBox_connect.Image = image[6];
@@ -149,13 +146,13 @@ namespace Tcp_Server
             {
                 if (!IPAddress.TryParse(TextBox_IPadress.Text, out _))
                 {
-                    MessageBox.Show("올바르지 않은 IP주소를 입력하였습니다. IP 주소 형식에 맞는 값을 입력하여 주십시오.", "오류");
+                    MessageBoxEx.Show(this, "올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.","오류");
                     return;
                 }
 
                 if (!int.TryParse(TextBox_IPport.Text, out _))
                 {
-                    MessageBox.Show("올바르지 않은 포트 번호를 입력하였습니다. 포트 번호는 숫자만 입력하여 주십시오.", "오류");
+                    MessageBoxEx.Show(this, "올바르지 않은 포트 번호를 입력하였습니다. \n포트 번호는 숫자만 입력하여 주십시오.","오류");
                     return;
                 }
                 
@@ -258,6 +255,11 @@ namespace Tcp_Server
                 }
             }
             return LocalIP;
+        }
+
+        private void Button_SendText_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
