@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -99,6 +98,10 @@ namespace Tcp_Client
 
         private void ButtonClose_Click(object sender, EventArgs e)
         {
+            Timer_W.Stop();
+            Timer_H.Stop();
+            Timer_ONLINE.Stop();
+
             Application.Exit(); // 종료
         }
 
@@ -149,11 +152,5 @@ namespace Tcp_Client
                     }
             }
         }
-
-        private void
-
-
-
-
     }
 }
