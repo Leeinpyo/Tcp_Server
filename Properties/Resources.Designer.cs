@@ -83,6 +83,26 @@ namespace Tcp_Server.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap Free_Flat_Connection_0_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Free_Flat_Connection_0_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap Free_Flat_Connection_1_Icon {
+            get {
+                object obj = ResourceManager.GetObject("Free_Flat_Connection_1_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap Free_Flat_Hyphen_Icon {
             get {
                 object obj = ResourceManager.GetObject("Free_Flat_Hyphen_Icon", resourceCulture);

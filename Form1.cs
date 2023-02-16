@@ -19,18 +19,18 @@ namespace Tcp_Server
         readonly int panelWidth;                    // Hidden 메뉴 패널 폭 제어
         readonly int panalHeight;                   // Hidden 메뉴 패널 높이 제어
         bool Hidden;                                // Hidden 메뉴 상태
-        bool Connection_status;                     // 연결 상태
+        bool Server_status;                         // 서버 상태
+        bool connecting;                            // 클라이언트 연결상태
 
         Thread threadServer;                        // 쓰레드 : threadServer
         bool threadST = true;                       // 쓰레드 상태
-        bool connecting;
 
-        NetworkStream Stream;
+        NetworkStream Stream;                       // 네트워크스트림
 
 
         private TcpListener tcpListener;            //리스너 대기
 
-        readonly Bitmap[] image = new Bitmap[7];    // 이미지 리소스 저장슬롯
+        readonly Bitmap[] image = new Bitmap[9];    // 이미지 리소스 저장슬롯
         int pic_i;                                  // 움직이는 이미지 제어
 
 
@@ -45,7 +45,7 @@ namespace Tcp_Server
             PanelSlide_H.Height = 0;
             Hidden = true;              //메뉴 숨겨진 상태로 시작
 
-            Connection_status = false;  //연결 끊어진 상태로 시작
+            Server_status = false;  //연결 끊어진 상태로 시작
 
             pic_i = 0; //움직이는 이미지 제어용
 
@@ -57,7 +57,9 @@ namespace Tcp_Server
             image[3] = Properties.Resources.Free_Flat_Signal_Up_3_Icon;
             image[4] = Properties.Resources.Free_Flat_Signal_Up_011_Icon;
             image[5] = Properties.Resources.Free_Flat_Signal_Up_101_Icon;
-            image[6] = Properties.Resources.Free_Flat_Signal_Up_Off_Icon;     //사용할 이미지 리소스 미리 불러놓기
+            image[6] = Properties.Resources.Free_Flat_Signal_Up_Off_Icon;
+            image[7] = Properties.Resources.Free_Flat_Connection_0_Icon;
+            image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;   //사용할 이미지 리소스 미리 불러놓기
 
         }
 
@@ -130,14 +132,14 @@ namespace Tcp_Server
 
         private void ButtonConnect_Click(object sender, EventArgs e)
         {
-            if (Connection_status == true)
+            if (Server_status == true)
             {
                 threadST = false;
                 tcpListener.Stop();
 
                 while (threadServer.IsAlive) { Thread.Sleep(100); }
 
-                Connection_status = false;
+                Server_status = false;
                 PictureBox_connect.Image = image[6];
                 Label_connect.Text = "TCP Server OFFLINE";
                 ButtonConnect.Text = "Connect";
@@ -162,7 +164,7 @@ namespace Tcp_Server
                 threadServer.IsBackground = true; // Form이 종료되면 threadServer 쓰레드도 종료.
                 threadServer.Start(); // threadServer 시작.
 
-                Connection_status = true;
+                Server_status = true;
                 Label_connect.Text = "TCP Server ONLINE";
                 ButtonConnect.Text = "Disconnect";
                 pic_i = 0;
@@ -207,6 +209,8 @@ namespace Tcp_Server
 
                     int nbytes;
                     connecting = true;
+                    PictureBox_ClientState.Image = image[8];
+                    Label_ClientState.Text = "Connected";
 
                     while (connecting)
                     {
@@ -218,24 +222,33 @@ namespace Tcp_Server
                             ConnectTextBox.ScrollToCaret();                             //최근 입력한 캐럿으로 스크롤 내리기
                         }
                     }
-
-                    Stream.Close();
+                    //클라랑 연결 끊김
+                    Stream.Close(); 
                     client.Close();
+                    Label_ClientState.Text = "Disonnected";
+                    PictureBox_ClientState.Image = image[7];
+
                 }
 
             }
 
             catch (IOException)
             {
-                
+                PictureBox_ClientState.Image = image[7];
+                Label_ClientState.Text = "Disonnected";
+                MessageBoxEx.Show(this, "IOException", "오류");
             }
             catch (FormatException)
             {
-                
+                PictureBox_ClientState.Image = image[7];
+                Label_ClientState.Text = "Disonnected";
+                MessageBoxEx.Show(this, "FormatException", "오류");
             }
             catch (SocketException)
             {
-                
+                PictureBox_ClientState.Image = image[7];
+                Label_ClientState.Text = "Disonnected";
+                MessageBoxEx.Show(this, "SocketException", "오류");
             }
 
 
@@ -259,19 +272,18 @@ namespace Tcp_Server
             return LocalIP;
         }
 
-        private void Button_SendText_Click(object sender, EventArgs e) // Button_SendText 버튼이 눌렸을때 작동
+        private void Button_SendText_Click(object sender, EventArgs e)  // Button_SendText 버튼이 눌렸을때 작동
         {
-            if (connecting)                                         // 클라이언트 연결시
+            if (connecting)                                             // 클라이언트 연결시
             {
-                string sendMsg = TextBox_SendText.Text;             // TextBox_SendText 텍스트 박스에 있는 string을
-                byte[] buff = Encoding.ASCII.GetBytes(sendMsg);     // 바이트 아스키코드 형식으로 인코딩해주기
+                string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
+                byte[] buff = Encoding.ASCII.GetBytes(sendMsg);         // 바이트 아스키코드 형식으로 인코딩해주기
 
-                Stream.Write(buff, 0, buff.Length);                 // 그걸 클라로 쏴주기
+                Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
             }
-            else if (!connecting)                                   // 클라.... 없다?
+            else if (!connecting)                                       // 클라.... 없다?
             {
                 MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");
-                return;
             }
         }
     }

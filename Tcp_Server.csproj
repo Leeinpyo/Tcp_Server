@@ -120,5 +120,11 @@
   <ItemGroup>
     <None Include="ICON\Flat Icons [Free]\Free Flat Chat 2 Bars Icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ICON\Flat Icons [Free]\Free Flat Connection 0 Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ICON\Flat Icons [Free]\Free Flat Connection 1 Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
