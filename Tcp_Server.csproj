@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4F166DD4-9F74-4658-8A8C-A0BEDC6A6D62}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Tcp_Client</RootNamespace>
-    <AssemblyName>Tcp_Client</AssemblyName>
+    <RootNamespace>Tcp_Server</RootNamespace>
+    <AssemblyName>Tcp_Server</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -81,9 +81,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Close.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ICON\Flat Icons [Free]\Free Flat Button Blank Cross Icon.png" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +112,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ICON\Flat Icons [Free]\Free Flat Signal Up Off Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Tcp_Client
+namespace Tcp_Server
 {
     static class Program
     {
