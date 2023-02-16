@@ -135,9 +135,12 @@ namespace Tcp_Server
             if (Server_status == true)
             {
                 threadST = false;
-                tcpListener.Stop();
+                connecting = false;
 
-                while (threadServer.IsAlive) { Thread.Sleep(100); }
+                if (Stream != null)
+                    Stream.Close();
+
+                tcpListener.Stop();
 
                 Server_status = false;
                 PictureBox_connect.Image = image[6];
@@ -210,17 +213,19 @@ namespace Tcp_Server
                     int nbytes;
                     connecting = true;
                     PictureBox_ClientState.Image = image[8];
-                    Label_ClientState.Text = "Connected";
+                    ChangeText(Label_ClientState, "Connected");
 
                     while (connecting)
                     {
-                        Stream.Read(buff, 0, buff.Length);
-                        while ((nbytes=Stream.Read(buff,0,buff.Length))>0)              //데이터 수신
-                        {
-                            string output = Encoding.ASCII.GetString(buff, 0, nbytes);  //받은거 string으로 디코딩
-                            ConnectTextBox.Text += output + "\r\n";                     //ConnectTextBox에 출력, 개행
-                            ConnectTextBox.ScrollToCaret();                             //최근 입력한 캐럿으로 스크롤 내리기
-                        }
+                        nbytes = Stream.Read(buff, 0, buff.Length);
+                        string output = Encoding.UTF8.GetString(buff, 0, nbytes);
+                        WriteMsg(output);
+                        //while ((nbytes=Stream.Read(buff,0,buff.Length))>0)              //데이터 수신
+                        //{
+                        //    string output = Encoding.UTF8.GetString(buff, 0, nbytes);  //받은거 string으로 디코딩
+                        //    ConnectTextBox.Text += output + "\r\n";                     //ConnectTextBox에 출력, 개행
+                        //    ConnectTextBox.ScrollToCaret();                             //최근 입력한 캐럿으로 스크롤 내리기
+                        //}
                     }
                     //클라랑 연결 끊김
                     Stream.Close(); 
@@ -234,8 +239,10 @@ namespace Tcp_Server
 
             catch (IOException)
             {
-                PictureBox_ClientState.Image = image[7];
-                Label_ClientState.Text = "Disonnected";
+                ChangePicture(PictureBox_ClientState, image[7]);
+                //PictureBox_ClientState.Image = image[7];
+                ChangeText(Label_ClientState, "Disconnected");
+                //Label_ClientState.Text = "Disonnected";
                 MessageBoxEx.Show(this, "IOException", "오류");
             }
             catch (FormatException)
@@ -277,7 +284,7 @@ namespace Tcp_Server
             if (connecting)                                             // 클라이언트 연결시
             {
                 string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
-                byte[] buff = Encoding.ASCII.GetBytes(sendMsg);         // 바이트 아스키코드 형식으로 인코딩해주기
+                byte[] buff = Encoding.UTF8.GetBytes(sendMsg);         // 바이트 아스키코드 형식으로 인코딩해주기
 
                 Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
             }
@@ -285,6 +292,62 @@ namespace Tcp_Server
             {
                 MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");
             }
+        }
+
+        private void ChangeText(Button button, string text)
+        {
+            if (button.InvokeRequired)
+            {
+                button.Invoke(new MethodInvoker(delegate ()
+                {
+                    button.Text = text;
+                }));
+            }
+            else
+                button.Text = text;
+        }
+
+        private void ChangeText(Label label, string text)
+        {
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new MethodInvoker(delegate ()
+                {
+                    label.Text = text;
+                }));
+            }
+            else
+                label.Text = text;
+        }
+
+        private void WriteMsg(string msg)
+        {
+            if (ConnectTextBox.InvokeRequired)
+            {
+                ConnectTextBox.Invoke(new MethodInvoker(delegate ()
+                {
+                    ConnectTextBox.AppendText($"{msg}\n");
+                    ConnectTextBox.ScrollToCaret();
+                }));
+            }
+            else
+            {
+                ConnectTextBox.AppendText($"{msg}\n");
+                ConnectTextBox.ScrollToCaret();
+            }
+        }
+
+        private void ChangePicture(PictureBox picBox, Image image)
+        {
+            if (picBox.InvokeRequired)
+            {
+                picBox.Invoke(new MethodInvoker(delegate ()
+                {
+                    picBox.Image = image;
+                }));
+            }
+            else
+                picBox.Image = image;
         }
     }
 }

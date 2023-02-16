@@ -16,7 +16,7 @@ namespace Tcp_Server
         private static IntPtr _hHook;
 
         public static DialogResult Show(string text)
-        {
+        {   
             Initialize();
             return MessageBox.Show(text);
         }
