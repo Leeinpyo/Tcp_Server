@@ -266,6 +266,7 @@ namespace Tcp_Server
             this.Button_SendText.TabIndex = 4;
             this.Button_SendText.TabStop = false;
             this.Button_SendText.UseVisualStyleBackColor = false;
+            this.Button_SendText.Click += new System.EventHandler(this.Button_SendText_Click);
             // 
             // Button_hide
             // 

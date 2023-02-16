@@ -22,8 +22,10 @@ namespace Tcp_Server
         bool Connection_status;                     // 연결 상태
 
         Thread threadServer;                        // 쓰레드 : threadServer
-        bool threadST = true;                      // 쓰레드 상태
+        bool threadST = true;                       // 쓰레드 상태
         bool connecting;
+
+        NetworkStream Stream;
 
 
         private TcpListener tcpListener;            //리스너 대기
@@ -201,15 +203,15 @@ namespace Tcp_Server
                 {
                     TcpClient client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
 
-                    NetworkStream stream = client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
+                    Stream = client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
 
                     int nbytes;
                     connecting = true;
 
                     while (connecting)
                     {
-                        stream.Read(buff, 0, buff.Length);
-                        while ((nbytes=stream.Read(buff,0,buff.Length))>0)              //데이터 수신
+                        Stream.Read(buff, 0, buff.Length);
+                        while ((nbytes=Stream.Read(buff,0,buff.Length))>0)              //데이터 수신
                         {
                             string output = Encoding.ASCII.GetString(buff, 0, nbytes);  //받은거 string으로 디코딩
                             ConnectTextBox.Text += output + "\r\n";                     //ConnectTextBox에 출력, 개행
@@ -217,7 +219,7 @@ namespace Tcp_Server
                         }
                     }
 
-                    stream.Close();
+                    Stream.Close();
                     client.Close();
                 }
 
@@ -257,9 +259,20 @@ namespace Tcp_Server
             return LocalIP;
         }
 
-        private void Button_SendText_Click(object sender, EventArgs e)
+        private void Button_SendText_Click(object sender, EventArgs e) // Button_SendText 버튼이 눌렸을때 작동
         {
+            if (connecting)                                         // 클라이언트 연결시
+            {
+                string sendMsg = TextBox_SendText.Text;             // TextBox_SendText 텍스트 박스에 있는 string을
+                byte[] buff = Encoding.ASCII.GetBytes(sendMsg);     // 바이트 아스키코드 형식으로 인코딩해주기
 
+                Stream.Write(buff, 0, buff.Length);                 // 그걸 클라로 쏴주기
+            }
+            else if (!connecting)                                   // 클라.... 없다?
+            {
+                MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");
+                return;
+            }
         }
     }
 }
