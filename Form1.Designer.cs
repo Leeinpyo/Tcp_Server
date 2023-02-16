@@ -38,6 +38,7 @@ namespace Tcp_Server
             this.Button_hide = new System.Windows.Forms.Button();
             this.PanelSlide_H = new System.Windows.Forms.Panel();
             this.PanelSlide_W = new System.Windows.Forms.Panel();
+            this.ConnectTextBox = new System.Windows.Forms.RichTextBox();
             this.TextBox_IPport = new System.Windows.Forms.TextBox();
             this.TextBox_IPadress = new System.Windows.Forms.TextBox();
             this.PanelMain = new System.Windows.Forms.Panel();
@@ -47,7 +48,6 @@ namespace Tcp_Server
             this.Timer_W = new System.Windows.Forms.Timer(this.components);
             this.Timer_H = new System.Windows.Forms.Timer(this.components);
             this.Timer_ONLINE = new System.Windows.Forms.Timer(this.components);
-            this.ConnectTextBox = new System.Windows.Forms.RichTextBox();
             this.PanelUpper.SuspendLayout();
             this.PanelSide.SuspendLayout();
             this.PanelSlide_W.SuspendLayout();
@@ -149,6 +149,16 @@ namespace Tcp_Server
             this.PanelSlide_W.Size = new System.Drawing.Size(316, 406);
             this.PanelSlide_W.TabIndex = 3;
             // 
+            // ConnectTextBox
+            // 
+            this.ConnectTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConnectTextBox.Location = new System.Drawing.Point(10, 79);
+            this.ConnectTextBox.Name = "ConnectTextBox";
+            this.ConnectTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.ConnectTextBox.Size = new System.Drawing.Size(296, 256);
+            this.ConnectTextBox.TabIndex = 1;
+            this.ConnectTextBox.Text = "";
+            // 
             // TextBox_IPport
             // 
             this.TextBox_IPport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -198,7 +208,6 @@ namespace Tcp_Server
             // PictureBox_connect
             // 
             this.PictureBox_connect.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.PictureBox_connect.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PictureBox_connect.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Signal_Up_Off_Icon;
             this.PictureBox_connect.Location = new System.Drawing.Point(175, 61);
             this.PictureBox_connect.Name = "PictureBox_connect";
@@ -233,16 +242,6 @@ namespace Tcp_Server
             // 
             this.Timer_ONLINE.Interval = 260;
             this.Timer_ONLINE.Tick += new System.EventHandler(this.Timer_ONLINE_Tick);
-            // 
-            // ConnectTextBox
-            // 
-            this.ConnectTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ConnectTextBox.Location = new System.Drawing.Point(10, 79);
-            this.ConnectTextBox.Name = "ConnectTextBox";
-            this.ConnectTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
-            this.ConnectTextBox.Size = new System.Drawing.Size(296, 256);
-            this.ConnectTextBox.TabIndex = 1;
-            this.ConnectTextBox.Text = "";
             // 
             // Form1
             // 
