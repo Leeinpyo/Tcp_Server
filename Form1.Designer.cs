@@ -119,9 +119,11 @@ namespace Tcp_Server
             // TextBox_SendText
             // 
             this.TextBox_SendText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBox_SendText.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.TextBox_SendText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.TextBox_SendText.Location = new System.Drawing.Point(10, 311);
             this.TextBox_SendText.Name = "TextBox_SendText";
-            this.TextBox_SendText.Size = new System.Drawing.Size(265, 26);
+            this.TextBox_SendText.Size = new System.Drawing.Size(263, 19);
             this.TextBox_SendText.TabIndex = 3;
             // 
             // Label_port
@@ -153,6 +155,8 @@ namespace Tcp_Server
             // ConnectTextBox
             // 
             this.ConnectTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ConnectTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.ConnectTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.ConnectTextBox.Font = new System.Drawing.Font("D2Coding ligature", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ConnectTextBox.Location = new System.Drawing.Point(10, 48);
             this.ConnectTextBox.Name = "ConnectTextBox";
@@ -160,6 +164,7 @@ namespace Tcp_Server
             this.ConnectTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.ConnectTextBox.Size = new System.Drawing.Size(296, 256);
             this.ConnectTextBox.TabIndex = 1;
+            this.ConnectTextBox.TabStop = false;
             this.ConnectTextBox.Text = "";
             // 
             // TextBox_IPport
@@ -182,6 +187,7 @@ namespace Tcp_Server
             this.TextBox_IPadress.ReadOnly = true;
             this.TextBox_IPadress.Size = new System.Drawing.Size(123, 23);
             this.TextBox_IPadress.TabIndex = 0;
+            this.TextBox_IPadress.TabStop = false;
             this.TextBox_IPadress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // PanelMain
@@ -254,9 +260,9 @@ namespace Tcp_Server
             this.Button_SendText.FlatAppearance.BorderSize = 0;
             this.Button_SendText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Button_SendText.ForeColor = System.Drawing.Color.White;
-            this.Button_SendText.Location = new System.Drawing.Point(279, 310);
+            this.Button_SendText.Location = new System.Drawing.Point(277, 309);
             this.Button_SendText.Name = "Button_SendText";
-            this.Button_SendText.Size = new System.Drawing.Size(28, 28);
+            this.Button_SendText.Size = new System.Drawing.Size(29, 22);
             this.Button_SendText.TabIndex = 4;
             this.Button_SendText.TabStop = false;
             this.Button_SendText.UseVisualStyleBackColor = false;
@@ -271,6 +277,7 @@ namespace Tcp_Server
             this.Button_hide.Name = "Button_hide";
             this.Button_hide.Size = new System.Drawing.Size(42, 24);
             this.Button_hide.TabIndex = 0;
+            this.Button_hide.TabStop = false;
             this.Button_hide.UseVisualStyleBackColor = true;
             this.Button_hide.Click += new System.EventHandler(this.Button_hide_Click);
             // 
@@ -285,6 +292,7 @@ namespace Tcp_Server
             this.ButtonMin.Name = "ButtonMin";
             this.ButtonMin.Size = new System.Drawing.Size(22, 22);
             this.ButtonMin.TabIndex = 0;
+            this.ButtonMin.TabStop = false;
             this.ButtonMin.UseVisualStyleBackColor = true;
             this.ButtonMin.Click += new System.EventHandler(this.ButtonMin_Click);
             // 
@@ -299,6 +307,7 @@ namespace Tcp_Server
             this.ButtonClose.Name = "ButtonClose";
             this.ButtonClose.Size = new System.Drawing.Size(22, 22);
             this.ButtonClose.TabIndex = 0;
+            this.ButtonClose.TabStop = false;
             this.ButtonClose.UseVisualStyleBackColor = true;
             this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
