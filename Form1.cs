@@ -215,8 +215,7 @@ namespace Tcp_Server
             {
                 try
                 {
-                    Client = tcpListener.BeginAcceptTcpClient(); //클라이언트 연결 대기
-                    tcpListener.EndAcceptTcpClient();
+                    Client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
 
                     Stream = Client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
 
