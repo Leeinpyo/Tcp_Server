@@ -187,6 +187,7 @@ namespace Tcp_Server
             this.ConnectTextBox.TabIndex = 1;
             this.ConnectTextBox.TabStop = false;
             this.ConnectTextBox.Text = "";
+            this.ConnectTextBox.Enter += new System.EventHandler(this.ConnectTextBox_Enter);
             // 
             // TextBox_IPport
             // 
@@ -292,9 +293,10 @@ namespace Tcp_Server
             this.Button_SendText.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.Button_SendText.FlatAppearance.BorderSize = 0;
             this.Button_SendText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Button_SendText.ForeColor = System.Drawing.Color.White;
+            this.Button_SendText.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.Button_SendText.Location = new System.Drawing.Point(277, 309);
             this.Button_SendText.Name = "Button_SendText";
+            this.Button_SendText.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.Button_SendText.Size = new System.Drawing.Size(29, 22);
             this.Button_SendText.TabIndex = 4;
             this.Button_SendText.TabStop = false;
