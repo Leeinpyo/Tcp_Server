@@ -144,8 +144,8 @@ namespace Tcp_Server
         [DllImport("user32.dll")]
         public static extern int EndDialog(IntPtr hDlg, IntPtr nResult);
 
-        [DllImport("user32.dll", SetLastError = true)] 
-        static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
+        //[DllImport("user32.dll", SetLastError = true)] 
+        //static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
 
 
 
@@ -159,37 +159,37 @@ namespace Tcp_Server
             public IntPtr hwnd;
         };
 
-        //static MessageBoxEx()
-        //{
-        //    _hookProc = new HookProc(MessageBoxHookProc);
-        //    _hHook = IntPtr.Zero;
-        //}
-
-        private static void Initialize() 
-        {   if (_hookProc == null) 
-            { 
-                _hookProc = new HookProc(MessageBoxHookProc); 
-                _hHook = IntPtr.Zero; if (_owner != null) 
-                { 
-                    uint processID = 0; IntPtr ptr = _owner.Handle; 
-                    uint iThreadId = GetWindowThreadProcessId(ptr, out processID); 
-                    _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, (int)iThreadId); 
-                } 
-            } 
+        static MessageBoxEx()
+        {
+            _hookProc = new HookProc(MessageBoxHookProc);
+            _hHook = IntPtr.Zero;
         }
 
-        //private static void Initialize()
-        //{
-        //    if (_hHook != IntPtr.Zero)
-        //    {
-        //        throw new NotSupportedException("multiple calls are not supported");
-        //    }
-
-        //    if (_owner != null)
-        //    {
-        //        _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
-        //    }
+        //private static void Initialize() 
+        //{   if (_hookProc == null) 
+        //    { 
+        //        _hookProc = new HookProc(MessageBoxHookProc); 
+        //        _hHook = IntPtr.Zero; if (_owner != null) 
+        //        { 
+        //            uint processID = 0; IntPtr ptr = _owner.Handle; 
+        //            uint iThreadId = GetWindowThreadProcessId(ptr, out processID); 
+        //            _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, (int)iThreadId); 
+        //        } 
+        //    } 
         //}
+
+        private static void Initialize()
+        {
+            if (_hHook != IntPtr.Zero)
+            {
+                throw new NotSupportedException("multiple calls are not supported");
+            }
+
+            if (_owner != null)
+            {
+                _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
+            }
+        }
 
         private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam)
         {

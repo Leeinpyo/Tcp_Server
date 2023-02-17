@@ -230,15 +230,15 @@ namespace Tcp_Server
                         {
                             nbytes = Stream.Read(buff, 0, buff.Length);                 //들어오는거 기다리다가 받기
                             string output = Encoding.UTF8.GetString(buff, 0, nbytes);   //받은거 디코딩 UTF8형식으로
-                            WriteMsg(output);                                           //출력 (크로스쓰레드 회피 포함)
+                            WriteMsg( DateTime.Now.ToString() + "받음 : " + output);//출력 (크로스쓰레드 회피 포함)
                         }
                         catch { connecting = false; }
                     }
                     //클라랑 연결 끊김
                     Stream.Close();
                     Client.Close();
-                    Label_ClientState.Text = "Disonnected";
-                    PictureBox_ClientState.Image = image[7];
+                    ChangePicture(PictureBox_ClientState, image[7]);
+                    ChangeText(Label_ClientState, "Disconnected");
                     connecting = false;
 
                 }
@@ -370,6 +370,40 @@ namespace Tcp_Server
             }
             else
                 picBox.Image = image;
+        }
+
+        private Point mCurrentPosition = new Point(0, 0);
+
+        private void PanelUpper_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mCurrentPosition = new Point(-e.X, -e.Y);
+        }
+
+        private void PanelUpper_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Location = new Point(
+                this.Location.X + (mCurrentPosition.X + e.X),
+                this.Location.Y + (mCurrentPosition.Y + e.Y));
+            }
+        }
+
+        private void Label_upper_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mCurrentPosition = new Point(-e.X, -e.Y);
+        }
+
+        private void Label_upper_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Location = new Point(
+                this.Location.X + (mCurrentPosition.X + e.X),
+                this.Location.Y + (mCurrentPosition.Y + e.Y));
+            }
         }
     }
 }
