@@ -206,16 +206,17 @@ namespace Tcp_Server
 
         private void connect()  // thread에 연결된 함수. 메인폼과는 별도로 동작한다.
         {
-            try
+            tcpListener = new TcpListener(IPAddress.Parse(TextBox_IPadress.Text), int.Parse(TextBox_IPport.Text)); // 서버 객체 생성 및 IP주소와 Port번호를 할당
+            tcpListener.Start();  // 서버 시작
+
+            byte[] buff = new byte[1024];
+
+            while (threadST)
             {
-                tcpListener = new TcpListener(IPAddress.Parse(TextBox_IPadress.Text), int.Parse(TextBox_IPport.Text)); // 서버 객체 생성 및 IP주소와 Port번호를 할당
-                tcpListener.Start();  // 서버 시작
-
-                byte[] buff = new byte[1024];
-
-                while (threadST)
+                try
                 {
-                    Client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
+                    Client = tcpListener.BeginAcceptTcpClient(); //클라이언트 연결 대기
+                    tcpListener.EndAcceptTcpClient();
 
                     Stream = Client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
 
@@ -226,9 +227,13 @@ namespace Tcp_Server
 
                     while (connecting)
                     {
-                        nbytes = Stream.Read(buff, 0, buff.Length);                 //들어오는거 기다리다가 받기
-                        string output = Encoding.UTF8.GetString(buff, 0, nbytes);   //받은거 디코딩 UTF8형식으로
-                        WriteMsg(output);                                           //출력 (크로스쓰레드 회피 포함)
+                        try
+                        {
+                            nbytes = Stream.Read(buff, 0, buff.Length);                 //들어오는거 기다리다가 받기
+                            string output = Encoding.UTF8.GetString(buff, 0, nbytes);   //받은거 디코딩 UTF8형식으로
+                            WriteMsg(output);                                           //출력 (크로스쓰레드 회피 포함)
+                        }
+                        catch { connecting = false; }
                     }
                     //클라랑 연결 끊김
                     Stream.Close();
@@ -238,52 +243,51 @@ namespace Tcp_Server
                     connecting = false;
 
                 }
+                catch (IOException)
+                {
+                    ChangePicture(PictureBox_ClientState, image[7]);
+                    ChangeText(Label_ClientState, "Disconnected");
+                    connecting = false;
 
+                    MethodInvoker methodInvokerDelegate = delegate ()
+                    { MessageBoxEx.Show(this, "클라이언트와의 연결이 끊겼습니다.", "연결"); };
+
+                    if (this.InvokeRequired)
+                        this.Invoke(methodInvokerDelegate);
+                    else
+                        methodInvokerDelegate();
+
+                }
+                catch (FormatException)
+                {
+                    ChangePicture(PictureBox_ClientState, image[7]);
+                    ChangeText(Label_ClientState, "Disconnected");
+                    connecting = false;
+
+                    MethodInvoker methodInvokerDelegate = delegate ()
+                    { MessageBoxEx.Show(this, "FormatException", "오류"); };
+
+                    if (this.InvokeRequired)
+                        this.Invoke(methodInvokerDelegate);
+                    else
+                        methodInvokerDelegate();
+                }
+                catch (SocketException)
+                {
+                    ChangePicture(PictureBox_ClientState, image[7]);
+                    ChangeText(Label_ClientState, "Disconnected");
+                    connecting = false;
+
+                    //MethodInvoker methodInvokerDelegate = delegate ()
+                    //{ MessageBoxEx.Show(this, s1.ToString(), "오류"); };
+
+                    //if (this.InvokeRequired)
+                    //    this.Invoke(methodInvokerDelegate);
+                    //else
+                    //    methodInvokerDelegate();
+                }
             }
 
-            catch (IOException)
-            {
-                ChangePicture(PictureBox_ClientState, image[7]);
-                ChangeText(Label_ClientState, "Disconnected");
-                connecting = false;
-
-                MethodInvoker methodInvokerDelegate = delegate ()
-                    {MessageBoxEx.Show(this, "클라이언트와의 연결이 끊겼습니다.", "연결");};
-
-                if (this.InvokeRequired)
-                    this.Invoke(methodInvokerDelegate);
-                else
-                    methodInvokerDelegate();
-
-            }
-            catch (FormatException)
-            {
-                ChangePicture(PictureBox_ClientState, image[7]);
-                ChangeText(Label_ClientState, "Disconnected");
-                connecting = false;
-
-                MethodInvoker methodInvokerDelegate = delegate ()
-                { MessageBoxEx.Show(this, "FormatException", "오류"); };
-
-                if (this.InvokeRequired)
-                    this.Invoke(methodInvokerDelegate);
-                else
-                    methodInvokerDelegate();
-            }
-            //catch (SocketException)
-            //{
-            //    ChangePicture(PictureBox_ClientState, image[7]);
-            //    ChangeText(Label_ClientState, "Disconnected");
-            //    connecting = false;
-
-            //    MethodInvoker methodInvokerDelegate = delegate ()
-            //    { MessageBoxEx.Show(this, s1.ToString() , "오류"); };
-
-            //    if (this.InvokeRequired)
-            //        this.Invoke(methodInvokerDelegate);
-            //    else
-            //        methodInvokerDelegate();
-            //}
 
 
 
