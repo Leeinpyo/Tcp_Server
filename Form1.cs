@@ -276,14 +276,6 @@ namespace Tcp_Server
                     ChangePicture(PictureBox_ClientState, image[7]);
                     ChangeText(Label_ClientState, "Disconnected");
                     connecting = false;
-
-                    //MethodInvoker methodInvokerDelegate = delegate ()
-                    //{ MessageBoxEx.Show(this, s1.ToString(), "오류"); };
-
-                    //if (this.InvokeRequired)
-                    //    this.Invoke(methodInvokerDelegate);
-                    //else
-                    //    methodInvokerDelegate();
                 }
             }
 
