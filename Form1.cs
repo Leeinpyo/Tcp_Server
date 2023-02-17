@@ -26,6 +26,7 @@ namespace Tcp_Server
         bool threadST = true;                       // 쓰레드 상태
 
         NetworkStream Stream;                       // 네트워크스트림
+        TcpClient Client;
 
 
         private TcpListener tcpListener;            // 리스너 대기
@@ -141,7 +142,11 @@ namespace Tcp_Server
                 if (Stream != null)
                     Stream.Close();
 
-                tcpListener.Stop();
+                if (Client != null)
+                    Client.Close();
+
+                if (tcpListener != null)
+                    tcpListener.Stop();
 
                 PictureBox_connect.Image = image[6];
                 PictureBox_ClientState.Image = image[7];
@@ -210,9 +215,9 @@ namespace Tcp_Server
 
                 while (threadST)
                 {
-                    TcpClient client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
+                    Client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
 
-                    Stream = client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
+                    Stream = Client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
 
                     int nbytes;
                     connecting = true;
@@ -226,8 +231,8 @@ namespace Tcp_Server
                         WriteMsg(output);                                           //출력 (크로스쓰레드 회피 포함)
                     }
                     //클라랑 연결 끊김
-                    Stream.Close(); 
-                    client.Close();
+                    Stream.Close();
+                    Client.Close();
                     Label_ClientState.Text = "Disonnected";
                     PictureBox_ClientState.Image = image[7];
                     connecting = false;
@@ -265,20 +270,20 @@ namespace Tcp_Server
                 else
                     methodInvokerDelegate();
             }
-            catch (SocketException)
-            {
-                ChangePicture(PictureBox_ClientState, image[7]);
-                ChangeText(Label_ClientState, "Disconnected");
-                connecting = false;
+            //catch (SocketException)
+            //{
+            //    ChangePicture(PictureBox_ClientState, image[7]);
+            //    ChangeText(Label_ClientState, "Disconnected");
+            //    connecting = false;
 
-                MethodInvoker methodInvokerDelegate = delegate ()
-                { MessageBoxEx.Show(this, "SocketException", "오류"); };
+            //    MethodInvoker methodInvokerDelegate = delegate ()
+            //    { MessageBoxEx.Show(this, s1.ToString() , "오류"); };
 
-                if (this.InvokeRequired)
-                    this.Invoke(methodInvokerDelegate);
-                else
-                    methodInvokerDelegate();
-            }
+            //    if (this.InvokeRequired)
+            //        this.Invoke(methodInvokerDelegate);
+            //    else
+            //        methodInvokerDelegate();
+            //}
 
 
 
@@ -306,7 +311,7 @@ namespace Tcp_Server
             if (connecting)                                             // 클라이언트 연결시
             {
                 string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
-                byte[] buff = Encoding.UTF8.GetBytes(sendMsg);         // 바이트 아스키코드 형식으로 인코딩해주기
+                byte[] buff = Encoding.UTF8.GetBytes(sendMsg);          // 바이트 아스키코드 형식으로 인코딩해주기
 
                 Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
             }
