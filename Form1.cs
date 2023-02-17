@@ -309,10 +309,13 @@ namespace Tcp_Server
                 byte[] buff = Encoding.UTF8.GetBytes(sendMsg);          // 바이트 아스키코드 형식으로 인코딩해주기
 
                 Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
+                
+                TextBox_SendText.Clear();                               // 텍스트박스 비우기
             }
             else if (!connecting)                                       // 클라.... 없다?
             {
-                MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");
+                TextBox_SendText.Clear();                                                           // 텍스트박스 비우기
+                MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");   // 알림메세지
             }
         }
 
@@ -372,15 +375,15 @@ namespace Tcp_Server
                 picBox.Image = image;
         }
 
-        private Point mCurrentPosition = new Point(0, 0);
+        private Point mCurrentPosition = new Point(0, 0);                       // 여기부터 창 제어파트
 
-        private void PanelUpper_MouseDown(object sender, MouseEventArgs e)
+        private void PanelUpper_MouseDown(object sender, MouseEventArgs e)      // 위쪽패널 눌러서
         {
             if (e.Button == MouseButtons.Left)
                 mCurrentPosition = new Point(-e.X, -e.Y);
         }
 
-        private void PanelUpper_MouseMove(object sender, MouseEventArgs e)
+        private void PanelUpper_MouseMove(object sender, MouseEventArgs e)      // 움직이면 창 옮겨짐
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -390,7 +393,7 @@ namespace Tcp_Server
             }
         }
 
-        private void Label_upper_MouseDown(object sender, MouseEventArgs e)
+        private void Label_upper_MouseDown(object sender, MouseEventArgs e)     // 라벨도 마찬가지로 작동
         {
             if (e.Button == MouseButtons.Left)
                 mCurrentPosition = new Point(-e.X, -e.Y);
