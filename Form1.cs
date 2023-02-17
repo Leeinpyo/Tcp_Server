@@ -64,6 +64,32 @@ namespace Tcp_Server
 
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            Keys key = keyData & ~(Keys.Shift | Keys.Control);
+            switch (key)
+            {
+                case Keys.Oemtilde:                               // 히든메뉴 열기 단축키 `
+                    {
+                        Timer_W.Start();
+                        Timer_H.Start();                          // 버튼 클릭시 타이머 실행 및 동작
+                    }
+                    break;
+
+                case Keys.F5:                                     // 단일키 사용시
+                    {
+
+                    }
+                    break;
+
+                default:
+
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            return true;
+
+        }
 
         private void Button_hide_Click(object sender, EventArgs e)
         {
@@ -407,6 +433,11 @@ namespace Tcp_Server
                 this.Location.X + (mCurrentPosition.X + e.X),
                 this.Location.Y + (mCurrentPosition.Y + e.Y));
             }
+        }
+
+        private void ConnectTextBox_Enter(object sender, EventArgs e)
+        {
+            this.TextBox_SendText.Focus();
         }
     }
 }
