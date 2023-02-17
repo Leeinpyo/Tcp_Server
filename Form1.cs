@@ -168,6 +168,7 @@ namespace Tcp_Server
                 threadServer.Start(); // threadServer 시작.
 
                 Server_status = true;
+                threadST = true;
                 Label_connect.Text = "TCP Server ONLINE";
                 ButtonConnect.Text = "Disconnect";
                 pic_i = 0;
@@ -195,7 +196,7 @@ namespace Tcp_Server
         }
 
 
-        private void connect()  // thread1에 연결된 함수. 메인폼과는 별도로 동작한다.
+        private void connect()  // thread에 연결된 함수. 메인폼과는 별도로 동작한다.
         {
             try
             {
@@ -217,15 +218,9 @@ namespace Tcp_Server
 
                     while (connecting)
                     {
-                        nbytes = Stream.Read(buff, 0, buff.Length);
-                        string output = Encoding.UTF8.GetString(buff, 0, nbytes);
-                        WriteMsg(output);
-                        //while ((nbytes=Stream.Read(buff,0,buff.Length))>0)              //데이터 수신
-                        //{
-                        //    string output = Encoding.UTF8.GetString(buff, 0, nbytes);  //받은거 string으로 디코딩
-                        //    ConnectTextBox.Text += output + "\r\n";                     //ConnectTextBox에 출력, 개행
-                        //    ConnectTextBox.ScrollToCaret();                             //최근 입력한 캐럿으로 스크롤 내리기
-                        //}
+                        nbytes = Stream.Read(buff, 0, buff.Length);                 //들어오는거 기다리다가 받기
+                        string output = Encoding.UTF8.GetString(buff, 0, nbytes);   //받은거 디코딩 UTF8형식으로
+                        WriteMsg(output);                                           //출력 (크로스쓰레드 회피 포함)
                     }
                     //클라랑 연결 끊김
                     Stream.Close(); 
@@ -239,23 +234,54 @@ namespace Tcp_Server
 
             catch (IOException)
             {
+                connecting = false;
+
                 ChangePicture(PictureBox_ClientState, image[7]);
                 //PictureBox_ClientState.Image = image[7];
                 ChangeText(Label_ClientState, "Disconnected");
                 //Label_ClientState.Text = "Disonnected";
-                MessageBoxEx.Show(this, "IOException", "오류");
+
+                MethodInvoker methodInvokerDelegate = delegate ()
+                    {MessageBoxEx.Show(this, "IOException", "오류");};
+
+                if (this.InvokeRequired)
+                    this.Invoke(methodInvokerDelegate);
+                else
+                    methodInvokerDelegate();
             }
             catch (FormatException)
             {
-                PictureBox_ClientState.Image = image[7];
-                Label_ClientState.Text = "Disonnected";
-                MessageBoxEx.Show(this, "FormatException", "오류");
+                connecting = false;
+
+                ChangePicture(PictureBox_ClientState, image[7]);
+                //PictureBox_ClientState.Image = image[7];
+                ChangeText(Label_ClientState, "Disconnected");
+                //Label_ClientState.Text = "Disonnected";
+
+                MethodInvoker methodInvokerDelegate = delegate ()
+                { MessageBoxEx.Show(this, "FormatException", "오류"); };
+
+                if (this.InvokeRequired)
+                    this.Invoke(methodInvokerDelegate);
+                else
+                    methodInvokerDelegate();
             }
             catch (SocketException)
             {
-                PictureBox_ClientState.Image = image[7];
-                Label_ClientState.Text = "Disonnected";
-                MessageBoxEx.Show(this, "SocketException", "오류");
+                connecting = false;
+
+                ChangePicture(PictureBox_ClientState, image[7]);
+                //PictureBox_ClientState.Image = image[7];
+                ChangeText(Label_ClientState, "Disconnected");
+                //Label_ClientState.Text = "Disonnected";
+
+                MethodInvoker methodInvokerDelegate = delegate ()
+                { MessageBoxEx.Show(this, "SocketException", "오류"); };
+
+                if (this.InvokeRequired)
+                    this.Invoke(methodInvokerDelegate);
+                else
+                    methodInvokerDelegate();
             }
 
 
