@@ -28,7 +28,7 @@ namespace Tcp_Server
         NetworkStream Stream;                       // 네트워크스트림
 
 
-        private TcpListener tcpListener;            //리스너 대기
+        private TcpListener tcpListener;            // 리스너 대기
 
         readonly Bitmap[] image = new Bitmap[9];    // 이미지 리소스 저장슬롯
         int pic_i;                                  // 움직이는 이미지 제어
@@ -38,8 +38,8 @@ namespace Tcp_Server
         {
             InitializeComponent();
 
-            panelWidth = PanelSlide_W.Width;    //Hidden 메뉴 패널 폭 기본값 저장
-            panalHeight = PanelSlide_H.Height;  //Hidden 메뉴 패널 높이 기본값 저장
+            panelWidth = PanelSlide_W.Width;    // Hidden 메뉴 패널 폭 기본값 저장
+            panalHeight = PanelSlide_H.Height;  // Hidden 메뉴 패널 높이 기본값 저장
 
             PanelSlide_W.Width = 0;
             PanelSlide_H.Height = 0;
@@ -136,16 +136,18 @@ namespace Tcp_Server
             {
                 threadST = false;
                 connecting = false;
+                Server_status = false;
 
                 if (Stream != null)
                     Stream.Close();
 
                 tcpListener.Stop();
 
-                Server_status = false;
                 PictureBox_connect.Image = image[6];
+                PictureBox_ClientState.Image = image[7];
                 Label_connect.Text = "TCP Server OFFLINE";
                 ButtonConnect.Text = "Connect";
+                Label_ClientState.Text = "Disonnected";
                 Timer_ONLINE.Stop();
                 this.Refresh();
             }
@@ -167,8 +169,9 @@ namespace Tcp_Server
                 threadServer.IsBackground = true; // Form이 종료되면 threadServer 쓰레드도 종료.
                 threadServer.Start(); // threadServer 시작.
 
-                Server_status = true;
                 threadST = true;
+                Server_status = true;
+
                 Label_connect.Text = "TCP Server ONLINE";
                 ButtonConnect.Text = "Disconnect";
                 pic_i = 0;
@@ -227,6 +230,7 @@ namespace Tcp_Server
                     client.Close();
                     Label_ClientState.Text = "Disonnected";
                     PictureBox_ClientState.Image = image[7];
+                    connecting = false;
 
                 }
 
@@ -234,29 +238,24 @@ namespace Tcp_Server
 
             catch (IOException)
             {
+                ChangePicture(PictureBox_ClientState, image[7]);
+                ChangeText(Label_ClientState, "Disconnected");
                 connecting = false;
 
-                ChangePicture(PictureBox_ClientState, image[7]);
-                //PictureBox_ClientState.Image = image[7];
-                ChangeText(Label_ClientState, "Disconnected");
-                //Label_ClientState.Text = "Disonnected";
-
                 MethodInvoker methodInvokerDelegate = delegate ()
-                    {MessageBoxEx.Show(this, "IOException", "오류");};
+                    {MessageBoxEx.Show(this, "클라이언트와의 연결이 끊겼습니다.", "연결");};
 
                 if (this.InvokeRequired)
                     this.Invoke(methodInvokerDelegate);
                 else
                     methodInvokerDelegate();
+
             }
             catch (FormatException)
             {
-                connecting = false;
-
                 ChangePicture(PictureBox_ClientState, image[7]);
-                //PictureBox_ClientState.Image = image[7];
                 ChangeText(Label_ClientState, "Disconnected");
-                //Label_ClientState.Text = "Disonnected";
+                connecting = false;
 
                 MethodInvoker methodInvokerDelegate = delegate ()
                 { MessageBoxEx.Show(this, "FormatException", "오류"); };
@@ -268,12 +267,9 @@ namespace Tcp_Server
             }
             catch (SocketException)
             {
-                connecting = false;
-
                 ChangePicture(PictureBox_ClientState, image[7]);
-                //PictureBox_ClientState.Image = image[7];
                 ChangeText(Label_ClientState, "Disconnected");
-                //Label_ClientState.Text = "Disonnected";
+                connecting = false;
 
                 MethodInvoker methodInvokerDelegate = delegate ()
                 { MessageBoxEx.Show(this, "SocketException", "오류"); };
