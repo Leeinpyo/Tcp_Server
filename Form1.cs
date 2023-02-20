@@ -60,9 +60,9 @@ namespace Tcp_Server
             image[5] = Properties.Resources.Free_Flat_Signal_Up_101_Icon;
             image[6] = Properties.Resources.Free_Flat_Signal_Up_Off_Icon;
             image[7] = Properties.Resources.Free_Flat_Connection_0_Icon;
-            image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;   //사용할 이미지 리소스 미리 불러놓기
+            image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;    //사용할 이미지 리소스 미리 불러놓기
 
-            this.ButtonConnect.Focus();     // ButtonConnect로 포커스
+            this.ButtonConnect.Focus();                                     // ButtonConnect로 포커스
 
         }
 
@@ -77,7 +77,7 @@ namespace Tcp_Server
                     }
                     break;
 
-                case Keys.F5:                                       // 단일키 사용시
+                case Keys.F5:                                       // 서버 ON/ OFF 단축키 F5
                     {
                         ButtonConnect.PerformClick();
                     }
@@ -153,21 +153,21 @@ namespace Tcp_Server
             }
         }
 
-        private void ButtonClose_Click(object sender, EventArgs e)
+        private void ButtonClose_Click(object sender, EventArgs e)              // 종료    
         {
             Timer_W.Stop();
             Timer_H.Stop();
             Timer_ONLINE.Stop();
 
-            Application.Exit(); // 종료
+            Application.Exit(); 
         }
 
-        private void ButtonMin_Click(object sender, EventArgs e)
+        private void ButtonMin_Click(object sender, EventArgs e)                // 최소화
         {
-            this.WindowState = System.Windows.Forms.FormWindowState.Minimized; // 최소화
+            this.WindowState = System.Windows.Forms.FormWindowState.Minimized;  
         }
 
-        private void ButtonConnect_Click(object sender, EventArgs e)
+        private void ButtonConnect_Click(object sender, EventArgs e)            // 서버 열기/닫기
         {
             if (Server_status == true)
             {
@@ -206,9 +206,9 @@ namespace Tcp_Server
                     return;
                 }
                 
-                threadServer = new Thread(connect);// Form과는 별도 쓰레드에서 connect 함수가 실행됨.
-                threadServer.IsBackground = true; // Form이 종료되면 threadServer 쓰레드도 종료.
-                threadServer.Start(); // threadServer 시작.
+                threadServer = new Thread(connect); // Form과는 별도 쓰레드에서 connect 함수가 실행됨.
+                threadServer.IsBackground = true;   // Form이 종료되면 threadServer 쓰레드도 종료.
+                threadServer.Start();               // threadServer 시작.
 
                 threadST = true;
                 Server_status = true;
@@ -220,7 +220,7 @@ namespace Tcp_Server
             }
         }
 
-        private void Timer_ONLINE_Tick(object sender, EventArgs e)
+        private void Timer_ONLINE_Tick(object sender, EventArgs e) // 움직이는 이미지 구현
         {
             if (pic_i<2)
             {
@@ -264,9 +264,9 @@ namespace Tcp_Server
                     {
                         try
                         {
-                            nbytes = Stream.Read(buff, 0, buff.Length);                 //들어오는거 기다리다가 받기
-                            string output = Encoding.UTF8.GetString(buff, 0, nbytes);   //받은거 디코딩 UTF8형식으로
-                            WriteMsg( DateTime.Now.ToString() + "받음 : " + output);//출력 (크로스쓰레드 회피 포함)
+                            nbytes = Stream.Read(buff, 0, buff.Length);                   // 들어오는거 기다리다가 받기
+                            string output = Encoding.UTF8.GetString(buff, 0, nbytes);     // 받은거 디코딩 UTF8형식으로
+                            WriteMsg( DateTime.Now.ToString() + "받음 : " + output);      // 출력 (크로스쓰레드 회피 포함)
                         }
                         catch { connecting = false; }
                     }
@@ -314,10 +314,6 @@ namespace Tcp_Server
                     connecting = false;
                 }
             }
-
-
-
-
         }
 
 
@@ -355,7 +351,7 @@ namespace Tcp_Server
             }
         }
 
-        private void ChangeText(Button button, string text)
+        private void ChangeText(Button button, string text)             // 크로스스레딩 익셉션 회피
         {
             if (button.InvokeRequired)
             {
@@ -368,7 +364,7 @@ namespace Tcp_Server
                 button.Text = text;
         }
 
-        private void ChangeText(Label label, string text)
+        private void ChangeText(Label label, string text)               // 크로스스레딩 익셉션 회피
         {
             if (label.InvokeRequired)
             {
@@ -381,7 +377,7 @@ namespace Tcp_Server
                 label.Text = text;
         }
 
-        private void WriteMsg(string msg)
+        private void WriteMsg(string msg)                               // 크로스스레딩 익셉션 회피
         {
             if (ConnectTextBox.InvokeRequired)
             {
@@ -398,7 +394,7 @@ namespace Tcp_Server
             }
         }
 
-        private void ChangePicture(PictureBox picBox, Image image)
+        private void ChangePicture(PictureBox picBox, Image image)      // 크로스스레딩 익셉션 회피
         {
             if (picBox.InvokeRequired)
             {
@@ -445,7 +441,7 @@ namespace Tcp_Server
             }
         }
 
-        private void ConnectTextBox_Enter(object sender, EventArgs e)
+        private void ConnectTextBox_Enter(object sender, EventArgs e) // 포커스 전환 >> 입력창으로
         {
             this.TextBox_SendText.Focus();
         }
@@ -454,7 +450,7 @@ namespace Tcp_Server
         {
             switch (e.KeyCode)
             {
-                case Keys.Enter:                                       // 단일키 사용시
+                case Keys.Enter:   // 텍스트박스에 포커스 있는 상태에서 엔터 입력 들어오면 작동
                     {
                         Button_SendText.PerformClick();
                     }
