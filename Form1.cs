@@ -71,6 +71,11 @@ namespace Tcp_Server
             Keys key = keyData & ~(Keys.Shift | Keys.Control);
             switch (key)
             {
+                case Keys.Alt | Keys.F4:
+                    {
+                        ButtonClose.PerformClick();
+                    }
+                    break;
                 case Keys.Oemtilde:                                 // 히든메뉴 열기 단축키 `
                     {
                         Button_hide.PerformClick();
@@ -153,8 +158,24 @@ namespace Tcp_Server
             }
         }
 
-        private void ButtonClose_Click(object sender, EventArgs e)              // 종료    
+        private void ButtonClose_Click(object sender, EventArgs e)              // 종료동작    
         {
+            if (Server_status == true)
+            {
+                if (MessageBoxEx.Show(this,"정말 종료하시겠습니까? 서버가 켜져있습니다.", "경고", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    Timer_W.Stop();
+                    Timer_H.Stop();
+                    Timer_ONLINE.Stop();
+
+                    Application.Exit();
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
             Timer_W.Stop();
             Timer_H.Stop();
             Timer_ONLINE.Stop();
