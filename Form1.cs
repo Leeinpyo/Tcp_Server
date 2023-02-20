@@ -62,8 +62,7 @@ namespace Tcp_Server
             image[7] = Properties.Resources.Free_Flat_Connection_0_Icon;
             image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;    //사용할 이미지 리소스 미리 불러놓기
 
-            this.ButtonConnect.Focus();                                     // ButtonConnect로 포커스
-
+            this.ActiveControl = ButtonConnect;                             // ButtonConnect로 포커스
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
