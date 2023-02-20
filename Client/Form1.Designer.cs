@@ -29,20 +29,44 @@ namespace Tcp_Client
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.PictureBox_Connect = new System.Windows.Forms.PictureBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Connect)).BeginInit();
             this.SuspendLayout();
+            // 
+            // PictureBox_Connect
+            // 
+            this.PictureBox_Connect.Location = new System.Drawing.Point(90, 12);
+            this.PictureBox_Connect.Name = "PictureBox_Connect";
+            this.PictureBox_Connect.Size = new System.Drawing.Size(155, 155);
+            this.PictureBox_Connect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PictureBox_Connect.TabIndex = 0;
+            this.PictureBox_Connect.TabStop = false;
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 250;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 521);
+            this.BackColor = System.Drawing.Color.DimGray;
+            this.ClientSize = new System.Drawing.Size(324, 466);
+            this.Controls.Add(this.PictureBox_Connect);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Connect)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.PictureBox PictureBox_Connect;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
