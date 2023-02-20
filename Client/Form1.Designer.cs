@@ -31,23 +31,36 @@ namespace Tcp_Client
         {
             this.components = new System.ComponentModel.Container();
             this.PictureBox_Connect = new System.Windows.Forms.PictureBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.Timer_ConnectICO = new System.Windows.Forms.Timer(this.components);
+            this.Button_Connect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Connect)).BeginInit();
             this.SuspendLayout();
             // 
             // PictureBox_Connect
             // 
-            this.PictureBox_Connect.Location = new System.Drawing.Point(90, 12);
+            this.PictureBox_Connect.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.PictureBox_Connect.Location = new System.Drawing.Point(92, 12);
             this.PictureBox_Connect.Name = "PictureBox_Connect";
             this.PictureBox_Connect.Size = new System.Drawing.Size(155, 155);
             this.PictureBox_Connect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.PictureBox_Connect.TabIndex = 0;
             this.PictureBox_Connect.TabStop = false;
             // 
-            // timer1
+            // Timer_ConnectICO
             // 
-            this.timer1.Interval = 250;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.Timer_ConnectICO.Interval = 200;
+            this.Timer_ConnectICO.Tick += new System.EventHandler(this.Timer_ConnectICO_Tick);
+            // 
+            // Button_Connect
+            // 
+            this.Button_Connect.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.Button_Connect.Location = new System.Drawing.Point(132, 173);
+            this.Button_Connect.Name = "Button_Connect";
+            this.Button_Connect.Size = new System.Drawing.Size(75, 23);
+            this.Button_Connect.TabIndex = 1;
+            this.Button_Connect.Text = "Connect";
+            this.Button_Connect.UseVisualStyleBackColor = true;
+            this.Button_Connect.Click += new System.EventHandler(this.Button_Connect_Click);
             // 
             // Form1
             // 
@@ -55,6 +68,7 @@ namespace Tcp_Client
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(324, 466);
+            this.Controls.Add(this.Button_Connect);
             this.Controls.Add(this.PictureBox_Connect);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -66,7 +80,8 @@ namespace Tcp_Client
         #endregion
 
         private System.Windows.Forms.PictureBox PictureBox_Connect;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer Timer_ConnectICO;
+        private System.Windows.Forms.Button Button_Connect;
     }
 }
 
