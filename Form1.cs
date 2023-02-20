@@ -62,6 +62,8 @@ namespace Tcp_Server
             image[7] = Properties.Resources.Free_Flat_Connection_0_Icon;
             image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;   //사용할 이미지 리소스 미리 불러놓기
 
+            this.ButtonConnect.Focus();     // ButtonConnect로 포커스
+
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -69,16 +71,15 @@ namespace Tcp_Server
             Keys key = keyData & ~(Keys.Shift | Keys.Control);
             switch (key)
             {
-                case Keys.Oemtilde:                               // 히든메뉴 열기 단축키 `
+                case Keys.Oemtilde:                                 // 히든메뉴 열기 단축키 `
                     {
-                        Timer_W.Start();
-                        Timer_H.Start();                          // 버튼 클릭시 타이머 실행 및 동작
+                        Button_hide.PerformClick();
                     }
                     break;
 
-                case Keys.F5:                                     // 단일키 사용시
+                case Keys.F5:                                       // 단일키 사용시
                     {
-
+                        ButtonConnect.PerformClick();
                     }
                     break;
 
@@ -94,7 +95,15 @@ namespace Tcp_Server
         private void Button_hide_Click(object sender, EventArgs e)
         {
             Timer_W.Start();
-            Timer_H.Start(); // 버튼 클릭시 타이머 실행 및 동작
+            Timer_H.Start();                    // 버튼 클릭시 타이머 실행 및 동작
+
+            if (Hidden == true)
+            { 
+                this.TextBox_SendText.Clear();  // 열때 TextBox_SendText 내부 비우기
+                this.TextBox_SendText.Focus();  // & TextBox_SendText로 포커스
+            }
+            else
+                this.ButtonConnect.Focus();     // ButtonConnect로 포커스
         }
 
         private void Timer_W_Tick(object sender, EventArgs e)
@@ -114,6 +123,7 @@ namespace Tcp_Server
                 PanelSlide_W.Width = PanelSlide_W.Width - 10;
                 if (PanelSlide_W.Width <= 0)            //목표크기에 도달할때까지 반복
                 {
+                    this.TextBox_SendText.Clear();
                     Timer_W.Stop();
                     Hidden = true;
                     this.Refresh();
@@ -438,6 +448,18 @@ namespace Tcp_Server
         private void ConnectTextBox_Enter(object sender, EventArgs e)
         {
             this.TextBox_SendText.Focus();
+        }
+
+        private void TextBox_SendText_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:                                       // 단일키 사용시
+                    {
+                        Button_SendText.PerformClick();
+                    }
+                    break;
+            }
         }
     }
 }
