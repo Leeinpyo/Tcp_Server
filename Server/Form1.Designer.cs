@@ -172,7 +172,7 @@ namespace Tcp_Server
             // PictureBox_ClientState
             // 
             this.PictureBox_ClientState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_ClientState.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.PictureBox_ClientState.BackColor = System.Drawing.Color.DarkRed;
             this.PictureBox_ClientState.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Connection_0_Icon;
             this.PictureBox_ClientState.Location = new System.Drawing.Point(10, 337);
             this.PictureBox_ClientState.Name = "PictureBox_ClientState";

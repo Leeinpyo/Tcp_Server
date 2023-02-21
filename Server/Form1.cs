@@ -206,6 +206,7 @@ namespace Tcp_Server
 
                 PictureBox_connect.Image = image[6];
                 PictureBox_ClientState.Image = image[7];
+                PictureBox_ClientState.BackColor = Color.DarkRed;
                 Label_connect.Text = "TCP Server OFFLINE";
                 ButtonConnect.Text = "Connect";
                 Label_ClientState.Text = "Disonnected";
@@ -278,6 +279,7 @@ namespace Tcp_Server
                     int nbytes;
                     connecting = true;
                     PictureBox_ClientState.Image = image[8];
+                    PictureBox_ClientState.BackColor = Color.DarkGreen;
                     ChangeText(Label_ClientState, "Connected");
 
                     while (connecting)
@@ -294,6 +296,7 @@ namespace Tcp_Server
                     Stream.Close();
                     Client.Close();
                     ChangePicture(PictureBox_ClientState, image[7]);
+                    PictureBox_ClientState.BackColor = Color.DarkRed;
                     ChangeText(Label_ClientState, "Disconnected");
                     connecting = false;
 
@@ -301,6 +304,7 @@ namespace Tcp_Server
                 catch (IOException)
                 {
                     ChangePicture(PictureBox_ClientState, image[7]);
+                    PictureBox_ClientState.BackColor = Color.DarkRed;
                     ChangeText(Label_ClientState, "Disconnected");
                     connecting = false;
 
@@ -316,6 +320,7 @@ namespace Tcp_Server
                 catch (FormatException)
                 {
                     ChangePicture(PictureBox_ClientState, image[7]);
+                    PictureBox_ClientState.BackColor = Color.DarkRed;
                     ChangeText(Label_ClientState, "Disconnected");
                     connecting = false;
 
@@ -330,6 +335,7 @@ namespace Tcp_Server
                 catch (SocketException)
                 {
                     ChangePicture(PictureBox_ClientState, image[7]);
+                    PictureBox_ClientState.BackColor = Color.DarkRed;
                     ChangeText(Label_ClientState, "Disconnected");
                     connecting = false;
                 }
