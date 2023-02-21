@@ -101,5 +101,8 @@
   <ItemGroup>
     <None Include="Resources\Client02_Linked_06.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Free Flat Button Solid Cross Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

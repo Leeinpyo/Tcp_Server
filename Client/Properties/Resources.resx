@@ -139,4 +139,7 @@
   <data name="Client02_Linked_06" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Client02_Linked_06.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Free_Flat_Button_Solid_Cross_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Free Flat Button Solid Cross Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

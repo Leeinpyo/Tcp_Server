@@ -18,6 +18,8 @@ namespace Tcp_Client
 
         bool connecting;                            // 연결상태
 
+        private Point mCurrentPosition = new Point(0, 0);                       // 창 제어
+
 
         public Form1()
         {
@@ -66,6 +68,54 @@ namespace Tcp_Client
                 Timer_ConnectICO.Start();
                 connecting = true;
             }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mCurrentPosition = new Point(-e.X, -e.Y);
+        }
+
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Location = new Point(
+                this.Location.X + (mCurrentPosition.X + e.X),
+                this.Location.Y + (mCurrentPosition.Y + e.Y));
+            }
+        }
+
+        private void PictureBox_Connect_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                mCurrentPosition = new Point(-e.X, -e.Y);
+        }
+
+        private void PictureBox_Connect_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Location = new Point(
+                this.Location.X + (mCurrentPosition.X + e.X),
+                this.Location.Y + (mCurrentPosition.Y + e.Y));
+            }
+        }
+
+        private void Button_Close_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }
