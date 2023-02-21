@@ -288,7 +288,21 @@ namespace Tcp_Server
                         {
                             nbytes = Stream.Read(buff, 0, buff.Length);                   // 들어오는거 기다리다가 받기
                             string output = Encoding.UTF8.GetString(buff, 0, nbytes);     // 받은거 디코딩 UTF8형식으로
-                            WriteMsg( DateTime.Now.ToString() + "받음 : " + output);      // 출력 (크로스쓰레드 회피 포함)
+
+                            if (output == "/CloseServer")
+                            {
+                                WriteMsg(DateTime.Now.ToString() + "\n[클라이언트로부터의 연결 종료]");
+                                Stream.Close();
+                                Client.Close();
+                                ChangePicture(PictureBox_ClientState, image[7]);
+                                PictureBox_ClientState.BackColor = Color.DarkRed;
+                                ChangeText(Label_ClientState, "Disconnected");
+                                connecting = false;
+                            }
+                            else
+                            {
+                                WriteMsg(DateTime.Now.ToString() + "\n[받음 : " + output +" ]");      // 출력 (크로스쓰레드 회피 포함)
+                            }
                         }
                         catch { connecting = false; }
                     }
