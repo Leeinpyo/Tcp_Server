@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading; // 추가
+using System.Net; // 추가
+using System.Net.Sockets; // 추가
+using System.IO; // 추가
 
 namespace Tcp_Client
 {
@@ -19,6 +23,9 @@ namespace Tcp_Client
         bool connecting;                            // 연결상태
 
         private Point mCurrentPosition = new Point(0, 0);                       // 창 제어
+
+        NetworkStream Stream;                       // 네트워크스트림
+        TcpClient Server;
 
 
         public Form1()
@@ -62,11 +69,17 @@ namespace Tcp_Client
                 pic_i = 0;
                 PictureBox_Connect.Image = image[pic_i];
                 connecting = false;
+
+                byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
+                Stream.Write(buff, 0, buff.Length);
+                Server.Close();
             }
             else
             {
                 Timer_ConnectICO.Start();
                 connecting = true;
+                Server = new TcpClient("169.254.84.181", 666);
+                Stream = Server.GetStream();
             }
         }
 
