@@ -33,7 +33,7 @@ namespace Tcp_Client
             this.Timer_ConnectICO = new System.Windows.Forms.Timer(this.components);
             this.Button_Connect = new System.Windows.Forms.Button();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.TextBox_SendText = new System.Windows.Forms.TextBox();
             this.PictureBox_Connect = new System.Windows.Forms.PictureBox();
             this.Button_Close = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Connect)).BeginInit();
@@ -67,13 +67,14 @@ namespace Tcp_Client
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
-            // textBox1
+            // TextBox_SendText
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Location = new System.Drawing.Point(12, 433);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(300, 21);
-            this.textBox1.TabIndex = 3;
+            this.TextBox_SendText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TextBox_SendText.Location = new System.Drawing.Point(12, 433);
+            this.TextBox_SendText.Name = "TextBox_SendText";
+            this.TextBox_SendText.Size = new System.Drawing.Size(300, 21);
+            this.TextBox_SendText.TabIndex = 3;
+            this.TextBox_SendText.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TextBox_SendText_PreviewKeyDown);
             // 
             // PictureBox_Connect
             // 
@@ -106,7 +107,7 @@ namespace Tcp_Client
             this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(324, 466);
             this.Controls.Add(this.Button_Close);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.TextBox_SendText);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.Button_Connect);
             this.Controls.Add(this.PictureBox_Connect);
@@ -128,7 +129,7 @@ namespace Tcp_Client
         private System.Windows.Forms.Timer Timer_ConnectICO;
         private System.Windows.Forms.Button Button_Connect;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox TextBox_SendText;
         private System.Windows.Forms.PictureBox Button_Close;
     }
 }

@@ -130,5 +130,37 @@ namespace Tcp_Client
         {
             Application.Exit();
         }
+
+
+
+        private void SendText()  // SendText 작동
+        {
+            if (connecting)                                             // 클라이언트 연결시
+            {
+                string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
+                byte[] buff = Encoding.UTF8.GetBytes(sendMsg);          // 바이트 아스키코드 형식으로 인코딩해주기
+
+                Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
+
+                TextBox_SendText.Clear();                               // 텍스트박스 비우기
+            }
+            else if (!connecting)                                       // 클라.... 없다?
+            {
+                TextBox_SendText.Clear();                                                           // 텍스트박스 비우기
+                MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");   // 알림메세지
+            }
+        }
+
+        private void TextBox_SendText_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Enter:   // 텍스트박스에 포커스 있는 상태에서 엔터 입력 들어오면 작동
+                    {
+                        SendText();
+                    }
+                    break;
+            }
+        }
     }
 }
