@@ -281,6 +281,7 @@ namespace Tcp_Server
                     PictureBox_ClientState.Image = image[8];
                     PictureBox_ClientState.BackColor = Color.DarkGreen;
                     ChangeText(Label_ClientState, "Connected");
+                    WriteMsg(DateTime.Now.ToString() + "\n[클라이언트와 연결됨!]");
 
                     while (connecting)
                     {
