@@ -14,7 +14,7 @@ using System.IO; // 추가
 
 namespace Tcp_Client
 {
-    public partial class Form1 : Form
+    public partial class Form2 : Form
     {
 
         readonly Bitmap[] image = new Bitmap[7];    // 이미지 리소스 저장슬롯
@@ -28,7 +28,7 @@ namespace Tcp_Client
         TcpClient Server;
 
 
-        public Form1()
+        public Form2()
         {
             InitializeComponent();
 

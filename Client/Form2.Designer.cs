@@ -1,7 +1,7 @@
 ﻿
 namespace Tcp_Client
 {
-    partial class Form1
+    partial class Form2
     {
         /// <summary>
         /// 필수 디자이너 변수입니다.
@@ -101,7 +101,7 @@ namespace Tcp_Client
             this.Button_Close.TabStop = false;
             this.Button_Close.Click += new System.EventHandler(this.Button_Close_Click);
             // 
-            // Form1
+            // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,7 +113,7 @@ namespace Tcp_Client
             this.Controls.Add(this.Button_Connect);
             this.Controls.Add(this.PictureBox_Connect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "Form2";
             this.Text = "Form1";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
