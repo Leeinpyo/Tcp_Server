@@ -78,7 +78,7 @@ namespace Tcp_Client
             {
                 Timer_ConnectICO.Start();
                 connecting = true;
-                Server = new TcpClient("169.254.84.181", 666);
+                Server = new TcpClient(GetLocalIP(), 666);
                 Stream = Server.GetStream();
             }
         }
@@ -133,11 +133,49 @@ namespace Tcp_Client
 
 
 
+        public static string GetLocalIP() // 내 ip 주소 찾기
+        {
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            string LocalIP = string.Empty;
+
+            for (int i = 0; i < host.AddressList.Length; i++)
+            {
+                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                {
+                    LocalIP = host.AddressList[i].ToString();
+                    break;
+                }
+            }
+            return LocalIP;
+        }
+
+
+        private void TextPrint(string s)
+        {
+            if (RichTextBox_Client.InvokeRequired)
+            {
+                RichTextBox_Client.Invoke(new MethodInvoker(delegate ()
+                {
+                    RichTextBox_Client.AppendText($"{s}\n");
+                    RichTextBox_Client.ScrollToCaret();
+                }));
+            }
+            else
+            {
+                RichTextBox_Client.AppendText($"{s}\n");
+                RichTextBox_Client.ScrollToCaret();
+            }
+        }
+
+
         private void SendText()  // SendText 작동
         {
             if (connecting)                                             // 클라이언트 연결시
             {
                 string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
+
+                TextPrint(sendMsg);
+
                 byte[] buff = Encoding.UTF8.GetBytes(sendMsg);          // 바이트 아스키코드 형식으로 인코딩해주기
 
                 Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
@@ -161,6 +199,11 @@ namespace Tcp_Client
                     }
                     break;
             }
+        }
+
+        private void RichTextBox_Client_Enter(object sender, EventArgs e)
+        {
+            this.TextBox_SendText.Focus();
         }
     }
 }

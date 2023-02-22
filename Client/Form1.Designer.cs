@@ -32,7 +32,7 @@ namespace Tcp_Client
             this.components = new System.ComponentModel.Container();
             this.Timer_ConnectICO = new System.Windows.Forms.Timer(this.components);
             this.Button_Connect = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.RichTextBox_Client = new System.Windows.Forms.RichTextBox();
             this.TextBox_SendText = new System.Windows.Forms.TextBox();
             this.PictureBox_Connect = new System.Windows.Forms.PictureBox();
             this.Button_Close = new System.Windows.Forms.PictureBox();
@@ -57,15 +57,16 @@ namespace Tcp_Client
             this.Button_Connect.UseVisualStyleBackColor = false;
             this.Button_Connect.Click += new System.EventHandler(this.Button_Connect_Click);
             // 
-            // richTextBox1
+            // RichTextBox_Client
             // 
-            this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Location = new System.Drawing.Point(12, 203);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(300, 225);
-            this.richTextBox1.TabIndex = 2;
-            this.richTextBox1.Text = "";
+            this.RichTextBox_Client.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.RichTextBox_Client.Location = new System.Drawing.Point(12, 203);
+            this.RichTextBox_Client.Name = "RichTextBox_Client";
+            this.RichTextBox_Client.ReadOnly = true;
+            this.RichTextBox_Client.Size = new System.Drawing.Size(300, 225);
+            this.RichTextBox_Client.TabIndex = 2;
+            this.RichTextBox_Client.Text = "";
+            this.RichTextBox_Client.Enter += new System.EventHandler(this.RichTextBox_Client_Enter);
             // 
             // TextBox_SendText
             // 
@@ -108,7 +109,7 @@ namespace Tcp_Client
             this.ClientSize = new System.Drawing.Size(324, 466);
             this.Controls.Add(this.Button_Close);
             this.Controls.Add(this.TextBox_SendText);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.RichTextBox_Client);
             this.Controls.Add(this.Button_Connect);
             this.Controls.Add(this.PictureBox_Connect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -128,7 +129,7 @@ namespace Tcp_Client
         private System.Windows.Forms.PictureBox PictureBox_Connect;
         private System.Windows.Forms.Timer Timer_ConnectICO;
         private System.Windows.Forms.Button Button_Connect;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox RichTextBox_Client;
         private System.Windows.Forms.TextBox TextBox_SendText;
         private System.Windows.Forms.PictureBox Button_Close;
     }
