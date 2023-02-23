@@ -17,14 +17,14 @@ namespace Tcp_Client
     public partial class Form2 : Form
     {
 
-        readonly Bitmap[] image = new Bitmap[7];    // 이미지 리소스 저장슬롯
-        int pic_i;                                  // 움직이는 이미지 제어
+        readonly Bitmap[] image = new Bitmap[7];            // 이미지 리소스 저장슬롯
+        int pic_i;                                          // 움직이는 이미지 제어
 
-        bool connecting;                            // 연결상태
+        bool connecting;                                    // 연결상태
 
-        private Point mCurrentPosition = new Point(0, 0);                       // 창 제어
+        private Point mCurrentPosition = new Point(0, 0);   // 창 제어
 
-        NetworkStream Stream;                       // 네트워크스트림
+        NetworkStream Stream;                               // 네트워크스트림
         TcpClient Server;
 
 
@@ -73,13 +73,25 @@ namespace Tcp_Client
                 byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
                 Stream.Write(buff, 0, buff.Length);
                 Server.Close();
+
+                TextPrint("[연결이 종료되었습니다.]");
             }
             else
             {
+                try
+                {
+                    Server = new TcpClient(GetLocalIP(), 666);
+                }
+                catch (SocketException)
+                {
+                    MessageBoxEx.Show(this, "목표 서버가 닫혀있습니다.", "오류");   // 알림메세지
+                    return;
+                }
                 Timer_ConnectICO.Start();
-                connecting = true;
-                Server = new TcpClient(GetLocalIP(), 666);
                 Stream = Server.GetStream();
+                connecting = true;
+
+                TextPrint("[연결이 시작되었습니다.]");
             }
         }
 
@@ -170,22 +182,49 @@ namespace Tcp_Client
 
         private void SendText()  // SendText 작동
         {
-            if (connecting)                                             // 클라이언트 연결시
+            if (connecting)
             {
-                string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
+                string sendMsg = TextBox_SendText.Text;                         // TextBox_SendText 텍스트 박스에 있는 string을
 
-                TextPrint(sendMsg);
+                if (sendMsg == "/CloseServer")
+                {
+                    Timer_ConnectICO.Stop();
+                    pic_i = 0;
+                    PictureBox_Connect.Image = image[pic_i];
+                    connecting = false;
 
-                byte[] buff = Encoding.UTF8.GetBytes(sendMsg);          // 바이트 아스키코드 형식으로 인코딩해주기
+                    byte[] buff1 = Encoding.ASCII.GetBytes("/CloseServer");
+                    Stream.Write(buff1, 0, buff1.Length);
+                    Server.Close();
+                    TextPrint("[/CloseServer 명령어 입력]\n[연결이 종료되었습니다.]");
+                    TextBox_SendText.Clear();
+                }
+                else
+                {
+                    TextPrint(sendMsg);
 
-                Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
+                    byte[] buff2 = Encoding.UTF8.GetBytes(sendMsg);             // 바이트 아스키코드 형식으로 인코딩해주기
+                    try
+                    {
+                        Stream.Write(buff2, 0, buff2.Length);                       // 그걸 서버로 쏴주기
+                    }
+                    catch (IOException)
+                    {
+                        Timer_ConnectICO.Stop();
+                        pic_i = 0;
+                        PictureBox_Connect.Image = image[pic_i];
+                        connecting = false;
 
-                TextBox_SendText.Clear();                               // 텍스트박스 비우기
+                        Server.Close();
+                        TextPrint("[서버와의 연결이 끊겼습니다.]");
+                    }   
+                    TextBox_SendText.Clear();                                                       // 텍스트박스 비우기
+                }
             }
-            else if (!connecting)                                       // 클라.... 없다?
+            else if (!connecting)                                                                   // 서버.... 없다?
             {
                 TextBox_SendText.Clear();                                                           // 텍스트박스 비우기
-                MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");   // 알림메세지
+                MessageBoxEx.Show(this, "연결된 서버가 없어 수신이 불가능합니다.", "알림");         // 알림메세지
             }
         }
 
