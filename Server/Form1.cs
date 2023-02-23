@@ -303,6 +303,7 @@ namespace Tcp_Server
                             else
                             {
                                 WriteMsg(DateTime.Now.ToString() + "\n[받음 : " + output +" ]");      // 출력 (크로스쓰레드 회피 포함)
+                                WriteMsg(DateTime.Now.ToString() + "\n[받음 : " + output + " ]");      // 출력 (크로스쓰레드 회피 포함)
                             }
                         }
                         catch { connecting = false; }
