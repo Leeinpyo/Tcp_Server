@@ -27,8 +27,10 @@ namespace Tcp_Server
         Thread threadServer;                        // 쓰레드 : threadServer
         bool threadST = true;                       // 쓰레드 상태
 
-        NetworkStream Stream;                       // 네트워크스트림
-        TcpClient Client;
+        TcpClient Client; 
+        TcpClient clientSocket;
+        int clientNo;
+        static int counter = 0;
 
 
         private TcpListener tcpListener;            // 리스너 대기
@@ -206,8 +208,8 @@ namespace Tcp_Server
 
                 PictureBox_Server.Visible = false;
 
-                if (Stream != null)
-                    Stream.Close();
+                //if (Stream != null)
+                //    Stream.Close();
 
                 if (Client != null)
                     Client.Close();
@@ -280,55 +282,14 @@ namespace Tcp_Server
             tcpListener = new TcpListener(IPAddress.Parse(TextBox_IPadress.Text), int.Parse(TextBox_IPport.Text)); // 서버 객체 생성 및 IP주소와 Port번호를 할당
             tcpListener.Start();  // 서버 시작
 
-            byte[] buff = new byte[1024];
 
             while (threadST)
             {
                 try
                 {
                     Client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
-
-                    Stream = Client.GetStream(); // 클라이언트에서 네트워크 스트림 받기
-
-                    int nbytes;
-                    connecting = true;
-                    PictureBox_ClientState.Image = image[8];
-                    PictureBox_ClientState.BackColor = Color.DarkGreen;
-                    ChangeText(Label_ClientState, "Connected");
-                    WriteMsg(DateTime.Now.ToString() + "\n[클라이언트와 연결됨!]");
-
-                    while (connecting)
-                    {
-                        try
-                        {
-                            nbytes = Stream.Read(buff, 0, buff.Length);                   // 들어오는거 기다리다가 받기
-                            string output = Encoding.UTF8.GetString(buff, 0, nbytes);     // 받은거 디코딩 UTF8형식으로
-
-                            if (output == "/CloseServer")
-                            {
-                                WriteMsg(DateTime.Now.ToString() + "\n[클라이언트로부터의 연결 종료]");
-                                Stream.Close();
-                                Client.Close();
-                                ChangePicture(PictureBox_ClientState, image[7]);
-                                PictureBox_ClientState.BackColor = Color.DarkRed;
-                                ChangeText(Label_ClientState, "Disconnected");
-                                connecting = false;
-                            }
-                            else
-                            {
-                                WriteMsg(DateTime.Now.ToString() + "\n[받음 : " + output +" ]");      // 출력 (크로스쓰레드 회피 포함)
-                            }
-                        }
-                        catch { connecting = false; }
-                    }
-                    //클라랑 연결 끊김
-                    Stream.Close();
-                    Client.Close();
-                    ChangePicture(PictureBox_ClientState, image[7]);
-                    PictureBox_ClientState.BackColor = Color.DarkRed;
-                    ChangeText(Label_ClientState, "Disconnected");
-                    connecting = false;
-
+                    ++counter;
+                    startClient(Client,counter);
                 }
                 catch (IOException)
                 {
@@ -372,6 +333,69 @@ namespace Tcp_Server
         }
 
 
+        public void startClient(TcpClient ClientSocket, int clientNo)
+        {
+            this.clientSocket = ClientSocket;
+            this.clientNo = clientNo;
+
+            Thread t_hanlder = new Thread(ConnectionThread);
+            t_hanlder.IsBackground = true;
+            t_hanlder.Start();
+        }
+
+
+
+        private void ConnectionThread()
+        {
+            TcpClient ConnectionSoket = clientSocket;
+            int connectionNo = clientNo;
+
+            NetworkStream Stream = ConnectionSoket.GetStream(); // 클라이언트에서 네트워크 스트림 받기
+
+
+            byte[] buff = new byte[1024];
+
+            int nbytes;
+            connecting = true;
+            PictureBox_ClientState.Image = image[8];
+            PictureBox_ClientState.BackColor = Color.DarkGreen;
+            ChangeText(Label_ClientState, "Connected");
+            WriteMsg(DateTime.Now.ToString()  + "\n[" + connectionNo.ToString() + "번 클라이언트와 연결됨!]");
+
+            while (true)
+            {
+                try
+                {
+                    nbytes = Stream.Read(buff, 0, buff.Length);                   // 들어오는거 기다리다가 받기
+                    string output = Encoding.UTF8.GetString(buff, 0, nbytes);     // 받은거 디코딩 UTF8형식으로
+
+                    if (output == "/CloseServer")
+                    {
+                        WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
+                        Stream.Close();
+                        ConnectionSoket.Close();
+
+                        break;
+                    }
+                    else
+                    {
+                        WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번에게 받음 : " + output + " ]");      // 출력 (크로스쓰레드 회피 포함)
+                    }
+                }
+                catch 
+                {
+                    //클라랑 연결 끊김
+                    WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
+                    Stream.Close();
+                    ConnectionSoket.Close();
+
+                    break;
+                }
+            }
+
+        }
+
+
         public static string GetLocalIP() // 내 ip 주소 찾기
         {
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -395,7 +419,7 @@ namespace Tcp_Server
                 string sendMsg = TextBox_SendText.Text;                 // TextBox_SendText 텍스트 박스에 있는 string을
                 byte[] buff = Encoding.UTF8.GetBytes(sendMsg);          // 바이트 아스키코드 형식으로 인코딩해주기
 
-                Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
+                //Stream.Write(buff, 0, buff.Length);                     // 그걸 클라로 쏴주기
                 
                 TextBox_SendText.Clear();                               // 텍스트박스 비우기
             }
