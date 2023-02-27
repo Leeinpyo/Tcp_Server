@@ -16,6 +16,8 @@ namespace Tcp_Server
 {
     public partial class Form1 : Form
     {
+        int Start_Time = 3;
+
         readonly int panelWidth;                    // Hidden 메뉴 패널 폭 제어
         readonly int panalHeight;                   // Hidden 메뉴 패널 높이 제어
         bool Hidden;                                // Hidden 메뉴 상태
@@ -63,6 +65,8 @@ namespace Tcp_Server
             image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;    //사용할 이미지 리소스 미리 불러놓기
 
             this.ActiveControl = ButtonConnect;                             // ButtonConnect로 포커스
+
+            Timer_Start.Start();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -189,6 +193,11 @@ namespace Tcp_Server
 
         private void ButtonConnect_Click(object sender, EventArgs e)            // 서버 열기/닫기
         {
+            ServerONOFF();
+        }
+
+        private void ServerONOFF()
+        {
             if (Server_status == true)
             {
                 threadST = false;
@@ -208,7 +217,7 @@ namespace Tcp_Server
                 PictureBox_ClientState.Image = image[7];
                 PictureBox_ClientState.BackColor = Color.DarkRed;
                 Label_connect.Text = "TCP Server OFFLINE";
-                ButtonConnect.Text = "Connect";
+                ButtonConnect.Text = "Start";
                 Label_ClientState.Text = "Disonnected";
                 Timer_ONLINE.Stop();
                 this.Refresh();
@@ -217,16 +226,16 @@ namespace Tcp_Server
             {
                 if (!IPAddress.TryParse(TextBox_IPadress.Text, out _))
                 {
-                    MessageBoxEx.Show(this, "올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.","오류");
+                    MessageBoxEx.Show(this, "올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.", "오류");
                     return;
                 }
 
                 if (!int.TryParse(TextBox_IPport.Text, out _))
                 {
-                    MessageBoxEx.Show(this, "올바르지 않은 포트 번호를 입력하였습니다. \n포트 번호는 숫자만 입력하여 주십시오.","오류");
+                    MessageBoxEx.Show(this, "올바르지 않은 포트 번호를 입력하였습니다. \n포트 번호는 숫자만 입력하여 주십시오.", "오류");
                     return;
                 }
-                
+
                 threadServer = new Thread(connect); // Form과는 별도 쓰레드에서 connect 함수가 실행됨.
                 threadServer.IsBackground = true;   // Form이 종료되면 threadServer 쓰레드도 종료.
                 threadServer.Start();               // threadServer 시작.
@@ -235,11 +244,12 @@ namespace Tcp_Server
                 Server_status = true;
 
                 Label_connect.Text = "TCP Server ONLINE";
-                ButtonConnect.Text = "Disconnect";
+                ButtonConnect.Text = "Stop";
                 pic_i = 0;
                 Timer_ONLINE.Start();
             }
         }
+
 
         private void Timer_ONLINE_Tick(object sender, EventArgs e) // 움직이는 이미지 구현
         {
@@ -496,6 +506,20 @@ namespace Tcp_Server
                         Button_SendText.PerformClick();
                     }
                     break;
+            }
+        }
+
+        private void Timer_Start_Tick(object sender, EventArgs e)
+        {
+            if (Start_Time >= 0)
+            {
+                ChangeText(ButtonConnect,Convert.ToString(Start_Time));
+                --Start_Time;
+            }
+            else
+            {
+                ServerONOFF();
+                Timer_Start.Stop();
             }
         }
     }

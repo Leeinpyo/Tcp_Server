@@ -54,6 +54,7 @@ namespace Tcp_Server
             this.Timer_W = new System.Windows.Forms.Timer(this.components);
             this.Timer_H = new System.Windows.Forms.Timer(this.components);
             this.Timer_ONLINE = new System.Windows.Forms.Timer(this.components);
+            this.Timer_Start = new System.Windows.Forms.Timer(this.components);
             this.PanelUpper.SuspendLayout();
             this.PanelSide.SuspendLayout();
             this.PanelSlide_W.SuspendLayout();
@@ -307,7 +308,7 @@ namespace Tcp_Server
             this.ButtonConnect.Name = "ButtonConnect";
             this.ButtonConnect.Size = new System.Drawing.Size(106, 23);
             this.ButtonConnect.TabIndex = 0;
-            this.ButtonConnect.Text = "Connect";
+            this.ButtonConnect.Text = "AutoStart";
             this.ButtonConnect.UseVisualStyleBackColor = true;
             this.ButtonConnect.Click += new System.EventHandler(this.ButtonConnect_Click);
             // 
@@ -348,6 +349,11 @@ namespace Tcp_Server
             // 
             this.Timer_ONLINE.Interval = 260;
             this.Timer_ONLINE.Tick += new System.EventHandler(this.Timer_ONLINE_Tick);
+            // 
+            // Timer_Start
+            // 
+            this.Timer_Start.Interval = 1000;
+            this.Timer_Start.Tick += new System.EventHandler(this.Timer_Start_Tick);
             // 
             // Form1
             // 
@@ -404,6 +410,7 @@ namespace Tcp_Server
         private System.Windows.Forms.TextBox TextBox_SendText;
         private System.Windows.Forms.PictureBox PictureBox_ClientState;
         private System.Windows.Forms.Label Label_ClientState;
+        private System.Windows.Forms.Timer Timer_Start;
     }
 }
 
