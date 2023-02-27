@@ -140,6 +140,10 @@ namespace Tcp_Client
 
         private void Button_Close_Click(object sender, EventArgs e)
         {
+            byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
+            Stream.Write(buff, 0, buff.Length);
+            Server.Close();
+
             Application.Exit();
         }
 
@@ -236,6 +240,30 @@ namespace Tcp_Client
                     }
                     break;
             }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            Keys key = keyData & ~(Keys.Shift | Keys.Control);
+            switch (key)
+            {
+                case Keys.Alt | Keys.F4:
+                    {
+                        byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
+                        Stream.Write(buff, 0, buff.Length);
+                        Server.Close();
+
+                        Application.Exit();
+                    }
+                    break;
+
+                default:
+
+                    return base.ProcessCmdKey(ref msg, keyData);
+            }
+
+            return true;
+
         }
 
         private void RichTextBox_Client_Enter(object sender, EventArgs e)
