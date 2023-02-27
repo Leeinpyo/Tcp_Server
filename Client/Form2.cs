@@ -143,8 +143,6 @@ namespace Tcp_Client
             Application.Exit();
         }
 
-
-
         public static string GetLocalIP() // 내 ip 주소 찾기
         {
             IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
@@ -244,5 +242,6 @@ namespace Tcp_Client
         {
             this.TextBox_SendText.Focus();
         }
+
     }
 }

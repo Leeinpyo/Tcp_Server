@@ -52,7 +52,7 @@ namespace Tcp_Server
 
             pic_i = 0; //움직이는 이미지 제어용
 
-            TextBox_IPadress.Text = GetLocalIP();// 폼 로드시 내 PC의 IP 주소 자동입력
+            TextBox_IPadress.Text= GetLocalIP();// 폼 로드시 내 PC의 IP 주소 자동입력
 
             image[0] = Properties.Resources.Free_Flat_Signal_Up_0_Icon;
             image[1] = Properties.Resources.Free_Flat_Signal_Up_1_Icon;
@@ -186,23 +186,25 @@ namespace Tcp_Server
             Application.Exit(); 
         }
 
-        private void ButtonMin_Click(object sender, EventArgs e)                // 최소화
+        private void ButtonMin_Click(object sender, EventArgs e)                    // 최소화
         {
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;  
         }
 
-        private void ButtonConnect_Click(object sender, EventArgs e)            // 서버 열기/닫기
+        private void ButtonConnect_Click(object sender, EventArgs e)            
         {
             ServerONOFF();
         }
 
-        private void ServerONOFF()
+        private void ServerONOFF()                                                  // 서버 열기/닫기
         {
             if (Server_status == true)
             {
                 threadST = false;
                 connecting = false;
                 Server_status = false;
+
+                PictureBox_Server.Visible = false;
 
                 if (Stream != null)
                     Stream.Close();
@@ -217,7 +219,7 @@ namespace Tcp_Server
                 PictureBox_ClientState.Image = image[7];
                 PictureBox_ClientState.BackColor = Color.DarkRed;
                 Label_connect.Text = "TCP Server OFFLINE";
-                ButtonConnect.Text = "Start";
+                ButtonConnect.Text = "START";
                 Label_ClientState.Text = "Disonnected";
                 Timer_ONLINE.Stop();
                 this.Refresh();
@@ -240,11 +242,13 @@ namespace Tcp_Server
                 threadServer.IsBackground = true;   // Form이 종료되면 threadServer 쓰레드도 종료.
                 threadServer.Start();               // threadServer 시작.
 
+                PictureBox_Server.Visible = true;
+
                 threadST = true;
                 Server_status = true;
 
                 Label_connect.Text = "TCP Server ONLINE";
-                ButtonConnect.Text = "Stop";
+                ButtonConnect.Text = "STOP";
                 pic_i = 0;
                 Timer_ONLINE.Start();
             }
