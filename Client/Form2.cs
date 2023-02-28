@@ -7,24 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading; // 추가
-using System.Net; // 추가
-using System.Net.Sockets; // 추가
-using System.IO; // 추가
+using System.Threading;                                                                                             // 추가
+using System.Net;                                                                                                   // 추가
+using System.Net.Sockets;                                                                                           // 추가
+using System.IO;                                                                                                    // 추가
 
 namespace Tcp_Client
 {
     public partial class Form2 : Form
     {
 
-        readonly Bitmap[] image = new Bitmap[7];            // 이미지 리소스 저장슬롯
-        int pic_i;                                          // 움직이는 이미지 제어
+        readonly Bitmap[] image = new Bitmap[7];                                                                    // 이미지 리소스 저장슬롯
+        int pic_i;                                                                                                  // 움직이는 이미지 제어
 
-        bool connecting;                                    // 연결상태
+        bool connecting;                                                                                            // 연결상태
 
-        private Point mCurrentPosition = new Point(0, 0);   // 창 제어
+        private Point mCurrentPosition = new Point(0, 0);                                                           // 창 제어
 
-        NetworkStream Stream;                               // 네트워크스트림
+        NetworkStream Stream;                                                                                       // 네트워크스트림
         TcpClient Server;
 
 
@@ -41,7 +41,7 @@ namespace Tcp_Client
             image[3] = Properties.Resources.Client02_Linked_03;
             image[4] = Properties.Resources.Client02_Linked_04;
             image[5] = Properties.Resources.Client02_Linked_05;
-            image[6] = Properties.Resources.Client02_Linked_06;   //사용할 이미지 리소스 미리 불러놓기
+            image[6] = Properties.Resources.Client02_Linked_06;                                                     //사용할 이미지 리소스 미리 불러놓기
 
 
             PictureBox_Connect.Image = image[pic_i];
@@ -84,7 +84,7 @@ namespace Tcp_Client
                 }
                 catch (SocketException)
                 {
-                    MessageBoxEx.Show(this, "목표 서버가 닫혀있습니다.", "오류");   // 알림메세지
+                    MessageBoxEx.Show(this, "목표 서버가 닫혀있습니다.", "오류");                                   // 알림메세지
                     return;
                 }
                 Timer_ConnectICO.Start();

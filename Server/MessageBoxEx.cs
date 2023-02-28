@@ -5,7 +5,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 
 // 본 클래스는 메세지박스를 무조건 부모 폼의 가운데에 출력하는 기능을 쉽게 구현해줍니다.
-// 호출자가 다른 스레드에 있을 때는 호출 메서드를 호출하도록 합니다.
+// 호출자가 다른 스레드에 있을 때는 호출 메서드를 호출하도록 합니다. (크로스쓰레딩 문제 해결)
 
 namespace Tcp_Server
 {
