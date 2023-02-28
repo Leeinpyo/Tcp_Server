@@ -24,6 +24,11 @@ namespace Tcp_Server
         bool Server_status;                         // 서버 상태
         bool connecting;                            // 클라이언트 연결상태
 
+
+        //make 3 slot bools
+        readonly bool[] slot = new bool[3];         // 012
+
+
         Thread threadServer;                        // 쓰레드 : threadServer
         bool threadST = true;                       // 쓰레드 상태
 
@@ -288,8 +293,22 @@ namespace Tcp_Server
                 try
                 {
                     Client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
-                    ++counter;
-                    startClient(Client,counter);
+                    
+                    if (Client == null)
+                    {
+                        break;
+                    }
+                    if (Client != null)
+                    {
+                        for (counter = 0; counter < 3; counter++)
+                        {
+                            if (slot[counter] == false)
+                            {
+                                startClient(Client, counter);
+                                break;
+                            }
+                        }  
+                    }
                 }
                 catch (IOException)
                 {
@@ -338,20 +357,57 @@ namespace Tcp_Server
             this.clientSocket = ClientSocket;
             this.clientNo = clientNo;
 
-            Thread t_hanlder = new Thread(ConnectionThread);
-            t_hanlder.IsBackground = true;
-            t_hanlder.Start();
+            if (clientNo==0)
+            {
+                Thread t_hanlder = new Thread(ConnectionThread);
+                t_hanlder.IsBackground = true;
+                t_hanlder.Start();
+                slot[0] = true;
+            }
+            if (clientNo==1)
+            {
+                Thread t_hanlder = new Thread(ConnectionThread);
+                t_hanlder.IsBackground = true;
+                t_hanlder.Start();
+                slot[1] = true;
+            }
+            if (clientNo==2)
+            {
+                Thread t_hanlder = new Thread(ConnectionThread);
+                t_hanlder.IsBackground = true;
+                t_hanlder.Start();
+                slot[2] = true;
+            }
+            if (clientNo>=3)
+            {
+                WriteMsg(DateTime.Now.ToString() + "\n[더 이상 클라이언트를 받을 수 없습니다.]");
+            }
         }
-
 
 
         private void ConnectionThread()
         {
             TcpClient ConnectionSoket = clientSocket;
-            int connectionNo = clientNo;
+            int connectionNo = clientNo +1;
+
+            if (connectionNo == 1)
+            {
+                //PictureBox_Client1.Visible = true;
+                ChangePicVisible(PictureBox_Client1, true);
+            }
+            if (connectionNo == 2)
+            {
+                //PictureBox_Client2.Visible = true;
+                ChangePicVisible(PictureBox_Client2, true);
+            }
+            if (connectionNo == 3)
+            {
+                //PictureBox_Client3.Visible = true;
+                ChangePicVisible(PictureBox_Client3, true);
+            }
 
             NetworkStream Stream = ConnectionSoket.GetStream(); // 클라이언트에서 네트워크 스트림 받기
-
+            
 
             byte[] buff = new byte[1024];
 
@@ -374,7 +430,7 @@ namespace Tcp_Server
                         WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
                         Stream.Close();
                         ConnectionSoket.Close();
-
+                        ConnectionClose();
                         break;
                     }
                     else
@@ -388,12 +444,48 @@ namespace Tcp_Server
                     WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
                     Stream.Close();
                     ConnectionSoket.Close();
-
+                    ConnectionClose();
                     break;
                 }
+
+
+                void ConnectionClose()
+                {
+                    if (connectionNo == 1)
+                    {
+                        slot[0] = false;
+                        //PictureBox_Client1.Visible = false;
+                        ChangePicVisible(PictureBox_Client1, false);
+                    }
+                    if (connectionNo == 2)
+                    {
+                        slot[1] = false;
+                        //PictureBox_Client2.Visible = false;
+                        ChangePicVisible(PictureBox_Client2, false);
+                    }
+                    if (connectionNo == 3)
+                    {
+                        slot[2] = false;
+                        //PictureBox_Client3.Visible = false;
+                        ChangePicVisible(PictureBox_Client3, false);
+                    }
+                    if (!slot[0] && !slot[1] && !slot[2])                   //전부꺼지면
+                    {
+                        ChangePicture(PictureBox_ClientState, image[7]);
+                        PictureBox_ClientState.BackColor = Color.DarkRed;
+                        ChangeText(Label_ClientState, "Disconnected");
+                        connecting = false;
+                    }
+                }
+
+
             }
 
         }
+
+        
+
+
 
 
         public static string GetLocalIP() // 내 ip 주소 찾기
@@ -484,6 +576,19 @@ namespace Tcp_Server
             }
             else
                 picBox.Image = image;
+        }
+
+        private void ChangePicVisible(PictureBox picBox, bool b)      // 크로스스레딩 익셉션 회피
+        {
+            if (picBox.InvokeRequired)
+            {
+                picBox.Invoke(new MethodInvoker(delegate ()
+                {
+                    picBox.Visible = b;
+                }));
+            }
+            else
+                picBox.Visible = b;
         }
 
         private Point mCurrentPosition = new Point(0, 0);                       // 여기부터 창 제어파트
