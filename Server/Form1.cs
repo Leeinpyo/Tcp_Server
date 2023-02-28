@@ -171,7 +171,12 @@ namespace Tcp_Server
         {
             if (Server_status == true)
             {
-                if (MessageBoxEx.Show(this,"정말 종료하시겠습니까? 서버가 켜져있습니다.", "경고", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                DialogResult result;
+                using (new MessageBoxEx(this))
+                {
+                    result = MessageBox.Show("정말 종료하시겠습니까? 서버가 켜져있습니다.", "경고", MessageBoxButtons.YesNo);
+                }
+                if ( result == DialogResult.Yes)
                 {
                     Timer_W.Stop();
                     Timer_H.Stop();
@@ -234,13 +239,21 @@ namespace Tcp_Server
             {
                 if (!IPAddress.TryParse(TextBox_IPadress.Text, out _))
                 {
-                    MessageBoxEx.Show(this, "올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.", "오류");
+                    //MessageBoxEx.Show(this, "올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.", "오류");
+                    using (new MessageBoxEx(this))
+                    {
+                        MessageBox.Show("올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.", "오류");
+                    }
                     return;
                 }
 
                 if (!int.TryParse(TextBox_IPport.Text, out _))
                 {
-                    MessageBoxEx.Show(this, "올바르지 않은 포트 번호를 입력하였습니다. \n포트 번호는 숫자만 입력하여 주십시오.", "오류");
+                    //MessageBoxEx.Show(this, "올바르지 않은 포트 번호를 입력하였습니다. \n포트 번호는 숫자만 입력하여 주십시오.", "오류");
+                    using (new MessageBoxEx(this))
+                    {
+                        MessageBox.Show("올바르지 않은 포트 번호를 입력하였습니다. \n포트 번호는 숫자만 입력하여 주십시오.", "오류");
+                    }
                     return;
                 }
 
@@ -317,7 +330,13 @@ namespace Tcp_Server
                     connecting = false;
 
                     MethodInvoker methodInvokerDelegate = delegate ()
-                    { MessageBoxEx.Show(this, "클라이언트와의 연결이 끊겼습니다.", "연결"); };
+                    {
+                        using (new MessageBoxEx(this))
+                        {
+                            MessageBox.Show("클라이언트와의 연결이 끊겼습니다.", "연결");
+                        }
+                        //MessageBoxEx.Show(this, "클라이언트와의 연결이 끊겼습니다.", "연결"); 
+                    };
 
                     if (this.InvokeRequired)
                         this.Invoke(methodInvokerDelegate);
@@ -333,7 +352,13 @@ namespace Tcp_Server
                     connecting = false;
 
                     MethodInvoker methodInvokerDelegate = delegate ()
-                    { MessageBoxEx.Show(this, "FormatException", "오류"); };
+                    {
+                        using (new MessageBoxEx(this))
+                        {
+                            MessageBox.Show("FormatException", "오류");
+                        }
+                        //MessageBoxEx.Show(this, "FormatException", "오류"); 
+                    };
 
                     if (this.InvokeRequired)
                         this.Invoke(methodInvokerDelegate);
@@ -517,7 +542,11 @@ namespace Tcp_Server
             else if (!connecting)                                                                                   // 클라.... 없다?
             {
                 TextBox_SendText.Clear();                                                                           // 텍스트박스 비우기
-                MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");                   // 알림메세지
+                using (new MessageBoxEx(this))
+                {
+                    MessageBox.Show("연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");
+                }
+                //MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");                   // 알림메세지
             }
         }
 

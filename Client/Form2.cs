@@ -84,7 +84,11 @@ namespace Tcp_Client
                 }
                 catch (SocketException)
                 {
-                    MessageBoxEx.Show(this, "목표 서버가 닫혀있습니다.", "오류");                                   // 알림메세지
+                    //MessageBoxEx.Show(this, "목표 서버가 닫혀있습니다.", "오류");                                 // 알림메세지
+                    using (new MessageBoxEx(this))
+                    {
+                        MessageBox.Show("목표 서버가 닫혀있습니다.", "오류");
+                    }
                     return;
                 }
                 Timer_ConnectICO.Start();
@@ -189,7 +193,7 @@ namespace Tcp_Client
         {
             if (connecting)
             {
-                string sendMsg = TextBox_SendText.Text;                         // TextBox_SendText 텍스트 박스에 있는 string을
+                string sendMsg = TextBox_SendText.Text;                                                             // TextBox_SendText 텍스트 박스에 있는 string을
 
                 if (sendMsg == "/CloseServer")
                 {
@@ -208,10 +212,10 @@ namespace Tcp_Client
                 {
                     TextPrint(sendMsg);
 
-                    byte[] buff2 = Encoding.UTF8.GetBytes(sendMsg);             // 바이트 아스키코드 형식으로 인코딩해주기
+                    byte[] buff2 = Encoding.UTF8.GetBytes(sendMsg);                                                 // 바이트 아스키코드 형식으로 인코딩해주기
                     try
                     {
-                        Stream.Write(buff2, 0, buff2.Length);                       // 그걸 서버로 쏴주기
+                        Stream.Write(buff2, 0, buff2.Length);                                                       // 그걸 서버로 쏴주기
                     }
                     catch (IOException)
                     {
@@ -223,13 +227,18 @@ namespace Tcp_Client
                         Server.Close();
                         TextPrint("[서버와의 연결이 끊겼습니다.]");
                     }   
-                    TextBox_SendText.Clear();                                                       // 텍스트박스 비우기
+                    TextBox_SendText.Clear();                                                                       // 텍스트박스 비우기
                 }
             }
-            else if (!connecting)                                                                   // 서버.... 없다?
+            else if (!connecting)                                                                                   // 서버.... 없다?
             {
-                TextBox_SendText.Clear();                                                           // 텍스트박스 비우기
-                MessageBoxEx.Show(this, "연결된 서버가 없어 수신이 불가능합니다.", "알림");         // 알림메세지
+                TextBox_SendText.Clear();                                                                           // 텍스트박스 비우기
+                //MessageBoxEx.Show(this, "연결된 서버가 없어 수신이 불가능합니다.", "알림");                       // 알림메세지
+                using (new MessageBoxEx(this))
+                {
+                    MessageBox.Show("목표 서버가 닫혀있습니다.", "오류");
+                }
+                return;
             }
         }
 

@@ -1,246 +1,68 @@
 ﻿using System;
-using System.Windows.Forms;
 using System.Text;
 using System.Drawing;
+using System.Windows.Forms;
 using System.Runtime.InteropServices;
+
 
 // 본 클래스는 메세지박스를 무조건 부모 폼의 가운데에 출력하는 기능을 쉽게 구현해줍니다.
 // 호출자가 다른 스레드에 있을 때는 호출 메서드를 호출하도록 합니다. (크로스쓰레딩 문제 해결)
 
-namespace Tcp_Server
+
+class MessageBoxEx : IDisposable
 {
-    class MessageBoxEx
+    private int mTries = 0;
+    private Form mOwner;
+
+    public MessageBoxEx(Form owner)
     {
-        private static IWin32Window _owner;
-        private static HookProc _hookProc;
-        private static IntPtr _hHook;
+        mOwner = owner;
+        owner.BeginInvoke(new MethodInvoker(findDialog));
+    }
 
-        public static DialogResult Show(string text)
-        {   
-            Initialize();
-            return MessageBox.Show(text);
-        }
-
-        public static DialogResult Show(string text, string caption)
+    private void findDialog()
+    {
+        // Enumerate windows to find the message box
+        if (mTries < 0) return;
+        EnumThreadWndProc callback = new EnumThreadWndProc(checkWindow);
+        if (EnumThreadWindows(GetCurrentThreadId(), callback, IntPtr.Zero))
         {
-            Initialize();
-            return MessageBox.Show(text, caption);
-        }
-
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons)
-        {
-            Initialize();
-            return MessageBox.Show(text, caption, buttons);
-        }
-
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
-        {
-            Initialize();
-            return MessageBox.Show(text, caption, buttons, icon);
-        }
-
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton)
-        {
-            Initialize();
-            return MessageBox.Show(text, caption, buttons, icon, defButton);
-        }
-
-        public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton, MessageBoxOptions options)
-        {
-            Initialize();
-            return MessageBox.Show(text, caption, buttons, icon, defButton, options);
-        }
-
-        public static DialogResult Show(IWin32Window owner, string text)
-        {
-            _owner = owner;
-            Initialize();
-            return MessageBox.Show(owner, text);
-        }
-
-        public static DialogResult Show(IWin32Window owner, string text, string caption)
-        {
-            _owner = owner;
-            Initialize();
-            return MessageBox.Show(owner, text, caption);
-        }
-
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons)
-        {
-            _owner = owner;
-            Initialize();
-            return MessageBox.Show(owner, text, caption, buttons);
-        }
-
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
-        {
-            _owner = owner;
-            Initialize();
-            return MessageBox.Show(owner, text, caption, buttons, icon);
-        }
-
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton)
-        {
-            _owner = owner;
-            Initialize();
-            return MessageBox.Show(owner, text, caption, buttons, icon, defButton);
-        }
-
-        public static DialogResult Show(IWin32Window owner, string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon, MessageBoxDefaultButton defButton, MessageBoxOptions options)
-        {
-            _owner = owner;
-            Initialize();
-            return MessageBox.Show(owner, text, caption, buttons, icon,
-                                   defButton, options);
-        }
-
-        public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
-
-        public delegate void TimerProc(IntPtr hWnd, uint uMsg, UIntPtr nIDEvent, uint dwTime);
-
-        public const int WH_CALLWNDPROCRET = 12;
-
-        public enum CbtHookAction : int
-        {
-            HCBT_MOVESIZE = 0,
-            HCBT_MINMAX = 1,
-            HCBT_QS = 2,
-            HCBT_CREATEWND = 3,
-            HCBT_DESTROYWND = 4,
-            HCBT_ACTIVATE = 5,
-            HCBT_CLICKSKIPPED = 6,
-            HCBT_KEYSKIPPED = 7,
-            HCBT_SYSCOMMAND = 8,
-            HCBT_SETFOCUS = 9
-        }
-
-        [DllImport("user32.dll")]
-        private static extern bool GetWindowRect(IntPtr hWnd, ref Rectangle lpRect);
-
-        [DllImport("user32.dll")]
-        private static extern int MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-        [DllImport("User32.dll")]
-        public static extern UIntPtr SetTimer(IntPtr hWnd, UIntPtr nIDEvent, uint uElapse, TimerProc lpTimerFunc);
-
-        [DllImport("User32.dll")]
-        public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hInstance, int threadId);
-
-        [DllImport("user32.dll")]
-        public static extern int UnhookWindowsHookEx(IntPtr idHook);
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr CallNextHookEx(IntPtr idHook, int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("user32.dll")]
-        public static extern int GetWindowTextLength(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern int GetWindowText(IntPtr hWnd, StringBuilder text, int maxLength);
-
-        [DllImport("user32.dll")]
-        public static extern int EndDialog(IntPtr hDlg, IntPtr nResult);
-
-        //[DllImport("user32.dll", SetLastError = true)] 
-        //static extern uint GetWindowThreadProcessId(IntPtr hWnd, out uint lpdwProcessId);
-
-
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct CWPRETSTRUCT
-        {
-            public IntPtr lResult;
-            public IntPtr lParam;
-            public IntPtr wParam;
-            public uint message;
-            public IntPtr hwnd;
-        };
-
-        static MessageBoxEx()
-        {
-            _hookProc = new HookProc(MessageBoxHookProc);
-            _hHook = IntPtr.Zero;
-        }
-
-        //private static void Initialize() 
-        //{   if (_hookProc == null) 
-        //    { 
-        //        _hookProc = new HookProc(MessageBoxHookProc); 
-        //        _hHook = IntPtr.Zero; if (_owner != null) 
-        //        { 
-        //            uint processID = 0; IntPtr ptr = _owner.Handle; 
-        //            uint iThreadId = GetWindowThreadProcessId(ptr, out processID); 
-        //            _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, (int)iThreadId); 
-        //        } 
-        //    } 
-        //}
-
-        private static void Initialize()
-        {
-            if (_hHook != IntPtr.Zero)
-            {
-                throw new NotSupportedException("multiple calls are not supported");
-            }
-
-            if (_owner != null)
-            {
-                _hHook = SetWindowsHookEx(WH_CALLWNDPROCRET, _hookProc, IntPtr.Zero, AppDomain.GetCurrentThreadId());
-            }
-        }
-
-        private static IntPtr MessageBoxHookProc(int nCode, IntPtr wParam, IntPtr lParam)
-        {
-            if (nCode < 0)
-            {
-                return CallNextHookEx(_hHook, nCode, wParam, lParam);
-            }
-
-            CWPRETSTRUCT msg = (CWPRETSTRUCT)Marshal.PtrToStructure(lParam, typeof(CWPRETSTRUCT));
-            IntPtr hook = _hHook;
-
-            if (msg.message == (int)CbtHookAction.HCBT_ACTIVATE)
-            {
-                try
-                {
-                    CenterWindow(msg.hwnd);
-                }
-                finally
-                {
-                    UnhookWindowsHookEx(_hHook);
-                    _hHook = IntPtr.Zero;
-                }
-            }
-
-            return CallNextHookEx(hook, nCode, wParam, lParam);
-        }
-
-        private static void CenterWindow(IntPtr hChildWnd)
-        {
-            Rectangle recChild = new Rectangle(0, 0, 0, 0);
-            bool success = GetWindowRect(hChildWnd, ref recChild);
-
-            int width = recChild.Width - recChild.X;
-            int height = recChild.Height - recChild.Y;
-
-            Rectangle recParent = new Rectangle(0, 0, 0, 0);
-            success = GetWindowRect(_owner.Handle, ref recParent);
-
-            Point ptCenter = new Point(0, 0);
-            ptCenter.X = recParent.X + ((recParent.Width - recParent.X) / 2);
-            ptCenter.Y = recParent.Y + ((recParent.Height - recParent.Y) / 2);
-
-            Point ptStart = new Point(0, 0);
-            ptStart.X = (ptCenter.X - (width / 2));
-            ptStart.Y = (ptCenter.Y - (height / 2));
-
-            ptStart.X = (ptStart.X < 0) ? 0 : ptStart.X;
-            ptStart.Y = (ptStart.Y < 0) ? 0 : ptStart.Y;
-
-            int result = MoveWindow(hChildWnd, ptStart.X, ptStart.Y, width,
-                                    height, false);
+            if (++mTries < 10) mOwner.BeginInvoke(new MethodInvoker(findDialog));
         }
     }
+    private bool checkWindow(IntPtr hWnd, IntPtr lp)
+    {
+        // Checks if <hWnd> is a dialog
+        StringBuilder sb = new StringBuilder(260);
+        GetClassName(hWnd, sb, sb.Capacity);
+        if (sb.ToString() != "#32770") return true;
+        // Got it
+        Rectangle frmRect = new Rectangle(mOwner.Location, mOwner.Size);
+        RECT dlgRect;
+        GetWindowRect(hWnd, out dlgRect);
+        MoveWindow(hWnd,
+            frmRect.Left + (frmRect.Width - dlgRect.Right + dlgRect.Left) / 2,
+            frmRect.Top + (frmRect.Height - dlgRect.Bottom + dlgRect.Top) / 2,
+            dlgRect.Right - dlgRect.Left,
+            dlgRect.Bottom - dlgRect.Top, true);
+        return false;
+    }
+    public void Dispose()
+    {
+        mTries = -1;
+    }
+
+    // P/Invoke declarations
+    private delegate bool EnumThreadWndProc(IntPtr hWnd, IntPtr lp);
+    [DllImport("user32.dll")]
+    private static extern bool EnumThreadWindows(int tid, EnumThreadWndProc callback, IntPtr lp);
+    [DllImport("kernel32.dll")]
+    private static extern int GetCurrentThreadId();
+    [DllImport("user32.dll")]
+    private static extern int GetClassName(IntPtr hWnd, StringBuilder buffer, int buflen);
+    [DllImport("user32.dll")]
+    private static extern bool GetWindowRect(IntPtr hWnd, out RECT rc);
+    [DllImport("user32.dll")]
+    private static extern bool MoveWindow(IntPtr hWnd, int x, int y, int w, int h, bool repaint);
+    private struct RECT { public int Left; public int Top; public int Right; public int Bottom; }
 }
