@@ -546,11 +546,11 @@ namespace Tcp_Server
                 {
                     MessageBox.Show("연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");
                 }
-                //MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");                   // 알림메세지
+                //MessageBoxEx.Show(this, "연결된 클라이언트가 없어 수신이 불가능합니다.", "알림");                 // 알림메세지
             }
         }
 
-        private void ChangeText(Button button, string text)                                                         // 크로스스레딩 익셉션 회피
+        private void ChangeText(Button button, string text)                                                         // 크로스스레딩 익셉션 회피 : Button.Text
         {
             if (button.InvokeRequired)
             {
@@ -563,7 +563,7 @@ namespace Tcp_Server
                 button.Text = text;
         }
 
-        private void ChangeText(Label label, string text)                                                           // 크로스스레딩 익셉션 회피
+        private void ChangeText(Label label, string text)                                                           // 크로스스레딩 익셉션 회피 : Label.Text
         {
             if (label.InvokeRequired)
             {
@@ -576,7 +576,7 @@ namespace Tcp_Server
                 label.Text = text;
         }
 
-        private void WriteMsg(string msg)                                                                           // 크로스스레딩 익셉션 회피
+        private void WriteMsg(string msg)                                                                           // 크로스스레딩 익셉션 회피 : TextBox.AppendText
         {
             if (ConnectTextBox.InvokeRequired)
             {
@@ -593,7 +593,7 @@ namespace Tcp_Server
             }
         }
 
-        private void ChangePicture(PictureBox picBox, Image image)                                                  // 크로스스레딩 익셉션 회피
+        private void ChangePicture(PictureBox picBox, Image image)                                                  // 크로스스레딩 익셉션 회피 : PictureBox.Image
         {
             if (picBox.InvokeRequired)
             {
@@ -606,7 +606,7 @@ namespace Tcp_Server
                 picBox.Image = image;
         }
 
-        private void ChangePicVisible(PictureBox picBox, bool b)                                                    // 크로스스레딩 익셉션 회피
+        private void ChangePicVisible(PictureBox picBox, bool b)                                                    // 크로스스레딩 익셉션 회피 : PictureBox.Visible
         {
             if (picBox.InvokeRequired)
             {
@@ -680,6 +680,11 @@ namespace Tcp_Server
             else
             {
                 ServerONOFF();
+                if (Hidden)
+                {
+                    Button_hide.PerformClick();
+                }
+                ButtonConnect.Enabled = true;
                 Timer_Start.Stop();
             }
         }
