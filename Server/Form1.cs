@@ -7,30 +7,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading; // 추가
-using System.Net; // 추가
-using System.Net.Sockets; // 추가
-using System.IO; // 추가
-
+using System.Threading;                                                                                             // 추가
+using System.Net;                                                                                                   // 추가
+using System.Net.Sockets;                                                                                           // 추가
+using System.IO;                                                                                                    // 추가
+                                                                                                                   
 namespace Tcp_Server
 {
     public partial class Form1 : Form
     {
         int Start_Time = 3;
 
-        readonly int panelWidth;                    // Hidden 메뉴 패널 폭 제어
-        readonly int panalHeight;                   // Hidden 메뉴 패널 높이 제어
-        bool Hidden;                                // Hidden 메뉴 상태
-        bool Server_status;                         // 서버 상태
-        bool connecting;                            // 클라이언트 연결상태
+        readonly int panelWidth;                                                                                    // Hidden 메뉴 패널 폭 제어
+        readonly int panalHeight;                                                                                   // Hidden 메뉴 패널 높이 제어
+        bool Hidden;                                                                                                // Hidden 메뉴 상태
+        bool Server_status;                                                                                         // 서버 상태
+        bool connecting;                                                                                            // 클라이언트 연결상태
 
 
-        //make 3 slot bools
-        readonly bool[] slot = new bool[3];         // 012
+        readonly bool[] slot = new bool[3];                                                                         // 3개의 서버 슬롯 상태 [0,1,2] 
 
 
-        Thread threadServer;                        // 쓰레드 : threadServer
-        bool threadST = true;                       // 쓰레드 상태
+        Thread threadServer;                                                                                        // 쓰레드 : threadServer
+        bool threadST = true;                                                                                       // 쓰레드 상태
 
         TcpClient Client; 
         TcpClient clientSocket;
@@ -38,28 +37,28 @@ namespace Tcp_Server
         static int counter = 0;
 
 
-        private TcpListener tcpListener;            // 리스너 대기
+        private TcpListener tcpListener;                                                                            // 리스너 대기
 
-        readonly Bitmap[] image = new Bitmap[9];    // 이미지 리소스 저장슬롯
-        int pic_i;                                  // 움직이는 이미지 제어
+        readonly Bitmap[] image = new Bitmap[9];                                                                    // 이미지 리소스 저장슬롯
+        int pic_i;                                                                                                  // 움직이는 이미지 제어
 
 
         public Form1()
         {
             InitializeComponent();
 
-            panelWidth = PanelSlide_W.Width;    // Hidden 메뉴 패널 폭 기본값 저장
-            panalHeight = PanelSlide_H.Height;  // Hidden 메뉴 패널 높이 기본값 저장
+            panelWidth = PanelSlide_W.Width;                                                                        // Hidden 메뉴 패널 폭 기본값 저장
+            panalHeight = PanelSlide_H.Height;                                                                      // Hidden 메뉴 패널 높이 기본값 저장
 
             PanelSlide_W.Width = 0;
             PanelSlide_H.Height = 0;
-            Hidden = true;              //메뉴 숨겨진 상태로 시작
+            Hidden = true;                                                                                          //메뉴 숨겨진 상태로 시작
 
-            Server_status = false;  //연결 끊어진 상태로 시작
+            Server_status = false;                                                                                  //연결 끊어진 상태로 시작
 
-            pic_i = 0; //움직이는 이미지 제어용
+            pic_i = 0;                                                                                              //움직이는 이미지 제어용
 
-            TextBox_IPadress.Text= GetLocalIP();// 폼 로드시 내 PC의 IP 주소 자동입력
+            TextBox_IPadress.Text= GetLocalIP();                                                                    // 폼 로드시 내 PC의 IP 주소 자동입력
 
             image[0] = Properties.Resources.Free_Flat_Signal_Up_0_Icon;
             image[1] = Properties.Resources.Free_Flat_Signal_Up_1_Icon;
@@ -69,9 +68,9 @@ namespace Tcp_Server
             image[5] = Properties.Resources.Free_Flat_Signal_Up_101_Icon;
             image[6] = Properties.Resources.Free_Flat_Signal_Up_Off_Icon;
             image[7] = Properties.Resources.Free_Flat_Connection_0_Icon;
-            image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;    //사용할 이미지 리소스 미리 불러놓기
+            image[8] = Properties.Resources.Free_Flat_Connection_1_Icon;                                            //사용할 이미지 리소스 미리 불러놓기
 
-            this.ActiveControl = ButtonConnect;                             // ButtonConnect로 포커스
+            this.ActiveControl = ButtonConnect;                                                                     // ButtonConnect로 포커스
 
             Timer_Start.Start();
         }
@@ -86,13 +85,13 @@ namespace Tcp_Server
                         ButtonClose.PerformClick();
                     }
                     break;
-                case Keys.Oemtilde:                                 // 히든메뉴 열기 단축키 `
+                case Keys.Oemtilde:                                                                                 // 히든메뉴 열기 단축키 `
                     {
                         Button_hide.PerformClick();
                     }
                     break;
 
-                case Keys.F5:                                       // 서버 ON/ OFF 단축키 F5
+                case Keys.F5:                                                                                       // 서버 ON/ OFF 단축키 F5
                     {
                         ButtonConnect.PerformClick();
                     }
@@ -110,15 +109,15 @@ namespace Tcp_Server
         private void Button_hide_Click(object sender, EventArgs e)
         {
             Timer_W.Start();
-            Timer_H.Start();                    // 버튼 클릭시 타이머 실행 및 동작
+            Timer_H.Start();                                                                                        // 버튼 클릭시 타이머 실행 및 동작
 
             if (Hidden == true)
             { 
-                this.TextBox_SendText.Clear();  // 열때 TextBox_SendText 내부 비우기
-                this.TextBox_SendText.Focus();  // & TextBox_SendText로 포커스
+                this.TextBox_SendText.Clear();                                                                      // 열때 TextBox_SendText 내부 비우기
+                this.TextBox_SendText.Focus();                                                                      // & TextBox_SendText로 포커스
             }
             else
-                this.ButtonConnect.Focus();     // ButtonConnect로 포커스
+                this.ButtonConnect.Focus();                                                                         // ButtonConnect로 포커스
         }
 
         private void Timer_W_Tick(object sender, EventArgs e)
@@ -126,7 +125,7 @@ namespace Tcp_Server
             if (Hidden == true)
             {
                 PanelSlide_W.Width = PanelSlide_W.Width + 10;
-                if (PanelSlide_W.Width >= panelWidth)   //목표크기에 도달할때까지 반복
+                if (PanelSlide_W.Width >= panelWidth)                                                               //목표크기에 도달할때까지 반복
                 {
                     Timer_W.Stop();
                     Hidden = false;
@@ -136,7 +135,7 @@ namespace Tcp_Server
             else
             {
                 PanelSlide_W.Width = PanelSlide_W.Width - 10;
-                if (PanelSlide_W.Width <= 0)            //목표크기에 도달할때까지 반복
+                if (PanelSlide_W.Width <= 0)                                                                        //목표크기에 도달할때까지 반복
                 {
                     this.TextBox_SendText.Clear();
                     Timer_W.Stop();
@@ -151,7 +150,7 @@ namespace Tcp_Server
             if (Hidden == true)
             {
                 PanelSlide_H.Height = PanelSlide_H.Height + 1;
-                if (PanelSlide_H.Height >= panalHeight) //목표크기에 도달할때까지 반복
+                if (PanelSlide_H.Height >= panalHeight)                                                             //목표크기에 도달할때까지 반복
                 {
                     Timer_H.Stop();
                     this.Refresh();
@@ -160,7 +159,7 @@ namespace Tcp_Server
             else
             {
                 PanelSlide_H.Height = PanelSlide_H.Height - 1;
-                if (PanelSlide_H.Height <= 0)           //목표크기에 도달할때까지 반복
+                if (PanelSlide_H.Height <= 0)                                                                       //목표크기에 도달할때까지 반복
                 {
                     Timer_H.Stop();
                     this.Refresh();
@@ -168,7 +167,7 @@ namespace Tcp_Server
             }
         }
 
-        private void ButtonClose_Click(object sender, EventArgs e)              // 종료동작    
+        private void ButtonClose_Click(object sender, EventArgs e)                                                  // 종료동작    
         {
             if (Server_status == true)
             {
@@ -193,7 +192,7 @@ namespace Tcp_Server
             Application.Exit(); 
         }
 
-        private void ButtonMin_Click(object sender, EventArgs e)                    // 최소화
+        private void ButtonMin_Click(object sender, EventArgs e)                                                    // 최소화
         {
             this.WindowState = System.Windows.Forms.FormWindowState.Minimized;  
         }
@@ -203,7 +202,7 @@ namespace Tcp_Server
             ServerONOFF();
         }
 
-        private void ServerONOFF()                                                  // 서버 열기/닫기
+        private void ServerONOFF()                                                                                  // 서버 열기/닫기
         {
             if (Server_status == true)
             {
@@ -245,9 +244,9 @@ namespace Tcp_Server
                     return;
                 }
 
-                threadServer = new Thread(connect); // Form과는 별도 쓰레드에서 connect 함수가 실행됨.
-                threadServer.IsBackground = true;   // Form이 종료되면 threadServer 쓰레드도 종료.
-                threadServer.Start();               // threadServer 시작.
+                threadServer = new Thread(connect);                                                                 // Form과는 별도 쓰레드에서 connect 함수가 실행됨.
+                threadServer.IsBackground = true;                                                                   // Form이 종료되면 threadServer 쓰레드도 종료.
+                threadServer.Start();                                                                               // threadServer 시작.
 
                 PictureBox_Server.Visible = true;
 
@@ -262,7 +261,7 @@ namespace Tcp_Server
         }
 
 
-        private void Timer_ONLINE_Tick(object sender, EventArgs e) // 움직이는 이미지 구현
+        private void Timer_ONLINE_Tick(object sender, EventArgs e)                                                  // 움직이는 이미지 구현
         {
             if (pic_i<2)
             {
@@ -282,17 +281,17 @@ namespace Tcp_Server
         }
 
 
-        private void connect()  // thread에 연결된 함수. 메인폼과는 별도로 동작한다.
+        private void connect()                                                                                      // thread에 연결된 함수. 메인폼과는 별도로 동작한다.
         {
-            tcpListener = new TcpListener(IPAddress.Parse(TextBox_IPadress.Text), int.Parse(TextBox_IPport.Text)); // 서버 객체 생성 및 IP주소와 Port번호를 할당
-            tcpListener.Start();  // 서버 시작
+            tcpListener = new TcpListener(IPAddress.Parse(TextBox_IPadress.Text), int.Parse(TextBox_IPport.Text));  // 서버 객체 생성 및 IP주소와 Port번호를 할당
+            tcpListener.Start();                                                                                    // 서버 리스너 시작
 
 
             while (threadST)
             {
                 try
                 {
-                    Client = tcpListener.AcceptTcpClient(); //클라이언트 연결 대기
+                    Client = tcpListener.AcceptTcpClient();                                                         // 클라이언트 연결 대기
                     
                     if (Client == null)
                     {
@@ -300,11 +299,11 @@ namespace Tcp_Server
                     }
                     if (Client != null)
                     {
-                        for (counter = 0; counter < 3; counter++)
+                        for (counter = 0; counter < 3; counter++)                                                   // 비어있는 자리 탐색
                         {
                             if (slot[counter] == false)
                             {
-                                startClient(Client, counter);
+                                startClient(Client, counter);                                                       // 찾으면 시작
                                 break;
                             }
                         }  
@@ -406,7 +405,7 @@ namespace Tcp_Server
                 ChangePicVisible(PictureBox_Client3, true);
             }
 
-            NetworkStream Stream = ConnectionSoket.GetStream(); // 클라이언트에서 네트워크 스트림 받기
+            NetworkStream Stream = ConnectionSoket.GetStream();                                                     // 클라이언트에서 네트워크 스트림 받기
             
 
             byte[] buff = new byte[1024];
@@ -422,8 +421,8 @@ namespace Tcp_Server
             {
                 try
                 {
-                    nbytes = Stream.Read(buff, 0, buff.Length);                   // 들어오는거 기다리다가 받기
-                    string output = Encoding.UTF8.GetString(buff, 0, nbytes);     // 받은거 디코딩 UTF8형식으로
+                    nbytes = Stream.Read(buff, 0, buff.Length);                                                     // 들어오는거 기다리다가 받기
+                    string output = Encoding.UTF8.GetString(buff, 0, nbytes);                                       // 받은거 디코딩 UTF8형식으로
 
                     if (output == "/CloseServer")
                     {
@@ -435,12 +434,12 @@ namespace Tcp_Server
                     }
                     else
                     {
-                        WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번에게 받음 : " + output + " ]");      // 출력 (크로스쓰레드 회피 포함)
-                    }
-                }
+                        WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번에게 받음 : " + output + " ]");
+                    }                                                                                               // 출력 (크로스쓰레드 회피 포함)
+                }   
                 catch 
                 {
-                    //클라랑 연결 끊김
+                                                                                                                    //클라랑 연결 끊김
                     WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
                     Stream.Close();
                     ConnectionSoket.Close();
@@ -451,7 +450,7 @@ namespace Tcp_Server
 
                 void ConnectionClose()
                 {
-                    if (connectionNo == 1)
+                    if (connectionNo == 1)                                                                          // 조건부 동작
                     {
                         slot[0] = false;
                         //PictureBox_Client1.Visible = false;
@@ -469,7 +468,7 @@ namespace Tcp_Server
                         //PictureBox_Client3.Visible = false;
                         ChangePicVisible(PictureBox_Client3, false);
                     }
-                    if (!slot[0] && !slot[1] && !slot[2])                   //전부꺼지면
+                    if (!slot[0] && !slot[1] && !slot[2])                                                           // 전부 꺼지면
                     {
                         ChangePicture(PictureBox_ClientState, image[7]);
                         PictureBox_ClientState.BackColor = Color.DarkRed;
