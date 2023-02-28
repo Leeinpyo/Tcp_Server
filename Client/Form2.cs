@@ -140,9 +140,12 @@ namespace Tcp_Client
 
         private void Button_Close_Click(object sender, EventArgs e)
         {
-            byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
-            Stream.Write(buff, 0, buff.Length);
-            Server.Close();
+            if (Server != null && connecting)
+            {
+                byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
+                Stream.Write(buff, 0, buff.Length);
+                Server.Close();
+            }
 
             Application.Exit();
         }
@@ -249,10 +252,12 @@ namespace Tcp_Client
             {
                 case Keys.Alt | Keys.F4:
                     {
-                        byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
-                        Stream.Write(buff, 0, buff.Length);
-                        Server.Close();
-
+                        if (Server != null && connecting)
+                        {
+                            byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
+                            Stream.Write(buff, 0, buff.Length);
+                            Server.Close();
+                        }
                         Application.Exit();
                     }
                     break;
