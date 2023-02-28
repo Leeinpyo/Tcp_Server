@@ -246,7 +246,8 @@ namespace Tcp_Client
         {
             switch (e.KeyCode)
             {
-                case Keys.Enter:   // 텍스트박스에 포커스 있는 상태에서 엔터 입력 들어오면 작동
+                case Keys.Enter:                                                                                    // 텍스트박스에 포커스 있는 상태에서 엔터 입력
+                                                                                                                    // 들어오면 작동
                     {
                         SendText();
                     }
