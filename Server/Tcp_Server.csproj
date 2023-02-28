@@ -132,5 +132,11 @@
   <ItemGroup>
     <None Include="ICON\Flat Icons [Free]\Free Flat Cloud 2 Icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ICON\Flat Icons [Free]\Free Flat Cloud 2 Icon_Disable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ICON\Flat Icons [Free]\Free Flat Cloud 1 Icon_Disable.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

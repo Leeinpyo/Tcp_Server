@@ -93,9 +93,29 @@ namespace Tcp_Server.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap Free_Flat_Cloud_1_Icon_Disable {
+            get {
+                object obj = ResourceManager.GetObject("Free_Flat_Cloud_1_Icon_Disable", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap Free_Flat_Cloud_2_Icon {
             get {
                 object obj = ResourceManager.GetObject("Free_Flat_Cloud_2_Icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
+        internal static System.Drawing.Bitmap Free_Flat_Cloud_2_Icon_Disable {
+            get {
+                object obj = ResourceManager.GetObject("Free_Flat_Cloud_2_Icon_Disable", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

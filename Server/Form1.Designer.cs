@@ -31,46 +31,54 @@ namespace Tcp_Server
         {
             this.components = new System.ComponentModel.Container();
             this.PanelUpper = new System.Windows.Forms.Panel();
-            this.ButtonMin = new System.Windows.Forms.Button();
-            this.ButtonClose = new System.Windows.Forms.Button();
             this.Label_upper = new System.Windows.Forms.Label();
             this.PanelSide = new System.Windows.Forms.Panel();
-            this.Button_hide = new System.Windows.Forms.Button();
             this.PanelSlide_H = new System.Windows.Forms.Panel();
             this.PanelSlide_W = new System.Windows.Forms.Panel();
-            this.PictureBox_ClientState = new System.Windows.Forms.PictureBox();
-            this.Button_SendText = new System.Windows.Forms.Button();
             this.TextBox_SendText = new System.Windows.Forms.TextBox();
-            this.Label_port = new System.Windows.Forms.Label();
             this.Label_ClientState = new System.Windows.Forms.Label();
             this.Label_ip = new System.Windows.Forms.Label();
             this.ConnectTextBox = new System.Windows.Forms.RichTextBox();
             this.TextBox_IPport = new System.Windows.Forms.TextBox();
             this.TextBox_IPadress = new System.Windows.Forms.TextBox();
+            this.Label_port = new System.Windows.Forms.Label();
             this.PanelMain = new System.Windows.Forms.Panel();
-            this.PictureBox_Server = new System.Windows.Forms.PictureBox();
             this.PictureBox_Client = new System.Windows.Forms.Panel();
-            this.PictureBox_Client3 = new System.Windows.Forms.PictureBox();
-            this.PictureBox_Client2 = new System.Windows.Forms.PictureBox();
-            this.PictureBox_Client1 = new System.Windows.Forms.PictureBox();
             this.ButtonConnect = new System.Windows.Forms.Button();
-            this.PictureBox_connect = new System.Windows.Forms.PictureBox();
             this.Label_connect = new System.Windows.Forms.Label();
             this.Timer_W = new System.Windows.Forms.Timer(this.components);
             this.Timer_H = new System.Windows.Forms.Timer(this.components);
             this.Timer_ONLINE = new System.Windows.Forms.Timer(this.components);
             this.Timer_Start = new System.Windows.Forms.Timer(this.components);
+            this.PictureBox_Server = new System.Windows.Forms.PictureBox();
+            this.PictureBox_Client3 = new System.Windows.Forms.PictureBox();
+            this.PictureBox_Client2 = new System.Windows.Forms.PictureBox();
+            this.PictureBox_Client1 = new System.Windows.Forms.PictureBox();
+            this.Slot1 = new System.Windows.Forms.PictureBox();
+            this.Slot2 = new System.Windows.Forms.PictureBox();
+            this.Slot3 = new System.Windows.Forms.PictureBox();
+            this.PictureBox_connect = new System.Windows.Forms.PictureBox();
+            this.ServerSlot = new System.Windows.Forms.PictureBox();
+            this.PictureBox_ClientState = new System.Windows.Forms.PictureBox();
+            this.Button_SendText = new System.Windows.Forms.Button();
+            this.Button_hide = new System.Windows.Forms.Button();
+            this.ButtonMin = new System.Windows.Forms.Button();
+            this.ButtonClose = new System.Windows.Forms.Button();
             this.PanelUpper.SuspendLayout();
             this.PanelSide.SuspendLayout();
             this.PanelSlide_W.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ClientState)).BeginInit();
             this.PanelMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Server)).BeginInit();
             this.PictureBox_Client.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Server)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Client3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Client2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Client1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Slot1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Slot2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Slot3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_connect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerSlot)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ClientState)).BeginInit();
             this.SuspendLayout();
             // 
             // PanelUpper
@@ -85,36 +93,6 @@ namespace Tcp_Server
             this.PanelUpper.TabIndex = 0;
             this.PanelUpper.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PanelUpper_MouseDown);
             this.PanelUpper.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PanelUpper_MouseMove);
-            // 
-            // ButtonMin
-            // 
-            this.ButtonMin.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ButtonMin.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Hyphen_Icon;
-            this.ButtonMin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ButtonMin.FlatAppearance.BorderSize = 0;
-            this.ButtonMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonMin.Location = new System.Drawing.Point(736, 10);
-            this.ButtonMin.Name = "ButtonMin";
-            this.ButtonMin.Size = new System.Drawing.Size(22, 22);
-            this.ButtonMin.TabIndex = 0;
-            this.ButtonMin.TabStop = false;
-            this.ButtonMin.UseVisualStyleBackColor = true;
-            this.ButtonMin.Click += new System.EventHandler(this.ButtonMin_Click);
-            // 
-            // ButtonClose
-            // 
-            this.ButtonClose.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.ButtonClose.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Button_Blank_Cross_Icon;
-            this.ButtonClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.ButtonClose.FlatAppearance.BorderSize = 0;
-            this.ButtonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonClose.Location = new System.Drawing.Point(767, 10);
-            this.ButtonClose.Name = "ButtonClose";
-            this.ButtonClose.Size = new System.Drawing.Size(22, 22);
-            this.ButtonClose.TabIndex = 0;
-            this.ButtonClose.TabStop = false;
-            this.ButtonClose.UseVisualStyleBackColor = true;
-            this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // Label_upper
             // 
@@ -138,20 +116,6 @@ namespace Tcp_Server
             this.PanelSide.Name = "PanelSide";
             this.PanelSide.Size = new System.Drawing.Size(42, 408);
             this.PanelSide.TabIndex = 1;
-            // 
-            // Button_hide
-            // 
-            this.Button_hide.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Menu_2_Icon;
-            this.Button_hide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.Button_hide.FlatAppearance.BorderSize = 0;
-            this.Button_hide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Button_hide.Location = new System.Drawing.Point(1, 1);
-            this.Button_hide.Name = "Button_hide";
-            this.Button_hide.Size = new System.Drawing.Size(40, 40);
-            this.Button_hide.TabIndex = 0;
-            this.Button_hide.TabStop = false;
-            this.Button_hide.UseVisualStyleBackColor = true;
-            this.Button_hide.Click += new System.EventHandler(this.Button_hide_Click);
             // 
             // PanelSlide_H
             // 
@@ -180,35 +144,6 @@ namespace Tcp_Server
             this.PanelSlide_W.Size = new System.Drawing.Size(316, 406);
             this.PanelSlide_W.TabIndex = 3;
             // 
-            // PictureBox_ClientState
-            // 
-            this.PictureBox_ClientState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.PictureBox_ClientState.BackColor = System.Drawing.Color.DarkRed;
-            this.PictureBox_ClientState.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Connection_0_Icon;
-            this.PictureBox_ClientState.Location = new System.Drawing.Point(10, 337);
-            this.PictureBox_ClientState.Name = "PictureBox_ClientState";
-            this.PictureBox_ClientState.Size = new System.Drawing.Size(45, 45);
-            this.PictureBox_ClientState.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.PictureBox_ClientState.TabIndex = 5;
-            this.PictureBox_ClientState.TabStop = false;
-            // 
-            // Button_SendText
-            // 
-            this.Button_SendText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Button_SendText.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Chat_2_Bars_Icon;
-            this.Button_SendText.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.Button_SendText.FlatAppearance.BorderSize = 0;
-            this.Button_SendText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Button_SendText.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Button_SendText.Location = new System.Drawing.Point(277, 309);
-            this.Button_SendText.Name = "Button_SendText";
-            this.Button_SendText.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.Button_SendText.Size = new System.Drawing.Size(29, 22);
-            this.Button_SendText.TabIndex = 4;
-            this.Button_SendText.TabStop = false;
-            this.Button_SendText.UseVisualStyleBackColor = false;
-            this.Button_SendText.Click += new System.EventHandler(this.Button_SendText_Click);
-            // 
             // TextBox_SendText
             // 
             this.TextBox_SendText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -219,19 +154,6 @@ namespace Tcp_Server
             this.TextBox_SendText.Size = new System.Drawing.Size(263, 19);
             this.TextBox_SendText.TabIndex = 1;
             this.TextBox_SendText.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TextBox_SendText_PreviewKeyDown);
-            // 
-            // Label_port
-            // 
-            this.Label_port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.Label_port.AutoSize = true;
-            this.Label_port.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_port.ForeColor = System.Drawing.Color.Black;
-            this.Label_port.Location = new System.Drawing.Point(234, 17);
-            this.Label_port.Name = "Label_port";
-            this.Label_port.Size = new System.Drawing.Size(40, 18);
-            this.Label_port.TabIndex = 3;
-            this.Label_port.Text = "Port";
-            this.Label_port.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // Label_ClientState
             // 
@@ -298,6 +220,19 @@ namespace Tcp_Server
             this.TextBox_IPadress.TabStop = false;
             this.TextBox_IPadress.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // Label_port
+            // 
+            this.Label_port.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Label_port.AutoSize = true;
+            this.Label_port.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_port.ForeColor = System.Drawing.Color.Black;
+            this.Label_port.Location = new System.Drawing.Point(234, 17);
+            this.Label_port.Name = "Label_port";
+            this.Label_port.Size = new System.Drawing.Size(40, 18);
+            this.Label_port.TabIndex = 3;
+            this.Label_port.Text = "Port";
+            this.Label_port.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            // 
             // PanelMain
             // 
             this.PanelMain.Controls.Add(this.PictureBox_Server);
@@ -305,11 +240,71 @@ namespace Tcp_Server
             this.PanelMain.Controls.Add(this.ButtonConnect);
             this.PanelMain.Controls.Add(this.PictureBox_connect);
             this.PanelMain.Controls.Add(this.Label_connect);
+            this.PanelMain.Controls.Add(this.ServerSlot);
             this.PanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PanelMain.Location = new System.Drawing.Point(358, 44);
             this.PanelMain.Name = "PanelMain";
             this.PanelMain.Size = new System.Drawing.Size(442, 406);
             this.PanelMain.TabIndex = 4;
+            // 
+            // PictureBox_Client
+            // 
+            this.PictureBox_Client.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.PictureBox_Client.Controls.Add(this.PictureBox_Client3);
+            this.PictureBox_Client.Controls.Add(this.PictureBox_Client2);
+            this.PictureBox_Client.Controls.Add(this.PictureBox_Client1);
+            this.PictureBox_Client.Controls.Add(this.Slot1);
+            this.PictureBox_Client.Controls.Add(this.Slot2);
+            this.PictureBox_Client.Controls.Add(this.Slot3);
+            this.PictureBox_Client.Location = new System.Drawing.Point(320, 197);
+            this.PictureBox_Client.Name = "PictureBox_Client";
+            this.PictureBox_Client.Size = new System.Drawing.Size(60, 180);
+            this.PictureBox_Client.TabIndex = 2;
+            // 
+            // ButtonConnect
+            // 
+            this.ButtonConnect.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.ButtonConnect.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.ButtonConnect.ForeColor = System.Drawing.Color.Black;
+            this.ButtonConnect.Location = new System.Drawing.Point(175, 165);
+            this.ButtonConnect.Name = "ButtonConnect";
+            this.ButtonConnect.Size = new System.Drawing.Size(106, 23);
+            this.ButtonConnect.TabIndex = 0;
+            this.ButtonConnect.Text = "AutoStart";
+            this.ButtonConnect.UseVisualStyleBackColor = true;
+            this.ButtonConnect.Click += new System.EventHandler(this.ButtonConnect_Click);
+            // 
+            // Label_connect
+            // 
+            this.Label_connect.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.Label_connect.AutoSize = true;
+            this.Label_connect.Font = new System.Drawing.Font("D2Coding ligature", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Label_connect.Location = new System.Drawing.Point(114, 134);
+            this.Label_connect.Name = "Label_connect";
+            this.Label_connect.Size = new System.Drawing.Size(228, 28);
+            this.Label_connect.TabIndex = 0;
+            this.Label_connect.Text = "TCP Server OFFLINE";
+            this.Label_connect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // Timer_W
+            // 
+            this.Timer_W.Interval = 2;
+            this.Timer_W.Tick += new System.EventHandler(this.Timer_W_Tick);
+            // 
+            // Timer_H
+            // 
+            this.Timer_H.Interval = 14;
+            this.Timer_H.Tick += new System.EventHandler(this.Timer_H_Tick);
+            // 
+            // Timer_ONLINE
+            // 
+            this.Timer_ONLINE.Interval = 260;
+            this.Timer_ONLINE.Tick += new System.EventHandler(this.Timer_ONLINE_Tick);
+            // 
+            // Timer_Start
+            // 
+            this.Timer_Start.Interval = 1000;
+            this.Timer_Start.Tick += new System.EventHandler(this.Timer_Start_Tick);
             // 
             // PictureBox_Server
             // 
@@ -322,17 +317,6 @@ namespace Tcp_Server
             this.PictureBox_Server.TabIndex = 1;
             this.PictureBox_Server.TabStop = false;
             this.PictureBox_Server.Visible = false;
-            // 
-            // PictureBox_Client
-            // 
-            this.PictureBox_Client.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.PictureBox_Client.Controls.Add(this.PictureBox_Client3);
-            this.PictureBox_Client.Controls.Add(this.PictureBox_Client2);
-            this.PictureBox_Client.Controls.Add(this.PictureBox_Client1);
-            this.PictureBox_Client.Location = new System.Drawing.Point(320, 197);
-            this.PictureBox_Client.Name = "PictureBox_Client";
-            this.PictureBox_Client.Size = new System.Drawing.Size(60, 180);
-            this.PictureBox_Client.TabIndex = 2;
             // 
             // PictureBox_Client3
             // 
@@ -373,18 +357,41 @@ namespace Tcp_Server
             this.PictureBox_Client1.TabStop = false;
             this.PictureBox_Client1.Visible = false;
             // 
-            // ButtonConnect
+            // Slot1
             // 
-            this.ButtonConnect.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.ButtonConnect.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.ButtonConnect.ForeColor = System.Drawing.Color.Black;
-            this.ButtonConnect.Location = new System.Drawing.Point(175, 165);
-            this.ButtonConnect.Name = "ButtonConnect";
-            this.ButtonConnect.Size = new System.Drawing.Size(106, 23);
-            this.ButtonConnect.TabIndex = 0;
-            this.ButtonConnect.Text = "AutoStart";
-            this.ButtonConnect.UseVisualStyleBackColor = true;
-            this.ButtonConnect.Click += new System.EventHandler(this.ButtonConnect_Click);
+            this.Slot1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.Slot1.BackColor = System.Drawing.Color.Transparent;
+            this.Slot1.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Cloud_2_Icon_Disable;
+            this.Slot1.Location = new System.Drawing.Point(0, 0);
+            this.Slot1.Name = "Slot1";
+            this.Slot1.Size = new System.Drawing.Size(60, 60);
+            this.Slot1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Slot1.TabIndex = 4;
+            this.Slot1.TabStop = false;
+            // 
+            // Slot2
+            // 
+            this.Slot2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.Slot2.BackColor = System.Drawing.Color.Transparent;
+            this.Slot2.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Cloud_2_Icon_Disable;
+            this.Slot2.Location = new System.Drawing.Point(0, 60);
+            this.Slot2.Name = "Slot2";
+            this.Slot2.Size = new System.Drawing.Size(60, 60);
+            this.Slot2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Slot2.TabIndex = 5;
+            this.Slot2.TabStop = false;
+            // 
+            // Slot3
+            // 
+            this.Slot3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.Slot3.BackColor = System.Drawing.Color.Transparent;
+            this.Slot3.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Cloud_2_Icon_Disable;
+            this.Slot3.Location = new System.Drawing.Point(0, 120);
+            this.Slot3.Name = "Slot3";
+            this.Slot3.Size = new System.Drawing.Size(60, 60);
+            this.Slot3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.Slot3.TabIndex = 6;
+            this.Slot3.TabStop = false;
             // 
             // PictureBox_connect
             // 
@@ -397,37 +404,89 @@ namespace Tcp_Server
             this.PictureBox_connect.TabIndex = 0;
             this.PictureBox_connect.TabStop = false;
             // 
-            // Label_connect
+            // ServerSlot
             // 
-            this.Label_connect.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.Label_connect.AutoSize = true;
-            this.Label_connect.Font = new System.Drawing.Font("D2Coding ligature", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.Label_connect.Location = new System.Drawing.Point(114, 134);
-            this.Label_connect.Name = "Label_connect";
-            this.Label_connect.Size = new System.Drawing.Size(228, 28);
-            this.Label_connect.TabIndex = 0;
-            this.Label_connect.Text = "TCP Server OFFLINE";
-            this.Label_connect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ServerSlot.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.ServerSlot.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Cloud_1_Icon_Disable;
+            this.ServerSlot.Location = new System.Drawing.Point(80, 197);
+            this.ServerSlot.Name = "ServerSlot";
+            this.ServerSlot.Size = new System.Drawing.Size(60, 180);
+            this.ServerSlot.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.ServerSlot.TabIndex = 3;
+            this.ServerSlot.TabStop = false;
             // 
-            // Timer_W
+            // PictureBox_ClientState
             // 
-            this.Timer_W.Interval = 2;
-            this.Timer_W.Tick += new System.EventHandler(this.Timer_W_Tick);
+            this.PictureBox_ClientState.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.PictureBox_ClientState.BackColor = System.Drawing.Color.DarkRed;
+            this.PictureBox_ClientState.Image = global::Tcp_Server.Properties.Resources.Free_Flat_Connection_0_Icon;
+            this.PictureBox_ClientState.Location = new System.Drawing.Point(10, 337);
+            this.PictureBox_ClientState.Name = "PictureBox_ClientState";
+            this.PictureBox_ClientState.Size = new System.Drawing.Size(45, 45);
+            this.PictureBox_ClientState.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.PictureBox_ClientState.TabIndex = 5;
+            this.PictureBox_ClientState.TabStop = false;
             // 
-            // Timer_H
+            // Button_SendText
             // 
-            this.Timer_H.Interval = 14;
-            this.Timer_H.Tick += new System.EventHandler(this.Timer_H_Tick);
+            this.Button_SendText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Button_SendText.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Chat_2_Bars_Icon;
+            this.Button_SendText.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Button_SendText.FlatAppearance.BorderSize = 0;
+            this.Button_SendText.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Button_SendText.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.Button_SendText.Location = new System.Drawing.Point(277, 309);
+            this.Button_SendText.Name = "Button_SendText";
+            this.Button_SendText.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Button_SendText.Size = new System.Drawing.Size(29, 22);
+            this.Button_SendText.TabIndex = 4;
+            this.Button_SendText.TabStop = false;
+            this.Button_SendText.UseVisualStyleBackColor = false;
+            this.Button_SendText.Click += new System.EventHandler(this.Button_SendText_Click);
             // 
-            // Timer_ONLINE
+            // Button_hide
             // 
-            this.Timer_ONLINE.Interval = 260;
-            this.Timer_ONLINE.Tick += new System.EventHandler(this.Timer_ONLINE_Tick);
+            this.Button_hide.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Menu_2_Icon;
+            this.Button_hide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.Button_hide.FlatAppearance.BorderSize = 0;
+            this.Button_hide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Button_hide.Location = new System.Drawing.Point(1, 1);
+            this.Button_hide.Name = "Button_hide";
+            this.Button_hide.Size = new System.Drawing.Size(40, 40);
+            this.Button_hide.TabIndex = 0;
+            this.Button_hide.TabStop = false;
+            this.Button_hide.UseVisualStyleBackColor = true;
+            this.Button_hide.Click += new System.EventHandler(this.Button_hide_Click);
             // 
-            // Timer_Start
+            // ButtonMin
             // 
-            this.Timer_Start.Interval = 1000;
-            this.Timer_Start.Tick += new System.EventHandler(this.Timer_Start_Tick);
+            this.ButtonMin.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ButtonMin.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Hyphen_Icon;
+            this.ButtonMin.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ButtonMin.FlatAppearance.BorderSize = 0;
+            this.ButtonMin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonMin.Location = new System.Drawing.Point(736, 10);
+            this.ButtonMin.Name = "ButtonMin";
+            this.ButtonMin.Size = new System.Drawing.Size(22, 22);
+            this.ButtonMin.TabIndex = 0;
+            this.ButtonMin.TabStop = false;
+            this.ButtonMin.UseVisualStyleBackColor = true;
+            this.ButtonMin.Click += new System.EventHandler(this.ButtonMin_Click);
+            // 
+            // ButtonClose
+            // 
+            this.ButtonClose.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.ButtonClose.BackgroundImage = global::Tcp_Server.Properties.Resources.Free_Flat_Button_Blank_Cross_Icon;
+            this.ButtonClose.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.ButtonClose.FlatAppearance.BorderSize = 0;
+            this.ButtonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonClose.Location = new System.Drawing.Point(767, 10);
+            this.ButtonClose.Name = "ButtonClose";
+            this.ButtonClose.Size = new System.Drawing.Size(22, 22);
+            this.ButtonClose.TabIndex = 0;
+            this.ButtonClose.TabStop = false;
+            this.ButtonClose.UseVisualStyleBackColor = true;
+            this.ButtonClose.Click += new System.EventHandler(this.ButtonClose_Click);
             // 
             // Form1
             // 
@@ -450,15 +509,19 @@ namespace Tcp_Server
             this.PanelSide.ResumeLayout(false);
             this.PanelSlide_W.ResumeLayout(false);
             this.PanelSlide_W.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ClientState)).EndInit();
             this.PanelMain.ResumeLayout(false);
             this.PanelMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Server)).EndInit();
             this.PictureBox_Client.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Server)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Client3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Client2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Client1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Slot1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Slot2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Slot3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_connect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerSlot)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBox_ClientState)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -495,6 +558,10 @@ namespace Tcp_Server
         private System.Windows.Forms.PictureBox PictureBox_Client2;
         private System.Windows.Forms.PictureBox PictureBox_Client1;
         private System.Windows.Forms.PictureBox PictureBox_Client3;
+        private System.Windows.Forms.PictureBox Slot1;
+        private System.Windows.Forms.PictureBox Slot2;
+        private System.Windows.Forms.PictureBox Slot3;
+        private System.Windows.Forms.PictureBox ServerSlot;
     }
 }
 

@@ -127,8 +127,14 @@
   <data name="Free_Flat_Cloud_1_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ICON\Flat Icons [Free]\Free Flat Cloud 1 Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Free_Flat_Cloud_1_Icon_Disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICON\Flat Icons [Free]\Free Flat Cloud 1 Icon_Disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Free_Flat_Cloud_2_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ICON\Flat Icons [Free]\Free Flat Cloud 2 Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Free_Flat_Cloud_2_Icon_Disable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\ICON\Flat Icons [Free]\Free Flat Cloud 2 Icon_Disable.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Free_Flat_Connection_0_Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\ICON\Flat Icons [Free]\Free Flat Connection 0 Icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
