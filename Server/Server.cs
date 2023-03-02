@@ -14,16 +14,16 @@ using System.IO;                                                                
                                                                                                                    
 namespace Tcp_Server
 {
-    public partial class Form1 : Form
+    public partial class Server : Form
     {
         int Start_Time = 3;
 
         readonly int panelWidth;                                                                                    // Hidden 메뉴 패널 폭 제어
         readonly int panalHeight;                                                                                   // Hidden 메뉴 패널 높이 제어
         bool Hidden;                                                                                                // Hidden 메뉴 상태
-        bool Server_status;                                                                                         // 서버 상태
-        bool connecting;                                                                                            // 클라이언트 연결상태
+        bool Server_status = false;                                                                                 // 서버 상태
 
+        private Dictionary<int, ConnectedClient> clientList = new Dictionary<int, ConnectedClient>();
 
         readonly bool[] slot = new bool[3];                                                                         // 3개의 서버 슬롯 상태 [0,1,2] 
 
@@ -31,19 +31,15 @@ namespace Tcp_Server
         Thread threadServer;                                                                                        // 쓰레드 : threadServer
         bool threadST = true;                                                                                       // 쓰레드 상태
 
-        TcpClient Client; 
-        TcpClient clientSocket;
-        int clientNo;
-        static int counter = 0;
-
-
         private TcpListener tcpListener;                                                                            // 리스너 대기
+        TcpClient Client;
 
         readonly Bitmap[] image = new Bitmap[9];                                                                    // 이미지 리소스 저장슬롯
         int pic_i;                                                                                                  // 움직이는 이미지 제어
+        private string sendMsg;
 
 
-        public Form1()
+        public Server()
         {
             InitializeComponent();
 
@@ -178,6 +174,7 @@ namespace Tcp_Server
                 }
                 if ( result == DialogResult.Yes)
                 {
+                    ServerONOFF();
                     Timer_W.Stop();
                     Timer_H.Stop();
                     Timer_ONLINE.Stop();
@@ -209,22 +206,21 @@ namespace Tcp_Server
 
         private void ServerONOFF()                                                                                  // 서버 열기/닫기
         {
-            if (Server_status == true)
+            if (Server_status)
             {
                 threadST = false;
-                connecting = false;
                 Server_status = false;
 
                 PictureBox_Server.Visible = false;
 
-                //if (Stream != null)
-                //    Stream.Close();
-
-                if (Client != null)
-                    Client.Close();
-
+                foreach (ConnectedClient client in clientList.Values.ToList())
+                {
+                    client.CloseConnection();
+                }
                 if (tcpListener != null)
+                {
                     tcpListener.Stop();
+                }
 
                 PictureBox_connect.Image = image[6];
                 PictureBox_ClientState.Image = image[7];
@@ -235,8 +231,11 @@ namespace Tcp_Server
                 Timer_ONLINE.Stop();
                 this.Refresh();
             }
-            else
+            else if (!Server_status)
             {
+                if (Timer_Start.Enabled)
+                    Timer_Start.Stop();
+
                 if (!IPAddress.TryParse(TextBox_IPadress.Text, out _))
                 {
                     //MessageBoxEx.Show(this, "올바르지 않은 IP주소를 입력하였습니다. \nIP 주소 형식에 맞는 값을 입력하여 주십시오.", "오류");
@@ -273,93 +272,45 @@ namespace Tcp_Server
             }
         }
 
-
-        private void Timer_ONLINE_Tick(object sender, EventArgs e)                                                  // 움직이는 이미지 구현
-        {
-            if (pic_i<2)
-            {
-                    PictureBox_connect.Image = image[pic_i];
-                    pic_i++;
-            }
-            else if (pic_i >= 2)
-            {
-                    PictureBox_connect.Image = image[pic_i];
-                    pic_i++;
-
-                    if (pic_i >= 6)
-                    {
-                        pic_i = 2;
-                    }
-            }
-        }
-
-
         private void connect()                                                                                      // thread에 연결된 함수. 메인폼과는 별도로 동작한다.
         {
             tcpListener = new TcpListener(IPAddress.Parse(TextBox_IPadress.Text), int.Parse(TextBox_IPport.Text));  // 서버 객체 생성 및 IP주소와 Port번호를 할당
             tcpListener.Start();                                                                                    // 서버 리스너 시작
-
-
+            
             while (threadST)
             {
                 try
                 {
                     Client = tcpListener.AcceptTcpClient();                                                         // 클라이언트 연결 대기
-                    
-                    if (Client == null)
-                    {
-                        break;
-                    }
-                    if (Client != null)
-                    {
-                        for (counter = 0; counter < 3; counter++)                                                   // 비어있는 자리 탐색
-                        {
-                            if (slot[counter] == false)
-                            {
-                                startClient(Client, counter);                                                       // 찾으면 시작
-                                break;
-                            }
-                        }  
-                    }
+                    if (!SlotCheck())
+                        SlotisFull();
                 }
                 catch (IOException)
                 {
-                    ChangePicture(PictureBox_ClientState, image[7]);
-                    PictureBox_ClientState.BackColor = Color.DarkRed;
-                    ChangeText(Label_ClientState, "Disconnected");
-                    connecting = false;
-
                     MethodInvoker methodInvokerDelegate = delegate ()
                     {
                         using (new MessageBoxEx(this))
                         {
                             MessageBox.Show("클라이언트와의 연결이 끊겼습니다.", "연결");
                         }
-                        //MessageBoxEx.Show(this, "클라이언트와의 연결이 끊겼습니다.", "연결"); 
+                        return;
                     };
-
                     if (this.InvokeRequired)
                         this.Invoke(methodInvokerDelegate);
                     else
                         methodInvokerDelegate();
-
                 }
                 catch (FormatException)
                 {
-                    ChangePicture(PictureBox_ClientState, image[7]);
-                    PictureBox_ClientState.BackColor = Color.DarkRed;
-                    ChangeText(Label_ClientState, "Disconnected");
-                    connecting = false;
 
                     MethodInvoker methodInvokerDelegate = delegate ()
                     {
                         using (new MessageBoxEx(this))
                         {
-                            MessageBox.Show("FormatException", "오류");
+                            MessageBox.Show(this, "FormatException", "오류");
                         }
-                        //MessageBoxEx.Show(this, "FormatException", "오류"); 
+                        return;
                     };
-
                     if (this.InvokeRequired)
                         this.Invoke(methodInvokerDelegate);
                     else
@@ -367,150 +318,151 @@ namespace Tcp_Server
                 }
                 catch (SocketException)
                 {
-                    ChangePicture(PictureBox_ClientState, image[7]);
-                    PictureBox_ClientState.BackColor = Color.DarkRed;
-                    ChangeText(Label_ClientState, "Disconnected");
-                    connecting = false;
+                    ServerClosed();
+                }
+            }
+        }
+
+        private void Timer_ONLINE_Tick(object sender, EventArgs e)                                                  // 움직이는 이미지 구현
+        {
+            if (pic_i<2)
+            {
+                PictureBox_connect.Image = image[pic_i];
+                pic_i++;
+            }
+            else if (pic_i >= 2)
+            {
+                PictureBox_connect.Image = image[pic_i];
+                pic_i++;
+
+                if (pic_i >= 6)
+                {
+                    pic_i = 2;
                 }
             }
         }
 
 
-        public void startClient(TcpClient ClientSocket, int clientNo)
+        private bool SlotCheck()
         {
-            this.clientSocket = ClientSocket;
-            this.clientNo = clientNo;
-
-            if (clientNo==0)
+            for (int i = 0; i < 3; i++)
             {
-                Thread t_hanlder = new Thread(ConnectionThread);
-                t_hanlder.IsBackground = true;
-                t_hanlder.Start();
-                slot[0] = true;
+                if (!clientList.ContainsKey(i))
+                {
+                    startClient(Client, i);
+                    return true;
+                }
             }
-            if (clientNo==1)
-            {
-                Thread t_hanlder = new Thread(ConnectionThread);
-                t_hanlder.IsBackground = true;
-                t_hanlder.Start();
-                slot[1] = true;
-            }
-            if (clientNo==2)
-            {
-                Thread t_hanlder = new Thread(ConnectionThread);
-                t_hanlder.IsBackground = true;
-                t_hanlder.Start();
-                slot[2] = true;
-            }
-            if (clientNo>=3)
-            {
-                WriteMsg(DateTime.Now.ToString() + "\n[더 이상 클라이언트를 받을 수 없습니다.]");
-            }
+            return false;
         }
 
 
-        private void ConnectionThread()
+        private void SlotisFull()
         {
-            TcpClient ConnectionSoket = clientSocket;
-            int connectionNo = clientNo +1;
-
-            if (connectionNo == 1)
+            using (NetworkStream tempStream = Client.GetStream())
             {
-                //PictureBox_Client1.Visible = true;
-                ChangePicVisible(PictureBox_Client1, true);
+                byte[] fullByte = Encoding.UTF8.GetBytes("/ServerFull");
+                tempStream.Write(fullByte, 0, fullByte.Length);
+                tempStream.Flush();
+                tempStream.Close();
             }
-            if (connectionNo == 2)
-            {
-                //PictureBox_Client2.Visible = true;
-                ChangePicVisible(PictureBox_Client2, true);
-            }
-            if (connectionNo == 3)
-            {
-                //PictureBox_Client3.Visible = true;
-                ChangePicVisible(PictureBox_Client3, true);
-            }
+            WriteMsg("[최대 수용인원을 벗어난 접속 시도 감지됨]");
+        }
 
-            NetworkStream Stream = ConnectionSoket.GetStream();                                                     // 클라이언트에서 네트워크 스트림 받기
-            
+        private void ServerClosed()
+        {
+            ChangePicture(PictureBox_ClientState, image[7]);
+            PictureBox_ClientState.BackColor = Color.DarkRed;
+            ChangeText(Label_ClientState, "Disconnected");
+        }
 
-            byte[] buff = new byte[1024];
-
-            int nbytes;
-            connecting = true;
+        private void ServerConnected()
+        {
             PictureBox_ClientState.Image = image[8];
             PictureBox_ClientState.BackColor = Color.DarkGreen;
             ChangeText(Label_ClientState, "Connected");
-            WriteMsg(DateTime.Now.ToString()  + "\n[" + connectionNo.ToString() + "번 클라이언트와 연결됨!]");
-
-            while (true)
-            {
-                try
-                {
-                    nbytes = Stream.Read(buff, 0, buff.Length);                                                     // 들어오는거 기다리다가 받기
-                    string output = Encoding.UTF8.GetString(buff, 0, nbytes);                                       // 받은거 디코딩 UTF8형식으로
-
-                    if (output == "/CloseServer")
-                    {
-                        WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
-                        Stream.Close();
-                        ConnectionSoket.Close();
-                        ConnectionClose();
-                        break;
-                    }
-                    else
-                    {
-                        WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번에게 받음 : " + output + " ]");
-                    }                                                                                               // 출력 (크로스쓰레드 회피 포함)
-                }   
-                catch 
-                {
-                                                                                                                    //클라랑 연결 끊김
-                    WriteMsg(DateTime.Now.ToString() + "\n[" + connectionNo.ToString() + "번 클라이언트로부터의 연결 종료]");
-                    Stream.Close();
-                    ConnectionSoket.Close();
-                    ConnectionClose();
-                    break;
-                }
-
-
-                void ConnectionClose()
-                {
-                    if (connectionNo == 1)                                                                          // 조건부 동작
-                    {
-                        slot[0] = false;
-                        //PictureBox_Client1.Visible = false;
-                        ChangePicVisible(PictureBox_Client1, false);
-                    }
-                    if (connectionNo == 2)
-                    {
-                        slot[1] = false;
-                        //PictureBox_Client2.Visible = false;
-                        ChangePicVisible(PictureBox_Client2, false);
-                    }
-                    if (connectionNo == 3)
-                    {
-                        slot[2] = false;
-                        //PictureBox_Client3.Visible = false;
-                        ChangePicVisible(PictureBox_Client3, false);
-                    }
-                    if (!slot[0] && !slot[1] && !slot[2])                                                           // 전부 꺼지면
-                    {
-                        ChangePicture(PictureBox_ClientState, image[7]);
-                        PictureBox_ClientState.BackColor = Color.DarkRed;
-                        ChangeText(Label_ClientState, "Disconnected");
-                        connecting = false;
-                    }
-                }
-
-
-            }
-
         }
 
-        
+        public void startClient(TcpClient ClientSocket, int clientNo)
+        {
+            ConnectedClient connClient = new ConnectedClient(this, ClientSocket, clientNo);
+            clientList[clientNo] = connClient;
+            if (clientList.Count == 1)
+                ServerConnected();
 
+            switch (clientNo)
+            {
+                case 0:
+                    ChangePicVisible(PictureBox_Client1, true);
+                    break;
+                case 1:
+                    ChangePicVisible(PictureBox_Client2, true);
+                    break;
+                case 2:
+                    ChangePicVisible(PictureBox_Client3, true);
+                    break;
+            }
 
+            sendMsg = $"[{clientNo + 1}번 클라이언트 접속]";
+            WriteMsg(sendMsg);
 
+            foreach (var pair in clientList)
+            {
+                if (pair.Key == clientNo)
+                    continue;
+
+                pair.Value.SendMsg($"0,새로운 사용자 접속 ({clientNo + 1}번)");
+            }
+        }
+
+        public void CloseConnection(int clientNo)
+        {
+            sendMsg = $"[{clientNo + 1}번 사용자 연결 종료]";
+            WriteMsg(sendMsg);
+
+            foreach (var pair in clientList)
+            {
+                if (pair.Key == clientNo)
+                    continue;
+
+                pair.Value.SendMsg($"0,{sendMsg}");
+            }
+
+            clientList.Remove(clientNo);
+            ClosePicture(clientNo);
+        }
+
+        private void ClosePicture(int connectionNo)
+        {
+            switch (connectionNo)
+            {
+                case 0:
+                    ChangePicVisible(PictureBox_Client1, false);
+                    break;
+                case 1:
+                    ChangePicVisible(PictureBox_Client2, false);
+                    break;
+                case 2:
+                    ChangePicVisible(PictureBox_Client3, false);
+                    break;
+            }
+
+            if (clientList.Count == 0)
+                ServerClosed();
+        }
+
+        public void MessageReceived(int clientNo, string msg)
+        {
+            WriteMsg($"[{clientNo + 1}번에게 받음 : {msg}]");
+
+            foreach (var pair in clientList)
+            {
+                if (pair.Key == clientNo)
+                    continue;
+
+                pair.Value.SendMsg($"{clientNo + 1},{msg}");
+            }
+        }
 
         public static string GetLocalIP() // 내 ip 주소 찾기
         {
@@ -530,16 +482,19 @@ namespace Tcp_Server
 
         private void Button_SendText_Click(object sender, EventArgs e)                                              // Button_SendText 버튼이 눌렸을때 작동
         {
-            if (connecting)                                                                                         // 클라이언트 연결시
+            if (clientList.Count != 0)                                                                              // 클라이언트 연결시
             {
-                string sendMsg = TextBox_SendText.Text;                                                             // TextBox_SendText 텍스트 박스에 있는 string을
-                byte[] buff = Encoding.UTF8.GetBytes(sendMsg);                                                      // 바이트 아스키코드 형식으로 인코딩해주기
+                string sendMsg = $"0,{TextBox_SendText.Text}";                                                      // TextBox_SendText 텍스트 박스에 있는 string을
+                WriteMsg($"[관리자 메세지 : {TextBox_SendText.Text}]");
 
-                //Stream.Write(buff, 0, buff.Length);                                                               // 그걸 클라로 쏴주기
-                
+                foreach (ConnectedClient client in clientList.Values)
+                {
+                    client.SendMsg(sendMsg);
+                }
+
                 TextBox_SendText.Clear();                                                                           // 텍스트박스 비우기
             }
-            else if (!connecting)                                                                                   // 클라.... 없다?
+            else                                                                                                    // 클라.... 없다?
             {
                 TextBox_SendText.Clear();                                                                           // 텍스트박스 비우기
                 using (new MessageBoxEx(this))
@@ -578,17 +533,23 @@ namespace Tcp_Server
 
         private void WriteMsg(string msg)                                                                           // 크로스스레딩 익셉션 회피 : TextBox.AppendText
         {
+            string curTime = DateTime.Now.ToString();
+
             if (ConnectTextBox.InvokeRequired)
             {
                 ConnectTextBox.Invoke(new MethodInvoker(delegate ()
                 {
+                    ConnectTextBox.AppendText($"[{curTime}]\n");
                     ConnectTextBox.AppendText($"{msg}\n");
+                    ConnectTextBox.AppendText(Environment.NewLine);
                     ConnectTextBox.ScrollToCaret();
                 }));
             }
             else
             {
+                ConnectTextBox.AppendText($"[{curTime}]\n");
                 ConnectTextBox.AppendText($"{msg}\n");
+                ConnectTextBox.AppendText(Environment.NewLine);
                 ConnectTextBox.ScrollToCaret();
             }
         }
