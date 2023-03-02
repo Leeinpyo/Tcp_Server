@@ -14,7 +14,7 @@ using System.IO;                                                                
 
 namespace Tcp_Client
 {
-    public partial class Form2 : Form
+    public partial class Client : Form
     {
 
         readonly Bitmap[] image = new Bitmap[7];                                                                    // 이미지 리소스 저장슬롯
@@ -27,8 +27,18 @@ namespace Tcp_Client
         NetworkStream Stream;                                                                                       // 네트워크스트림
         TcpClient Server;
 
+        private const string fullMsg = "/ServerFull";
+        private const string closeMsg = "/CloseServer";
 
-        public Form2()
+        private Thread receiveThread;
+        private byte[] rcvPacket = new byte[1024];
+        private int nbytes;
+        private string rcvMsg;
+        private string[] messages;
+        private StringBuilder msgBuilder;
+
+
+        public Client()
         {
             InitializeComponent();
 
@@ -61,19 +71,24 @@ namespace Tcp_Client
             PictureBox_Connect.Image = image[pic_i];
         }
 
+
         private void Button_Connect_Click(object sender, EventArgs e)
         {
-            if (connecting==true)
+            ConnectionONOFF();
+        }
+
+
+        private void ConnectionONOFF()
+        {
+            if (connecting == true)
             {
                 Timer_ConnectICO.Stop();
                 pic_i = 0;
                 PictureBox_Connect.Image = image[pic_i];
                 connecting = false;
-
                 byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
                 Stream.Write(buff, 0, buff.Length);
                 Server.Close();
-
                 TextPrint("[연결이 종료되었습니다.]");
             }
             else
@@ -84,10 +99,9 @@ namespace Tcp_Client
                 }
                 catch (SocketException)
                 {
-                    //MessageBoxEx.Show(this, "목표 서버가 닫혀있습니다.", "오류");                                 // 알림메세지
                     using (new MessageBoxEx(this))
                     {
-                        MessageBox.Show("목표 서버가 닫혀있습니다.", "오류");
+                        MessageBox.Show("목표 서버가 닫혀있습니다.", "오류");                                       // 알림메세지
                     }
                     return;
                 }
@@ -95,20 +109,62 @@ namespace Tcp_Client
                 Stream = Server.GetStream();
                 connecting = true;
 
+                receiveThread = new Thread(Receiving)
+                {
+                    IsBackground = true
+                };
+                receiveThread.Start();
+
                 TextPrint("[연결이 시작되었습니다.]");
             }
         }
 
+        private void Receiving()
+        {
+            while (connecting)
+            {
+                try
+                {
+                    nbytes = Stream.Read(rcvPacket, 0, rcvPacket.Length);
+                    rcvMsg = Encoding.UTF8.GetString(rcvPacket, 0, nbytes);
 
+                    switch (rcvMsg)
+                    {
+                        case fullMsg:
+                            TextPrint("서버가 가득 찼습니다!");
+                            CloseConnection();
+                            break;
+                        case closeMsg:
+                            CloseConnection();
+                            break;
+                        default:
+                            messages = rcvMsg.Split(',');
+                            msgBuilder = new StringBuilder();
 
+                            if (messages[0].Equals("0"))
+                                msgBuilder.Append("관리자 메세지 : ");
+                            else
+                            {
+                                msgBuilder.Append(messages[0]);
+                                msgBuilder.Append("번 사용자 : ");
+                            }
 
-
-
-
-
-
-
-
+                            if (messages.Length > 2)
+                            {
+                                for (int i = 1; i < messages.Length; i++)
+                                {
+                                    msgBuilder.Append(messages[i]);
+                                }
+                            }
+                            else
+                                msgBuilder.Append(messages[1]);
+                            TextPrint(msgBuilder.ToString());
+                            break;
+                    }
+                }
+                catch { CloseConnection(); }
+            }
+        }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
@@ -146,9 +202,8 @@ namespace Tcp_Client
         {
             if (Server != null && connecting)
             {
-                byte[] buff = Encoding.ASCII.GetBytes("/CloseServer");
-                Stream.Write(buff, 0, buff.Length);
-                Server.Close();
+                SendBuf(closeMsg);
+                CloseConnection();
             }
 
             Application.Exit();
@@ -171,19 +226,25 @@ namespace Tcp_Client
         }
 
 
+
         private void TextPrint(string s)
         {
+            string curTime = DateTime.Now.ToString();
             if (RichTextBox_Client.InvokeRequired)
             {
                 RichTextBox_Client.Invoke(new MethodInvoker(delegate ()
                 {
+                    RichTextBox_Client.AppendText($"[{curTime}]\n");
                     RichTextBox_Client.AppendText($"{s}\n");
+                    RichTextBox_Client.AppendText(Environment.NewLine);
                     RichTextBox_Client.ScrollToCaret();
                 }));
             }
             else
             {
+                RichTextBox_Client.AppendText($"[{curTime}]\n");
                 RichTextBox_Client.AppendText($"{s}\n");
+                RichTextBox_Client.AppendText(Environment.NewLine);
                 RichTextBox_Client.ScrollToCaret();
             }
         }
@@ -195,42 +256,21 @@ namespace Tcp_Client
             {
                 string sendMsg = TextBox_SendText.Text;                                                             // TextBox_SendText 텍스트 박스에 있는 string을
 
-                if (sendMsg == "/CloseServer")
+                switch (sendMsg)
                 {
-                    Timer_ConnectICO.Stop();
-                    pic_i = 0;
-                    PictureBox_Connect.Image = image[pic_i];
-                    connecting = false;
-
-                    byte[] buff1 = Encoding.ASCII.GetBytes("/CloseServer");
-                    Stream.Write(buff1, 0, buff1.Length);
-                    Server.Close();
-                    TextPrint("[/CloseServer 명령어 입력]\n[연결이 종료되었습니다.]");
-                    TextBox_SendText.Clear();
+                    case closeMsg:
+                        TextPrint("[/CloseServer 명령어 입력]");
+                        SendBuf(closeMsg);
+                        CloseConnection();
+                        break;
+                    default:
+                        TextPrint(sendMsg);
+                        SendBuf(sendMsg);
+                        break;
                 }
-                else
-                {
-                    TextPrint(sendMsg);
-
-                    byte[] buff2 = Encoding.UTF8.GetBytes(sendMsg);                                                 // 바이트 아스키코드 형식으로 인코딩해주기
-                    try
-                    {
-                        Stream.Write(buff2, 0, buff2.Length);                                                       // 그걸 서버로 쏴주기
-                    }
-                    catch (IOException)
-                    {
-                        Timer_ConnectICO.Stop();
-                        pic_i = 0;
-                        PictureBox_Connect.Image = image[pic_i];
-                        connecting = false;
-
-                        Server.Close();
-                        TextPrint("[서버와의 연결이 끊겼습니다.]");
-                    }   
-                    TextBox_SendText.Clear();                                                                       // 텍스트박스 비우기
-                }
+                TextBox_SendText.Clear();                                                                           // 텍스트박스 비우기
             }
-            else if (!connecting)                                                                                   // 서버.... 없다?
+            else                                                                                                    // 서버.... 없다?
             {
                 TextBox_SendText.Clear();                                                                           // 텍스트박스 비우기
                 //MessageBoxEx.Show(this, "연결된 서버가 없어 수신이 불가능합니다.", "알림");                       // 알림메세지
@@ -239,6 +279,35 @@ namespace Tcp_Client
                     MessageBox.Show("목표 서버가 닫혀있습니다.", "오류");
                 }
                 return;
+            }
+        }
+
+        private void CloseConnection()
+        {
+            connecting = false;
+            if (Stream != null)
+                Stream.Close();
+
+            if (Server != null)
+                Server.Close();
+
+            Timer_ConnectICO.Stop();
+            pic_i = 0;
+            PictureBox_Connect.Image = image[pic_i];
+            TextPrint("[서버와의 연결이 끊겼습니다.]");
+        }
+
+        private void SendBuf(string text)
+        {
+            try
+            {
+                byte[] buff = Encoding.UTF8.GetBytes(text);
+                Stream.Write(buff, 0, buff.Length);
+                Stream.Flush();
+            }
+            catch
+            {
+                CloseConnection();
             }
         }
 
