@@ -101,7 +101,7 @@ namespace Tcp_Client
             this.Button_Close.TabStop = false;
             this.Button_Close.Click += new System.EventHandler(this.Button_Close_Click);
             // 
-            // Form2
+            // Client
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,8 +113,8 @@ namespace Tcp_Client
             this.Controls.Add(this.Button_Connect);
             this.Controls.Add(this.PictureBox_Connect);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form2";
-            this.Text = "Form1";
+            this.Name = "Client";
+            this.Text = "TCP Client Control Panel";
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox_Connect)).EndInit();

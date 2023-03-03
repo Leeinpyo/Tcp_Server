@@ -29,7 +29,6 @@ namespace Tcp_Server
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.PanelUpper = new System.Windows.Forms.Panel();
             this.ButtonMin = new System.Windows.Forms.Button();
             this.ButtonClose = new System.Windows.Forms.Button();
@@ -60,10 +59,10 @@ namespace Tcp_Server
             this.PictureBox_connect = new System.Windows.Forms.PictureBox();
             this.Label_connect = new System.Windows.Forms.Label();
             this.ServerSlot = new System.Windows.Forms.PictureBox();
-            this.Timer_W = new System.Windows.Forms.Timer(this.components);
-            this.Timer_H = new System.Windows.Forms.Timer(this.components);
-            this.Timer_ONLINE = new System.Windows.Forms.Timer(this.components);
-            this.Timer_Start = new System.Windows.Forms.Timer(this.components);
+            this.Timer_W = new System.Windows.Forms.Timer();
+            this.Timer_H = new System.Windows.Forms.Timer();
+            this.Timer_ONLINE = new System.Windows.Forms.Timer();
+            this.Timer_Start = new System.Windows.Forms.Timer();
             this.PanelUpper.SuspendLayout();
             this.PanelSide.SuspendLayout();
             this.PanelSlide_W.SuspendLayout();
@@ -489,7 +488,7 @@ namespace Tcp_Server
             this.Timer_Start.Interval = 1000;
             this.Timer_Start.Tick += new System.EventHandler(this.Timer_Start_Tick);
             // 
-            // Form1
+            // Server
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
@@ -502,9 +501,9 @@ namespace Tcp_Server
             this.Font = new System.Drawing.Font("D2Coding ligature", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Form1";
+            this.Name = "Server";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "TCP Server Control Panel";
             this.PanelUpper.ResumeLayout(false);
             this.PanelUpper.PerformLayout();
             this.PanelSide.ResumeLayout(false);
