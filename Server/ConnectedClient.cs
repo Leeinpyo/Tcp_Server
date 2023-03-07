@@ -11,7 +11,7 @@ namespace Tcp_Server
 {
     public class ConnectedClient
     {
-        private Server controlForm;
+        private Server linkedServer;
         private TcpClient client;
         private int myNumber;
         private NetworkStream stream;
@@ -28,7 +28,7 @@ namespace Tcp_Server
 
         public ConnectedClient(Server server, TcpClient connClient, int clientNo)
         {
-            controlForm = server;
+            linkedServer = server;
             client = connClient;
             myNumber = clientNo;
             stream = client.GetStream();
@@ -55,7 +55,7 @@ namespace Tcp_Server
                             CloseConnection();
                             break;
                         default:
-                            controlForm.MessageReceived(myNumber, message);
+                            linkedServer.MessageReceived(myNumber, message);
                             break;
                     }
                 }
@@ -69,7 +69,7 @@ namespace Tcp_Server
             connecting = false;
             stream.Close();
             client.Close();
-            controlForm.CloseConnection(myNumber);
+            linkedServer.CloseConnection(myNumber);
         }
 
         public void SendMsg(string text)
