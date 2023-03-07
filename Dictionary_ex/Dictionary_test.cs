@@ -55,5 +55,18 @@ namespace Dictionary_ex
             CopyTable(myTable1);
             ShowTable(listViewCopy, myTable2);
         }
+
+        private void AddButton_Click(object sender, EventArgs e)
+        {
+            string name = AddName.Text;
+            string phone = AddTel.Text;
+
+            myTable1.Add(name, phone);
+
+            AddName.Clear();
+            AddTel.Clear();
+
+            ShowTable(listViewDictionary, myTable1);
+        }
     }
 }
