@@ -34,7 +34,7 @@ namespace Dictionary_ex
 
         }
 
-        public void ShowTable( ListView lv , Dictionary<string, string> a )
+        public void ShowTable( ListView lv , Dictionary<string, string> a )                                         // 리스트뷰에 값 넣기
         {
             lv.Items.Clear();
             foreach (KeyValuePair<string, string> kvp in a)
@@ -45,13 +45,12 @@ namespace Dictionary_ex
             }
         }
         
-        
-        public void CopyTable( Dictionary<string, string> a )
+        public void CopyTable( Dictionary<string, string> a )                                                       // 복사
         {
             myTable2 = new Dictionary<string, string>( a );
         }
 
-        private void btnCopy_Click(object sender, EventArgs e)
+        private void btnCopy_Click(object sender, EventArgs e)                                                      // 버튼클릭
         {
             CopyTable(myTable1);
             ShowTable(listViewCopy, myTable2);
