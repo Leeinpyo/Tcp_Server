@@ -107,7 +107,7 @@ namespace Tcp_Server
             Timer_W.Start();
             Timer_H.Start();                                                                                        // 버튼 클릭시 타이머 실행 및 동작
 
-            if (isHidden == true)
+            if (isHidden)
             { 
                 this.TextBox_SendText.Clear();                                                                      // 열때 TextBox_SendText 내부 비우기
                 this.TextBox_SendText.Focus();                                                                      // & TextBox_SendText로 포커스
@@ -118,7 +118,7 @@ namespace Tcp_Server
 
         private void Timer_W_Tick(object sender, EventArgs e)
         {
-            if (isHidden == true)
+            if (isHidden)
             {
                 PanelSlide_W.Width = PanelSlide_W.Width + 10;
                 if (PanelSlide_W.Width >= panelWidth)                                                               // 목표크기에 도달할때까지 반복
@@ -143,7 +143,7 @@ namespace Tcp_Server
 
         private void Timer_H_Tick(object sender, EventArgs e)
         {
-            if (isHidden == true)
+            if (isHidden)
             {
                 PanelSlide_H.Height = PanelSlide_H.Height + 1;
                 if (PanelSlide_H.Height >= panalHeight)                                                             // 목표크기에 도달할때까지 반복
@@ -165,7 +165,7 @@ namespace Tcp_Server
 
         private void ButtonClose_Click(object sender, EventArgs e)                                                  // 종료동작    
         {
-            if (serverStatus == true)
+            if (serverStatus)
             {
                 DialogResult result;
                 using (new MessageBoxEx(this))
