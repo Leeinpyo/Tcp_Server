@@ -21,14 +21,14 @@ namespace Dictionary_ex
         {
             InitializeComponent();
 
-            myTable1.Add("Hong JinHo"   , new List<string> { "222-222-2222" , "222-222-2222" });                          // 예제값
+            myTable1.Add("Hong Jin Ho"  , new List<string> { "222-222-2222" , "222-222-2222" });                          // 예제값
             myTable1.Add("Yeon"         , new List<string> { "123-456-7890" });
             myTable1.Add("Sheogorath"   , new List<string> { "555-555-5555" });
             myTable1.Add("Kim Doe"      , new List<string> { "010101010101" });
             myTable1.Add("Amy Rose"     , new List<string> { "111-111-1111" });
             myTable1.Add("Nico Belic"   , new List<string> { "321-123-4444" });
             myTable1.Add("Tom Riddle"   , new List<string> { "000000000000" });
-            myTable1.Add("Ching"        , new List<string> { "666-666-6666" });
+            myTable1.Add("Ching Chong"  , new List<string> { "666-666-6666" });
             myTable1.Add("V"            , new List<string> { "000-000-0000" });
             myTable1.Add("Foxy"         , new List<string> { "666-666-5882" });
             myTable1.Add("James Raynor" , new List<string> { "555-555-9999" });
