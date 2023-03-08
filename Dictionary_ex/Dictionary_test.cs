@@ -9,6 +9,32 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+
+//Dictionary 와 ListView를 학습하기 위해 전화번호부를 만들어 본 예제 프로젝트입니다.
+
+//Dictionary는 Key와 Value로 구성되어 있습니다.
+
+//Key는 중복될 수 없습니다.
+//Value는 중복될 수 있습니다.
+//그러나 편법을 사용하면 Key를 중복하여 사용 가능했었습니다.
+//그것은 바로 <string, List<string>> 이렇게 사용하는 것입니다.
+
+//Dictionary는 Key를 이용하여 Value를 찾을 수 있습니다.
+//Dictionary는 Key를 이용하여 Value를 추가, 삭제, 수정할 수 있습니다.
+
+//ListView에는 Dictionary를 사용하여 값을 넣을 수 있습니다.
+//Dictionary를 사용하여 값을 넣을 때 Key와 Value를 구분하여 넣어야 합니다.
+//중복된 key가 들어갈떄의 예외처리를 빼먹지 않도록 합니다.
+
+//ListView를 제어할떄는 BeginUpdate() 와 EndUpdate() 를 사용하면 항목이 추가될 때마다 컨트롤을 출력하지 않으므로 성능을 향상시킬 수 있습니다.
+
+
+
+//실습 진행간에 ColumnWidthChangingEvent가 호출되지 않는 문제가 있었습니다.
+//이 문제는 결국 해결이 불가했습니다.
+
+
+
 namespace Dictionary_ex
 {
     public partial class Dictionary_test : Form
@@ -100,5 +126,23 @@ namespace Dictionary_ex
             e.Cancel = true;
         }
 
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)                                      // 우클릭으로 제거하기 (중복인거 한꺼번에 안닐리게)
+        {
+            foreach (ListViewItem item in listViewDictionary.SelectedItems)
+            {  
+                foreach (KeyValuePair<string, List<string>> kvp in myTable1)
+                {
+                    foreach (string s in kvp.Value)
+                    {
+                        if (item.SubItems[0].Text == kvp.Key && item.SubItems[1].Text == s)
+                        {
+                            myTable1[kvp.Key].Remove(s);
+                            break;
+                        }
+                    }
+                }
+            }
+            ShowTable(listViewDictionary, myTable1);
+        }
     }
 }

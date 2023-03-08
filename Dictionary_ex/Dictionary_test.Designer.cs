@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnCopy = new System.Windows.Forms.Button();
             this.listViewCopy = new System.Windows.Forms.ListView();
             this.ch2_name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -38,6 +39,9 @@
             this.AddName = new System.Windows.Forms.TextBox();
             this.AddTel = new System.Windows.Forms.TextBox();
             this.btnAdd = new System.Windows.Forms.Button();
+            this.cmDel = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmDel.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -98,6 +102,7 @@
             this.listViewDictionary.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ch1_name,
             this.ch1_phonenumber});
+            this.listViewDictionary.ContextMenuStrip = this.cmDel;
             this.listViewDictionary.Cursor = System.Windows.Forms.Cursors.Default;
             this.listViewDictionary.Font = new System.Drawing.Font("D2Coding", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.listViewDictionary.ForeColor = System.Drawing.SystemColors.WindowText;
@@ -150,6 +155,20 @@
             this.btnAdd.UseVisualStyleBackColor = true;
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
+            // cmDel
+            // 
+            this.cmDel.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeToolStripMenuItem});
+            this.cmDel.Name = "cmDel";
+            this.cmDel.Size = new System.Drawing.Size(118, 26);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
             // Dictionary_test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -166,6 +185,7 @@
             this.MinimizeBox = false;
             this.Name = "Dictionary_test";
             this.Text = "Dictionary_test";
+            this.cmDel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -182,6 +202,8 @@
         private System.Windows.Forms.TextBox AddName;
         private System.Windows.Forms.TextBox AddTel;
         private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.ContextMenuStrip cmDel;
+        private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
     }
 }
 
