@@ -21,7 +21,7 @@ namespace Dictionary_ex
         {
             InitializeComponent();
 
-            myTable1.Add("Hong Jin Ho"  , new List<string> { "222-222-2222" , "222-222-2222" });                          // 예제값
+            myTable1.Add("Hong Jin Ho"  , new List<string> { "222-222-2222" , "222-222-2222" });                    // 예제값
             myTable1.Add("Yeon"         , new List<string> { "123-456-7890" });
             myTable1.Add("Sheogorath"   , new List<string> { "555-555-5555" });
             myTable1.Add("Kim Doe"      , new List<string> { "010101010101" });
