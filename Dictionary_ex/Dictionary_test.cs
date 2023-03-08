@@ -21,21 +21,25 @@ namespace Dictionary_ex
         {
             InitializeComponent();
 
-            myTable1.Add("John" , new List<string> { "555-555-5555" });
-            myTable1.Add("Mary" , new List<string> { "555-555-5556" });
-            myTable1.Add("Bob"  , new List<string> { "555-555-5557" });
-            myTable1.Add("Sueji", new List<string> { "555-555-5558" });
-            myTable1.Add("Joe"  , new List<string> { "555-555-5559" });
-            myTable1.Add("Tom"  , new List<string> { "555-555-5560" });
-            myTable1.Add("Tim"  , new List<string> { "555-555-5561" });
-            myTable1.Add("Sasha", new List<string> { "555-555-5562" });
-            myTable1.Add("Choi" , new List<string> { "555-555-5563" });
+            myTable1.Add("Hong JinHo"   , new List<string> { "222-222-2222" , "222-222-2222" });                          // 예제값
+            myTable1.Add("Yeon"         , new List<string> { "123-456-7890" });
+            myTable1.Add("Sheogorath"   , new List<string> { "555-555-5555" });
+            myTable1.Add("Kim Doe"      , new List<string> { "010101010101" });
+            myTable1.Add("Amy Rose"     , new List<string> { "111-111-1111" });
+            myTable1.Add("Nico Belic"   , new List<string> { "321-123-4444" });
+            myTable1.Add("Tom Riddle"   , new List<string> { "000000000000" });
+            myTable1.Add("Ching"        , new List<string> { "666-666-6666" });
+            myTable1.Add("V"            , new List<string> { "000-000-0000" });
+            myTable1.Add("Foxy"         , new List<string> { "666-666-5882" });
+            myTable1.Add("James Raynor" , new List<string> { "555-555-9999" });
+            myTable1.Add("Sasha"        , new List<string> { "777-777-7777" });
+            myTable1.Add("Uriel Septim" , new List<string> { "555-222-1111" });
 
             ShowTable( listViewDictionary , myTable1 );
 
         }
 
-        public void ShowTable( System.Windows.Forms.ListView lv , Dictionary<string, List<string>> a )                                         // 리스트뷰에 값 넣기
+        public void ShowTable( System.Windows.Forms.ListView lv , Dictionary<string, List<string>> a )              // 리스트뷰에 값 넣기
         {
             lv.BeginUpdate();
 
@@ -53,7 +57,7 @@ namespace Dictionary_ex
             lv.EndUpdate();
         }
         
-        public void CopyTable( Dictionary<string, List<string>> a )                                                       // 복사
+        public void CopyTable( Dictionary<string, List<string>> a )                                                 // 복사
         {
             myTable2 = new Dictionary<string, List<string>>( a );
         }
@@ -84,13 +88,13 @@ namespace Dictionary_ex
             ShowTable(listViewDictionary, myTable1);
         }
 
-        private void listViewCopy_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        private void listViewCopy_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)                // 호출안됨 이유불명
         {
             e.NewWidth = listViewCopy.Columns[e.ColumnIndex].Width;
             e.Cancel = true;
         }
 
-        private void listViewDictionary_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)
+        private void listViewDictionary_ColumnWidthChanging(object sender, ColumnWidthChangingEventArgs e)          // 호출안됨 이유불명
         {
             e.NewWidth = listViewDictionary.Columns[e.ColumnIndex].Width;
             e.Cancel = true;

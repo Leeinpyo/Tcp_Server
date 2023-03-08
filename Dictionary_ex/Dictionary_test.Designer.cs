@@ -44,9 +44,9 @@
             // 
             this.btnCopy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCopy.Location = new System.Drawing.Point(233, 106);
+            this.btnCopy.Location = new System.Drawing.Point(248, 13);
             this.btnCopy.Name = "btnCopy";
-            this.btnCopy.Size = new System.Drawing.Size(75, 37);
+            this.btnCopy.Size = new System.Drawing.Size(60, 39);
             this.btnCopy.TabIndex = 1;
             this.btnCopy.Text = "복사 >>";
             this.btnCopy.UseVisualStyleBackColor = true;
@@ -62,6 +62,7 @@
             this.ch2_name,
             this.ch2_phonenumber});
             this.listViewCopy.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listViewCopy.Font = new System.Drawing.Font("D2Coding", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.listViewCopy.ForeColor = System.Drawing.SystemColors.WindowText;
             this.listViewCopy.FullRowSelect = true;
             this.listViewCopy.GridLines = true;
@@ -69,7 +70,7 @@
             this.listViewCopy.HideSelection = false;
             this.listViewCopy.Location = new System.Drawing.Point(314, 12);
             this.listViewCopy.Name = "listViewCopy";
-            this.listViewCopy.Size = new System.Drawing.Size(215, 264);
+            this.listViewCopy.Size = new System.Drawing.Size(230, 264);
             this.listViewCopy.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewCopy.TabIndex = 2;
             this.listViewCopy.TabStop = false;
@@ -80,13 +81,13 @@
             // ch2_name
             // 
             this.ch2_name.Text = "이름(key)";
-            this.ch2_name.Width = 70;
+            this.ch2_name.Width = 85;
             // 
             // ch2_phonenumber
             // 
             this.ch2_phonenumber.Text = "전화번호(Value)";
             this.ch2_phonenumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.ch2_phonenumber.Width = 125;
+            this.ch2_phonenumber.Width = 120;
             // 
             // listViewDictionary
             // 
@@ -98,6 +99,7 @@
             this.ch1_name,
             this.ch1_phonenumber});
             this.listViewDictionary.Cursor = System.Windows.Forms.Cursors.Default;
+            this.listViewDictionary.Font = new System.Drawing.Font("D2Coding", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.listViewDictionary.ForeColor = System.Drawing.SystemColors.WindowText;
             this.listViewDictionary.FullRowSelect = true;
             this.listViewDictionary.GridLines = true;
@@ -105,7 +107,7 @@
             this.listViewDictionary.HideSelection = false;
             this.listViewDictionary.Location = new System.Drawing.Point(12, 12);
             this.listViewDictionary.Name = "listViewDictionary";
-            this.listViewDictionary.Size = new System.Drawing.Size(215, 237);
+            this.listViewDictionary.Size = new System.Drawing.Size(230, 237);
             this.listViewDictionary.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewDictionary.TabIndex = 3;
             this.listViewDictionary.TabStop = false;
@@ -116,13 +118,13 @@
             // ch1_name
             // 
             this.ch1_name.Text = "이름(key)";
-            this.ch1_name.Width = 70;
+            this.ch1_name.Width = 85;
             // 
             // ch1_phonenumber
             // 
             this.ch1_phonenumber.Text = "전화번호(Value)";
             this.ch1_phonenumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.ch1_phonenumber.Width = 125;
+            this.ch1_phonenumber.Width = 120;
             // 
             // AddName
             // 
@@ -152,7 +154,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(541, 286);
+            this.ClientSize = new System.Drawing.Size(556, 286);
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.AddTel);
             this.Controls.Add(this.AddName);
@@ -160,6 +162,8 @@
             this.Controls.Add(this.listViewCopy);
             this.Controls.Add(this.btnCopy);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Dictionary_test";
             this.Text = "Dictionary_test";
             this.ResumeLayout(false);
