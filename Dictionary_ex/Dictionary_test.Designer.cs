@@ -37,7 +37,7 @@
             this.ch1_phonenumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.AddName = new System.Windows.Forms.TextBox();
             this.AddTel = new System.Windows.Forms.TextBox();
-            this.AddButton = new System.Windows.Forms.Button();
+            this.btnAdd = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCopy
@@ -56,22 +56,26 @@
             // 
             this.listViewCopy.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewCopy.AutoArrange = false;
             this.listViewCopy.BackColor = System.Drawing.SystemColors.Window;
             this.listViewCopy.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ch2_name,
             this.ch2_phonenumber});
             this.listViewCopy.Cursor = System.Windows.Forms.Cursors.Default;
             this.listViewCopy.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.listViewCopy.FullRowSelect = true;
             this.listViewCopy.GridLines = true;
             this.listViewCopy.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewCopy.HideSelection = false;
             this.listViewCopy.Location = new System.Drawing.Point(314, 12);
             this.listViewCopy.Name = "listViewCopy";
             this.listViewCopy.Size = new System.Drawing.Size(215, 264);
+            this.listViewCopy.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewCopy.TabIndex = 2;
             this.listViewCopy.TabStop = false;
             this.listViewCopy.UseCompatibleStateImageBehavior = false;
             this.listViewCopy.View = System.Windows.Forms.View.Details;
+            this.listViewCopy.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listViewCopy_ColumnWidthChanging);
             // 
             // ch2_name
             // 
@@ -88,22 +92,26 @@
             // 
             this.listViewDictionary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewDictionary.AutoArrange = false;
             this.listViewDictionary.BackColor = System.Drawing.SystemColors.Window;
             this.listViewDictionary.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ch1_name,
             this.ch1_phonenumber});
             this.listViewDictionary.Cursor = System.Windows.Forms.Cursors.Default;
             this.listViewDictionary.ForeColor = System.Drawing.SystemColors.WindowText;
+            this.listViewDictionary.FullRowSelect = true;
             this.listViewDictionary.GridLines = true;
             this.listViewDictionary.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.listViewDictionary.HideSelection = false;
             this.listViewDictionary.Location = new System.Drawing.Point(12, 12);
             this.listViewDictionary.Name = "listViewDictionary";
             this.listViewDictionary.Size = new System.Drawing.Size(215, 237);
+            this.listViewDictionary.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listViewDictionary.TabIndex = 3;
             this.listViewDictionary.TabStop = false;
             this.listViewDictionary.UseCompatibleStateImageBehavior = false;
             this.listViewDictionary.View = System.Windows.Forms.View.Details;
+            this.listViewDictionary.ColumnWidthChanging += new System.Windows.Forms.ColumnWidthChangingEventHandler(this.listViewDictionary_ColumnWidthChanging);
             // 
             // ch1_name
             // 
@@ -130,22 +138,22 @@
             this.AddTel.Size = new System.Drawing.Size(122, 21);
             this.AddTel.TabIndex = 5;
             // 
-            // AddButton
+            // btnAdd
             // 
-            this.AddButton.Location = new System.Drawing.Point(212, 254);
-            this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(16, 23);
-            this.AddButton.TabIndex = 6;
-            this.AddButton.Text = "+";
-            this.AddButton.UseVisualStyleBackColor = true;
-            this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+            this.btnAdd.Location = new System.Drawing.Point(212, 254);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(16, 23);
+            this.btnAdd.TabIndex = 6;
+            this.btnAdd.Text = "+";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
             // Dictionary_test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(541, 286);
-            this.Controls.Add(this.AddButton);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.AddTel);
             this.Controls.Add(this.AddName);
             this.Controls.Add(this.listViewDictionary);
@@ -169,7 +177,7 @@
         private System.Windows.Forms.ColumnHeader ch1_phonenumber;
         private System.Windows.Forms.TextBox AddName;
         private System.Windows.Forms.TextBox AddTel;
-        private System.Windows.Forms.Button AddButton;
+        private System.Windows.Forms.Button btnAdd;
     }
 }
 
