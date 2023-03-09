@@ -33,6 +33,11 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 //실습 진행간에 ColumnWidthChangingEvent가 호출되지 않는 문제가 있었습니다.
 //이 문제는 결국 해결이 불가했습니다.
 
+// +    ColumnWidthChangingEvent가 호출되지 않는 문제는 해결되었습니다.
+//      ColumnWidthChangingEvent가 호출되지 않는 문제는 윈도우의 성능 옵션이 꺼져 있을때 발생하는 문제였습니다.
+//      성능 옵션을 켜고 다시 실행하니 문제가 해결되었습니다.
+// ++   이와 같은 문제는 Program.cs에서 Application.EnableVisualStyles();을 주석 처리하였을때도 발생합니다.
+
 
 
 namespace Dictionary_ex
