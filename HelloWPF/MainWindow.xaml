@@ -9,14 +9,14 @@
         Title="MainWindow" Height="650" Width="1200" 
         Background ="#36393F" 
         WindowStyle="None" 
-        AllowsTransparency="True">
+        ResizeMode="NoResize">
 
     <Window.DataContext>
         <viewmodel:MainViewModel/>
     </Window.DataContext>
 
 
-    <Grid>
+    <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
             <RowDefinition/>
@@ -32,7 +32,7 @@
                 MouseDown="Border_MouseDown">
 
             <Grid HorizontalAlignment="Stretch">
-                <Label Content="TestChat"
+                <Label Content="TestChat"                       
                        Foreground="Gray"
                        FontWeight="SemiBold"/>
 

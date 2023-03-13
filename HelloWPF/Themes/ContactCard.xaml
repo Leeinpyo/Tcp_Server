@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="ListViewItem" x:Key="ContactCard">
 
-        <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#292b2F"/>
-            </Trigger>
+        <Style.Triggers>                                                                                            <!--프로퍼티 트리거-->
+            <Trigger Property="IsSelected" Value="True">                                                            <!--트리거 기준: IsSelected-->
+                <Setter Property="Background" Value="#292b2F"/>                                                   <!--배경색 변환-->
+            </Trigger>                                                                                              
         </Style.Triggers>
 
         <Setter Property="Background" Value="#393840"/>
