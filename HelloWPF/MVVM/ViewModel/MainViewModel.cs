@@ -71,7 +71,7 @@ namespace HelloWPF.MVVM.ViewModel
                 Contacts.Add(new ContactModel
                 {
                     Username = $"Kim {i}",
-                    ImageSource = "https//i.imgur.com/i2szTsp.png",
+                    ImageSource = "https://i.imgur.com/BSK7iEv.jpeg",
                     Messages = Messages
                 });
             }
