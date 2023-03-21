@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
+using Svg;
 
 //Dictionary 와 ListView를 학습하기 위해 전화번호부를 만들어 본 예제 프로젝트입니다.
 
